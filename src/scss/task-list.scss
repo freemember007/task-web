@@ -1,0 +1,169 @@
+.task_container {
+  position: relative;
+  height: 300px;
+  background: $main_bk;
+  .right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    .right_top {
+      position: relative;
+      width: 100%;
+      height: 100px;
+      background: $right_bk;
+      background: white url(../img/grey_line.png) repeat-x;
+      background-position-y: center;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
+      .container {
+        .head {
+          .addTask {
+            line-height: 50px;
+            padding-left: 50px;
+            cursor: pointer;
+            color: #ccc;
+            background: url(../img/addTask_icon.png) no-repeat;
+            background-position-x: 20px;
+            background-position-y: center;
+            &:hover {
+              color: $blue_color;
+            }
+          }
+          .user {
+            float: right;
+            .username {
+              font: 16px/50px '微软雅黑';
+              padding-right: 80px;
+              padding-left: 30px;
+              color: $blue_color;
+              background: url(../img/alert_icon.png) no-repeat;
+              background-position: 0 center;
+              background-size: auto 100%;
+            }
+            .thumb {
+              position: absolute;
+              top: 5px;
+              right: 10px;
+              overflow: hidden;
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              img {
+                width: 100%;
+              }
+            }
+          }
+        }
+        .menu {
+          height: 50px;
+          text-align: center;
+          li {
+            font: 16px '微软雅黑';
+            line-height: 30px;
+            display: inline-block;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-bottom: 4px solid white;
+          }
+          .active {
+            border-color: $blue_color;
+          }
+        }
+      }
+    }
+    .main {
+      overflow: hidden;
+      margin: 10px 0 0 10px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+      .taskList {
+        overflow: auto;
+        width: 100%;
+        height: 100%;
+        .dates {
+          padding: 15px 20px 0;
+          p {
+            .days {
+              display: inline-block;
+              width: 100px;
+              color: $blue_color;
+            }
+            .past {
+              color: $red_color;
+            }
+            .date {
+              color: #ccc;
+            }
+          }
+          > li {
+            overflow: hidden;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            .avator {
+              float: left;
+              .thumb {
+                float: left;
+                overflow: hidden;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                img {
+                  width: 100%;
+                }
+              }
+              .priority {
+                display: inline-block;
+                width: 50px;
+                height: 15px;
+                background: url(../img/priority_icon.png) no-repeat center center;
+              }
+              .taskName {
+                font-size: 16px;
+                display: inline-block;
+                height: 18px;
+                margin-left: 20px;
+                color: #666;
+              }
+              .project {
+                font-size: 12px;
+                margin-left: 20px;
+                color: #fff;
+                // background: #ccc;
+                padding: 2px;
+                border-radius: 3px;
+              }
+              .past {
+                color: $red_color;
+              }
+              .finished {
+                font-style: italic;
+                text-decoration: line-through;
+                color: #ccc;
+              }
+            }
+            .other {
+              position: relative;
+              float: right;
+              margin-right: 50px;
+              .like {
+                display: inline-block;
+                width: 23px;
+                height: 19px;
+                margin-right: 80px;
+                background: url(../img/icon_like.png) no-repeat;
+              }
+              .massage {
+                position: absolute;
+                top: 0;
+                right: 10px;
+                padding-left: 30px;
+                color: #ccc;
+                background: url(../img/icon_massage.png) no-repeat 0 center;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

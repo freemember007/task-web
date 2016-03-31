@@ -1,0 +1,178 @@
+<div class="task_container">
+
+  <div class="left" ng-controller="SidebarController">
+  <h1 class="company">杭州特扬网络</h1>
+  <div class="left_container">
+    <ul class="mySummary">
+      <li  class="active" ng-repeat="x in summaryList.mySummary" ng-click="clickSidebar(x.field, userInfo.objectId)">
+        <span class = "active" class="label">{{x.title}}</span>
+        <span class="num">{{x.allNum}}</span>
+      </li>
+    </ul>
+    <ul class="teamSummary">
+      <li ng-repeat="team in summaryList.teamSummary">
+        <p class="teamName " ng-click="clickSidebar('team', team.objectId)" ng-class="(currentParams.objectId == team.objectId) ? 'active' : ''" >
+          <span class="label">{{team.name}}</span>
+          <span class="num">{{team.allNum}}</span>
+          <span class="icon"></span>
+        </p>
+        <ul class="team_group">
+          <li class="team_one" ng-repeat="member in team.members" ng-click="clickSidebar('assignee', member.objectId)" ng-class="(currentParams.objectId == member.objectId) ? 'active' : ''">
+            <img ng-src="http://file.bmob.cn/{{member.avatar.url}}" ng-if="member.avatar.url" />
+            <img ng-src="img/avator_01.png" ng-if="!member.avatar.url" />
+            <span class="name">{{member.name}}</span>
+            <span class="num">{{member.allNum}}</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div> 
+  <!--右侧内容栏-->
+<div class="right" ng-controller="TaskListController">
+  <!--顶部导航栏-->
+  <div class="right_top">
+    <div class="container">
+      <div class="head">
+        <span class="addTask">
+								新建一个任务
+							</span>
+        <span class="user">
+								<span class="username">
+									<!-- {{userInfo.name}} -->
+								</span>
+        <div class="thumb">
+          <img src="http://file.bmob.cn/{{userInfo.avatar.url}}" ng-click="logout()"/>
+        </div>
+        </span>
+      </div>
+      <ul class="menu">
+        <li ng-click="filterTaskList(0)">
+          待办
+          <span class="number">{{length[0]}}</span>
+        </li>
+        <li id="default" class="active" ng-click="filterTaskList(1)">
+          进行
+          <span class="number">{{length[1]}}</span>
+        </li>
+        <li ng-click="filterTaskList(2)">
+          完成
+          <span class="number">{{length[2]}}</span>
+        </li>
+        <li ng-click="filterTaskList(3)">
+          搁置
+          <span class="number">{{length[3]}}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--主要内容展示区域-->
+  <div class="main">
+    <div class="taskList">
+      <!--一天前-->
+      <ul class="dates" ng-repeat="x in taskList">
+        <p>
+          <span class="days" ng-class="{'past': x.delay}">{{x.groupName}}</span>
+          <span class="date">{{x.subGroupName}}</span>
+        </p>
+        <li ng-repeat="d in x.tasks">
+          <div class="avator">
+            <div class="thumb" ng-show="myself" ng-click="completeTask(d.objectId)"><img src="img/icon_complete.png" /></div>
+            <div class="thumb" ng-show="!myself"><img ng-src="http://file.bmob.cn/{{d.assignee.avatar.url}}" /></div>
+            <span class="priority"></span>
+            <span class="taskName" ng-class="{'past': x.delay}" ng-if="!done">{{d.title}}</span>
+            <span class="taskName finished" ng-class="{'past': x.delay}" ng-if="done">{{d.title}}</span>
+            <span class="project" ng-style="{'background': '{{d.project.color.replace('#99','#')}}'}">{{d.project.name}}</span>
+          </div>
+          <div class="other">
+            <span class="like" ng-if="!myself"></span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="taskDetail">
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="createTask" ng-controller="CreatTaskController">
+  <div class="mask">
+    <div class="container">
+
+      <!-- 任务名 -->
+      <p>
+        <span id="time">{{task.createdAt}}</span>
+        <span class="assigner">由{{userInfo.name}}创建</span>
+      </p>
+      <p class="taskName">
+        <input id="taskName" type="text" focus placeholder="请输入任务名称" ng-model="task.title" />
+      </p>
+
+      <!-- 选项 -->
+      <ul class="opt">
+
+        <!-- 选择项目 -->
+        <li class="projectName">
+          <span class="color"></span>
+          <span class="name">{{task.project.name}}</span>
+          <ul class="projectList">
+            <li ng-repeat="project in companyInfo.projects" ng-click="task.project = project">
+              {{project.name}}
+            </li>
+          </ul>
+        </li>
+
+        <!-- 选择截止时间 -->
+        <li class="deadline">
+          <span class="name">{{task.deadlineFormat}}</span>
+          <ul class="dateList">
+            <li ng-repeat="date in dateList" ng-click="task.deadlineFormat = date.deadlineFormat; task.deadline=date.deadline">
+              {{date.deadlineFormat}}
+            </li>
+          </ul>
+        </li>
+
+        <!-- 选择责任人 -->
+        <li class="assigneeName">
+          <span class="thumb"><img src="{{task.assigneeAvatar}}"/></span>
+          <span class="memberName">{{task.assigneeName}}</span>
+          <ul class="assigneeList">
+            <li ng-repeat="team in companyInfo.teams">
+              ------ {{team.name}} ------
+              <ul>
+                <li ng-repeat="member in team.members" ng-click="task.assigneeName = member.name; task.assignee = member.objectId; task.team = team.objectId; task.assigneeAvatar = 'http://file.bmob.cn/' + member.avatar.url">
+                  <span class="thumb"><img src="http://file.bmob.cn/{{member.avatar.url}}"/></span>
+                  <span class="memberName">{{member.name}}</span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <!-- 选择优先级 -->
+        <li class="priority">优先级：
+          <!--           <ul class="priorityList" >
+            <li ng-repeat="priority in priorityList" ng-click="">
+              {{priority}}
+            </li>
+          </ul> -->
+          <select class="priorityValue" ng-model="task.priority">
+            <option value="0" name = "不紧急" >不紧急</option>
+            <option value="1">一般紧急</option>
+            <option value="2">紧急</option>
+            <option value="3">非常紧急</option>
+          </select>
+        </li>
+      </ul>
+
+      <!-- 提交 -->
+      <p class="submit">
+        <span class="button" ng-click="createTask()">发布任务</span>
+      </p>
+      <span class="close">
+      </span>
+    </div>
+  </div>
+</div>

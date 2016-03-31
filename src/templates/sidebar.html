@@ -1,0 +1,28 @@
+<div class="left" ng-controller="SidebarController">
+  <h1 class="company">杭州特扬网络</h1>
+  <div class="left_container">
+    <ul class="mySummary">
+      <li  class="active" ng-repeat="x in summaryList.mySummary" ng-click="clickSidebar(x.field, userInfo.objectId)">
+        <span class = "active" class="label">{{x.title}}</span>
+        <span class="num">{{x.allNum}}</span>
+      </li>
+    </ul>
+    <ul class="teamSummary">
+      <li ng-repeat="team in summaryList.teamSummary">
+        <p class="teamName " ng-click="clickSidebar('team', team.objectId)" ng-class="(currentParams.objectId == team.objectId) ? 'active' : ''" >
+          <span class="label">{{team.name}}</span>
+          <span class="num">{{team.allNum}}</span>
+          <span class="icon"></span>
+        </p>
+        <ul class="team_group">
+          <li class="team_one" ng-repeat="member in team.members" ng-click="clickSidebar('assignee', member.objectId)" ng-class="(currentParams.objectId == member.objectId) ? 'active' : ''">
+            <img ng-src="http://file.bmob.cn/{{member.avatar.url}}" ng-if="member.avatar.url" />
+            <img ng-src="img/avator_01.png" ng-if="!member.avatar.url" />
+            <span class="name">{{member.name}}</span>
+            <span class="num">{{member.allNum}}</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

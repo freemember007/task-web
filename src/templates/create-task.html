@@ -1,0 +1,79 @@
+<div class="createTask" ng-controller="CreatTaskController">
+  <div class="mask">
+    <div class="container">
+
+      <!-- 任务名 -->
+      <p>
+        <span id="time">{{task.createdAt}}</span>
+        <span class="assigner">由{{userInfo.name}}创建</span>
+      </p>
+      <p class="taskName">
+        <input id="taskName" type="text" focus placeholder="请输入任务名称" ng-model="task.title" />
+      </p>
+
+      <!-- 选项 -->
+      <ul class="opt">
+
+        <!-- 选择项目 -->
+        <li class="projectName">
+          <span class="color"></span>
+          <span class="name">{{task.project.name}}</span>
+          <ul class="projectList">
+            <li ng-repeat="project in companyInfo.projects" ng-click="task.project = project">
+              {{project.name}}
+            </li>
+          </ul>
+        </li>
+
+        <!-- 选择截止时间 -->
+        <li class="deadline">
+          <span class="name">{{task.deadlineFormat}}</span>
+          <ul class="dateList">
+            <li ng-repeat="date in dateList" ng-click="task.deadlineFormat = date.deadlineFormat; task.deadline=date.deadline">
+              {{date.deadlineFormat}}
+            </li>
+          </ul>
+        </li>
+
+        <!-- 选择责任人 -->
+        <li class="assigneeName">
+          <span class="thumb"><img src="{{task.assigneeAvatar}}"/></span>
+          <span class="memberName">{{task.assigneeName}}</span>
+          <ul class="assigneeList">
+            <li ng-repeat="team in companyInfo.teams">
+              ------ {{team.name}} ------
+              <ul>
+                <li ng-repeat="member in team.members" ng-click="task.assigneeName = member.name; task.assignee = member.objectId; task.team = team.objectId; task.assigneeAvatar = 'http://file.bmob.cn/' + member.avatar.url">
+                  <span class="thumb"><img src="http://file.bmob.cn/{{member.avatar.url}}"/></span>
+                  <span class="memberName">{{member.name}}</span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <!-- 选择优先级 -->
+        <li class="priority">优先级：
+          <!--           <ul class="priorityList" >
+            <li ng-repeat="priority in priorityList" ng-click="">
+              {{priority}}
+            </li>
+          </ul> -->
+          <select class="priorityValue" ng-model="task.priority">
+            <option value="0" name = "不紧急" >不紧急</option>
+            <option value="1">一般紧急</option>
+            <option value="2">紧急</option>
+            <option value="3">非常紧急</option>
+          </select>
+        </li>
+      </ul>
+
+      <!-- 提交 -->
+      <p class="submit">
+        <span class="button" ng-click="createTask()">发布任务</span>
+      </p>
+      <span class="close">
+      </span>
+    </div>
+  </div>
+</div>

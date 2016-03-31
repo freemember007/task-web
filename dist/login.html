@@ -1,0 +1,23 @@
+<div id="login_container" ng-controller="LoginController">
+  
+  <!-- 左上角图片 -->
+  <img class="img_left_top" src="img/right-bottom-image.png">
+  
+  <!-- 中间内容区 -->
+  <div class="box">
+    <div class="img_title_style"><img src="img/T.png"></div>
+    
+    <div class="content">
+      <div class="title">
+        <p>特扬任务管理系统登录</p>
+        <input class="input" type="text" placeholder="你的手机号" ng-model="user.username"/>
+        <input class="input" type="password" placeholder="你的密码" ng-model="user.password"/>
+        <button class="button" ng-click="login(user)">登录</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 右上角图片 -->
+  <img class="img_right_bottom" src="./img/right-bottom-image.png"> 
+
+</div>

@@ -1,0 +1,66 @@
+<!--右侧内容栏-->
+<div class="right" ng-controller="TaskListController">
+  <!--顶部导航栏-->
+  <div class="right_top">
+    <div class="container">
+      <div class="head">
+        <span class="addTask">
+								新建一个任务
+							</span>
+        <span class="user">
+								<span class="username">
+									<!-- {{userInfo.name}} -->
+								</span>
+        <div class="thumb">
+          <img src="http://file.bmob.cn/{{userInfo.avatar.url}}" ng-click="logout()"/>
+        </div>
+        </span>
+      </div>
+      <ul class="menu">
+        <li ng-click="filterTaskList(0)">
+          待办
+          <span class="number">{{length[0]}}</span>
+        </li>
+        <li id="default" class="active" ng-click="filterTaskList(1)">
+          进行
+          <span class="number">{{length[1]}}</span>
+        </li>
+        <li ng-click="filterTaskList(2)">
+          完成
+          <span class="number">{{length[2]}}</span>
+        </li>
+        <li ng-click="filterTaskList(3)">
+          搁置
+          <span class="number">{{length[3]}}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--主要内容展示区域-->
+  <div class="main">
+    <div class="taskList">
+      <!--一天前-->
+      <ul class="dates" ng-repeat="x in taskList">
+        <p>
+          <span class="days" ng-class="{'past': x.delay}">{{x.groupName}}</span>
+          <span class="date">{{x.subGroupName}}</span>
+        </p>
+        <li ng-repeat="d in x.tasks">
+          <div class="avator">
+            <div class="thumb" ng-show="myself" ng-click="completeTask(d.objectId)"><img src="img/icon_complete.png" /></div>
+            <div class="thumb" ng-show="!myself"><img ng-src="http://file.bmob.cn/{{d.assignee.avatar.url}}" /></div>
+            <span class="priority"></span>
+            <span class="taskName" ng-class="{'past': x.delay}" ng-if="!done">{{d.title}}</span>
+            <span class="taskName finished" ng-class="{'past': x.delay}" ng-if="done">{{d.title}}</span>
+            <span class="project" ng-style="{'background': '{{d.project.color.replace('#99','#')}}'}">{{d.project.name}}</span>
+          </div>
+          <div class="other">
+            <span class="like" ng-if="!myself"></span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="taskDetail">
+    </div>
+  </div>
+</div>

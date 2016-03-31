@@ -1,0 +1,25 @@
+{
+  "name": "TeamTask",
+  "description": "特扬网络内部任务管理工具",
+  "main": "Gruntfile.js",
+  "directory": "dist/lib",
+  "authors": [
+    "xjp"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "index.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "nprogress": "^0.2.0",
+    "angular-strap": "^2.3.7",
+    "angular-ui-router": "^0.2.18"
+  }
+}
