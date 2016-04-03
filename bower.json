@@ -20,6 +20,8 @@
   "dependencies": {
     "nprogress": "^0.2.0",
     "angular-strap": "^2.3.7",
-    "angular-ui-router": "^0.2.18"
+    "angular-ui-router": "^0.2.18",
+    "jquery": "^2.2.2",
+    "angular-animate": "^1.5.3"
   }
 }

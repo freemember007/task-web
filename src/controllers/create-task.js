@@ -31,8 +31,6 @@ angular.module('task.controllers.createTask', [])
     // $scope.priorityList = ['不紧急', '一般', '紧急', '非常紧急'];
 
     $(document).ready(function() {
-      var H = $(window).height();
-      $('.createTask').height(H);
 
       $("#taskName").focus(function() {
         $("#taskName").css("background-color", "#FFFFCC");
@@ -70,7 +68,7 @@ angular.module('task.controllers.createTask', [])
       delete task.deadlineFormat;
       Task.create(task, function(data) {
         console.log(data);
-        $scope.$emit('CreateFromTaskDetail');
+        $scope.$emit('NeedShowTaskList');
         // $window.location.reload()
       })
     };
@@ -93,7 +91,6 @@ angular.module('task.controllers.createTask', [])
       } else { //diff >1 && diff < 7
         $scope.dateList[i].deadlineFormat = monthAndDate + week
       }
-      console.log($scope.dateList[i])
     }
 
   }

@@ -1,9 +1,11 @@
 angular.module('teamTask', [
   'ui.router',
+  'ngAnimate',
   'task.controllers.login',
   'task.controllers.sidebar',
   'task.controllers.taskList',
   'task.controllers.createTask',
+  'task.controllers.taskDetail',
   'task.services.localStorage',
   'task.services.interceptor',
   'task.services.user',
@@ -46,12 +48,12 @@ angular.module('teamTask', [
     Bmob.initialize("5d447ad3a22ca5a70ec26ca01a9f5176", "8a010f08c229de9b811d3a86a3b24c1b");
 
     // 事件转发，注意接收名和转发名不能一样，否则陷入死循环
-    $rootScope.$on('ClickFromSidebar', function(event, msg) {
-      $rootScope.$broadcast("SidebarClicked", msg); // 
+    $rootScope.$on('NeedShowTaskList', function(event, msg) {
+      $rootScope.$broadcast("PleaseShowTaskList", msg); // 
     })
 
-    $rootScope.$on('CreateFromTaskDetail', function(event, msg) {
-      $rootScope.$broadcast("TaskCreated", msg); // 
+    $rootScope.$on('NeedShowTaskDetail', function(event, msg) {
+      $rootScope.$broadcast("PleaseShowTaskDetail", msg); // 
     })
 
     // 判断登录状态，跳到不同页面
@@ -96,8 +98,6 @@ angular.module('task.controllers.createTask', [])
     // $scope.priorityList = ['不紧急', '一般', '紧急', '非常紧急'];
 
     $(document).ready(function() {
-      var H = $(window).height();
-      $('.createTask').height(H);
 
       $("#taskName").focus(function() {
         $("#taskName").css("background-color", "#FFFFCC");
@@ -135,7 +135,7 @@ angular.module('task.controllers.createTask', [])
       delete task.deadlineFormat;
       Task.create(task, function(data) {
         console.log(data);
-        $scope.$emit('CreateFromTaskDetail');
+        $scope.$emit('NeedShowTaskList');
         // $window.location.reload()
       })
     };
@@ -158,7 +158,6 @@ angular.module('task.controllers.createTask', [])
       } else { //diff >1 && diff < 7
         $scope.dateList[i].deadlineFormat = monthAndDate + week
       }
-      console.log($scope.dateList[i])
     }
 
   }
@@ -233,8 +232,39 @@ angular.module('task.controllers.sidebar', [])
     $scope.clickSidebar = function(subject, objectId) {
       console.log($scope.currentParams)
       $scope.currentParams = { subject: subject, objectId: objectId };
-      $scope.$emit('ClickFromSidebar', $scope.currentParams);
+      $scope.$emit('NeedShowTaskList', $scope.currentParams);
     };
+
+  }
+]);
+angular.module('task.controllers.taskDetail', [])
+
+.controller('TaskDetailController', [
+  '$scope',
+  'Task',
+  '$timeout',
+  function($scope, Task, $timeout) {
+
+    $scope.showTaskDetail = false;
+    $scope.task = {};
+    $scope.dateList = [];
+
+    $scope.$on('PleaseShowTaskDetail', function(event, msg) {
+      Task.findOne(msg, function(data) {
+        console.log(data)
+        $scope.task = data; //todo:从列表过来的可以不用请求
+        $timeout($('#task_detail_container').show(200)); //$timeout 延迟加载，否则没数据
+        for (var i = 0; i < 14; i++) { //可选截止日期：从今天开始共14天
+          if ($scope.task.deadline && $scope.task.deadline.iso) {
+            var date = new Date($scope.task.deadline.iso.replace(/-/g, '/'));
+          } else {
+            var date = new Date();
+          }
+          date.setDate(date.getDate() + i);
+          $scope.dateList[i] = date.toLocaleDateString().replace(/\//g, '-').replace(/-(\d)-/, '-0$1-').replace(/-(\d)$/, '-0$1') + ' 00:00:00';
+        }
+      })
+    })
 
   }
 ]);
@@ -253,29 +283,22 @@ angular.module('task.controllers.taskList', [])
       var currentParams = { 'subject': 'assignee', 'objectId': $scope.userInfo.objectId }; //当前任务列表参数
 
       $(document).ready(function(){
-        var H=$(window).height();
-        var W=$(window).width();
-
-        $('.task_container').height(H);
-        $('.createTask').height(H);
-        var w=$('.left').width();
-        $('.right').width(W-w);
-        $('.main').height(H-120).width($('.right').width()-20);
-
-        $('.left_container').height(H-79);
 
         $('.menu li').click(function(){
           $(this).siblings().removeClass('active');
           $(this).addClass('active');
         })
-        $('.taskList').width($('.taskList').width()+20);
         
-        $('.addTask').click(function(){
+        $('.add_task').click(function(){
           $('.createTask').show(200);
           $("#taskName").focus(); 
         })
 
       })
+
+      $scope.showTaskDetail = function(taskId){
+        $scope.$emit('NeedShowTaskDetail', {'taskId': taskId});
+      }
 
       $scope.allTaskList = []; // 所有任务
       $scope.taskList = []; // 当前Tab任务
@@ -283,15 +306,15 @@ angular.module('task.controllers.taskList', [])
       $scope.myself = true; // 当前任务列表是否我负责的
       $scope.done = false; // 当前任务是否完成
 
-      // 监听SidebarClicked事件
-      $scope.$on('SidebarClicked', function(event, msg) {
+      // 监听PleaseShowTaskList事件
+      $scope.$on('PleaseShowTaskList', function(event, msg) {
         $scope.getTaskList(msg);
       })
 
       // 监听TaskCreated事件
-      $scope.$on('TaskCreated', function(event, msg) {
-        $scope.getTaskList(msg);
-      })
+      // $scope.$on('TaskCreated', function(event, msg) {
+      //   $scope.getTaskList(msg);
+      // })
 
       // 获取任务列表方法
       $scope.getTaskList = function(params) {
@@ -430,7 +453,7 @@ angular.module('task.services.task', [])
   return {
     find: function(params, callback) {
       Bmob.Cloud.run('taskList', params, {
-        success: function(data){
+        success: function(data) {
           data = JSON.parse(data);
           LocalStorage.setObject('taskList', data);
           callback(data);
@@ -440,9 +463,9 @@ angular.module('task.services.task', [])
         }
       })
     },
-    update: function(params, callback){
-      Bmob.Cloud.run('updateTask', params, {
-        success: function(data){
+    findOne: function(params, callback) {
+      Bmob.Cloud.run('taskDetail', params, {
+        success: function(data) {
           data = JSON.parse(data);
           callback(data);
         },
@@ -451,13 +474,24 @@ angular.module('task.services.task', [])
         }
       })
     },
-    create: function(params, callback){
-      Bmob.Cloud.run('createTask', params, {
-        success: function(data){
+    update: function(params, callback) {
+      Bmob.Cloud.run('updateTask', params, {
+        success: function(data) {
           data = JSON.parse(data);
           callback(data);
         },
-        error: function(err){
+        error: function(err) {
+          console.log(err);
+        }
+      })
+    },
+    create: function(params, callback) {
+      Bmob.Cloud.run('createTask', params, {
+        success: function(data) {
+          data = JSON.parse(data);
+          callback(data);
+        },
+        error: function(err) {
           console.log(err)
         }
       })

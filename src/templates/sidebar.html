@@ -17,7 +17,7 @@
         <ul class="team_group">
           <li class="team_one" ng-repeat="member in team.members" ng-click="clickSidebar('assignee', member.objectId)" ng-class="(currentParams.objectId == member.objectId) ? 'active' : ''">
             <img ng-src="http://file.bmob.cn/{{member.avatar.url}}" ng-if="member.avatar.url" />
-            <img ng-src="img/avator_01.png" ng-if="!member.avatar.url" />
+            <img ng-src="img/avatar_default.png" ng-if="!member.avatar.url" />
             <span class="name">{{member.name}}</span>
             <span class="num">{{member.allNum}}</span>
           </li>

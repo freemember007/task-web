@@ -18,7 +18,32 @@ a{
 iframe{
     border: none;
 }
+html,body{
+  height:100%
+}
+select {
+  border: solid 1px #000;
 
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+
+  /*在选择框的最右侧中间显示小箭头图片*/
+  background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+
+
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  padding-right: 14px;
+}
+
+
+/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+select::-ms-expand { display: none; }
+select:focus {
+  outline: none;
+  border:none;
+}
 .createTask {
   position: fixed;
   top: 0;
@@ -26,6 +51,7 @@ iframe{
   display: none;
   width: 100%;
   height: 100%;
+  z-index: 1001;
   .mask {
     height: 100%;
     padding-top: 100px;
@@ -167,19 +193,19 @@ iframe{
         //   }
         // }
         >:first-child {
-          background: url(../img/project_icon.png) no-repeat;
+          background: url(img/icon_project.png) no-repeat;
         }
         >:nth-child(2) {
-          background: url(../img/date_icon.png) no-repeat;
+          background: url(img/icon_date.png) no-repeat;
         }
         >:nth-child(3) {
-          background: url(../img/zhipai_icon.png) no-repeat;
+          background: url(img/icon_assign.png) no-repeat;
         }
         >:nth-child(4) {
-          background: url(../img/priority_icon.png) no-repeat;
+          background: url(img/icon_priority.png) no-repeat;
         }
         >:nth-child(5) {
-          background: url(../img/sub_Task_icon.png) no-repeat;
+          background: url(img/icon_subtask.png) no-repeat;
         }
       }
 
@@ -206,7 +232,7 @@ iframe{
         height: 20px;
         cursor: pointer;
         border-radius: 50%;
-        background: #aaa url(../img/close_icon.png) no-repeat;
+        background: #aaa url(img/icon_close.png) no-repeat;
         background-position: center center;
         background-size: 100% 100%;
       }
@@ -292,8 +318,11 @@ iframe{
 }
 
 .task_container {
-  position: relative;
-  height: 300px;
+  position:absolute; 
+  height:100%;
+  width: 100%;
+  left:0; 
+  top:0;
   background: $main_bk;
   .left {
     position: absolute;
@@ -302,17 +331,24 @@ iframe{
     overflow: hidden;
     width: 250px;
     height: 100%;
+    // margin-bottom: 90px;
     color: white;
     background: $grey_color;
     .company {
+      position: fixed;
+      width: 250px;
       font-size: 22px;
       padding: 25px 0;
       text-align: center;
       background: $blue_color;
+      z-index: 1000;
     }
     .left_container {
       overflow: auto;
+      margin-top: 90px;
+      // margin-bottom: 90px;
       width: 267px;
+      height: 85%; //否则下面一截显示不出来, todo:left_container外面再套个div应该可以解决
       cursor: pointer;
       .mySummary {
         li {
@@ -363,7 +399,7 @@ iframe{
               display: block;
               width: 20px;
               height: 30px;
-              background: url(../img/icon_01.png) no-repeat;
+              background: url(img/triangle.png) no-repeat;
               background-position: center center;
             }
             &:hover {
@@ -434,168 +470,366 @@ iframe{
     }
   }
 }
-.task_container {
-  position: relative;
-  height: 300px;
-  background: $main_bk;
-  .right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    overflow: hidden;
-    .right_top {
-      position: relative;
+#task_detail_container {
+  display: none;
+  position: absolute;
+  top: 100px;
+  right: 0;
+  bottom: 0px;
+  overflow: auto;
+  width: 36%;
+  padding: 10px;
+  // border-top: 2px solid #2196F3;
+  background: $right_bk;
+  background-position-y: center;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
+  ////////// 头部区
+  .head_chunk {
+    height: 38px;
+    line-height: 38px;
+    color: #ccc;
+    font-size: 14px;
+    margin-left: 10px;
+    span {
+      margin-left: 20px;
+    }
+    img {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+    }
+  }
+  .title {
+    height: 50px;
+    line-height: 50px;
+    background: url("img/icon_complete.png") no-repeat left center;
+    padding-left: 40px;
+    margin: 10px;
+    >input {
+      font-size: 24px;
       width: 100%;
-      height: 100px;
-      background: $right_bk;
-      background: white url(../img/grey_line.png) repeat-x;
-      background-position-y: center;
-      box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
-      .container {
-        .head {
-          .addTask {
-            line-height: 50px;
-            padding-left: 50px;
-            cursor: pointer;
+      height: 50px;
+      color: #666;
+      border: none;
+      outline: none;
+    }
+  }
+  ///////// 内容区
+  .content {
+    overflow: auto;
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ccc;
+    // 列表通用属性
+    >li {
+      margin: 10px;
+      padding-left: 40px;
+      // height: 50px;
+      line-height: 50px;
+      background-position: left center;
+      background-repeat: no-repeat;
+      >select {
+        font-size: 16px;
+        width: 100%;
+        height: 50px;
+        color: #666;
+        border: none;
+        outline: none;
+        overflow: hidden;
+        >option {
+          padding: 10px;
+        }
+      }
+    }
+    // 1.项目
+    >:first-child {
+      background-image: url(img/icon_project.png);
+      .project {
+        background: url(img/project_color.png) no-repeat left center;
+        padding-left: 40px;
+      }
+    }
+    // 2.责任人
+    >:nth-child(2) {
+      background-image: url(img/icon_assign.png);
+      .assignee {
+        background: url(img/avatar_default.png) no-repeat left center;
+        padding-left: 40px;
+      }
+    }
+    // 3.截止时间
+    >:nth-child(3) {
+      background-image: url(img/icon_date.png);
+      color: #ccc;
+    }
+    // 4.优先级
+    >.priority {
+      background-image: url(img/icon_priority.png);
+      color: #ccc;
+      
+    }
+    // 5.子任务
+    >:nth-child(5) {
+      background-image: url(img/icon_subtask.png);
+      background-position: left 20px;
+      >ul {
+        >li {
+          background: url(img/icon_complete.png) no-repeat left center;
+          background-size: 20px 20px;
+          padding-left: 40px;
+          height: 50px;
+          line-height: 50px;
+          color: #666;
+          border-bottom: 1px solid #eee;
+          img {
+            float: right;
+            margin: 17.5px 10px;
+            height: 15px;
+          }
+        }
+        >:last-child {
+          background: transparent;
+          padding-left: 0;
+        }
+      }
+    }
+    // 6.评论
+    >:nth-child(6) {
+      background-image: url(img/icon_massage.png);
+      background-position: left 8px;
+      ul {
+        >li {
+          color: #ccc;
+          border-bottom: 1px solid #eee;
+          .comment_user {
+            background: url(img/avatar_default.png) no-repeat left center;
+            background-size: 20px 20px;
+            padding-left: 40px;
+            height: 30px;
+            line-height: 30px;
             color: #ccc;
-            background: url(../img/addTask_icon.png) no-repeat;
-            background-position-x: 20px;
-            background-position-y: center;
-            &:hover {
-              color: $blue_color;
+            span {
+              color: #ccc;
+              float: right;
             }
           }
-          .user {
-            float: right;
-            .username {
-              font: 16px/50px '微软雅黑';
-              padding-right: 80px;
-              padding-left: 30px;
-              color: $blue_color;
-              background: url(../img/alert_icon.png) no-repeat;
-              background-position: 0 center;
-              background-size: auto 100%;
+          .comment_content {
+            height: 50px;
+            line-height: 50px;
+            color: #666;
+          }
+        }
+        >:last-child {
+          border-bottom: 0px;
+        }
+      }
+    }
+  }
+  //////// 底部操作区
+  .foot_chunk {
+    width: 170px;
+    margin: 0 auto;
+    text-align: center;
+    // background: url('img/icon_delete.png') no-repeat; //todo:找金波要图标
+    height: 40px;
+    line-height: 40px;
+    color: #ccc;
+  }
+  .floating_panel_close {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 51px;
+    color: #464C59;
+    cursor: pointer;
+    overflow: hidden;
+    position: absolute;
+    left: -36px;
+    top: 0;
+    background: transparent none repeat scroll 0% 0%;
+    .icon_close {
+      width: 30px;
+      height: 47px;
+      display: block;
+      text-align: center;
+      line-height: 47px;
+      margin-left: 6px;
+      font-size: 1.125rem;
+      font-weight: 600;
+      background: #FFF none repeat scroll 0% 0%;
+      box-shadow: -1px 0px 8px 0px rgba(0, 0, 0, 0.2);
+      border-bottom-left-radius: 4px;
+    }
+  }
+}
+.right {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0px;
+  left: 250px;
+  overflow: auto;
+  .right_top {
+    position: fixed;
+    right: 0px;
+    left: 250px;
+    height: 100px;
+    background: $right_bk;
+    background: white url(img/grey_line.png) repeat-x;
+    background-position-y: center;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
+    z-index: 1000;
+    .container {
+      height: 100%;
+      .head {
+        background: transparent url("img/icon_add_task.png") no-repeat 10px center;
+        border-bottom: 1px solid #eee;
+        .add_task {
+          line-height: 49px;
+          padding-left: 50px;
+          cursor: pointer;
+          color: #ccc;
+          background-position-x: 20px;
+          background-position-y: center;
+          &:hover {
+            color: $blue_color;
+          }
+        }
+        .user {
+          float: right;
+          .username {
+            font: 16px/50px '微软雅黑';
+            padding-right: 80px;
+            padding-left: 30px;
+            color: $blue_color;
+            background: url(img/icon_alert.png) no-repeat;
+            background-position: 0 center;
+            background-size: auto 100%;
+          }
+          .thumb {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            overflow: hidden;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            img {
+              width: 100%;
             }
+          }
+        }
+      }
+      .menu {
+        height: 50px;
+        text-align: center;
+        li {
+          font: 16px '微软雅黑';
+          line-height: 30px;
+          display: inline-block;
+          padding: 8px 15px;
+          cursor: pointer;
+          border-bottom: 4px solid white;
+        }
+        .active {
+          border-color: $blue_color;
+        }
+      }
+    }
+  }
+  .main {
+    // overflow: hidden;
+    margin: 110px 0 0 10px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+    min-height: 100%;
+    .taskList {
+      overflow: auto;
+      .dates {
+        padding: 15px 20px 0;
+        p {
+          border-bottom: 1px solid #eee;
+          padding: 10px;
+          font-weight: bold;
+          // font-style: italic;
+          .days {
+            display: inline-block;
+            width: 80px;
+            color: $blue_color;
+          }
+          .past {
+            color: $red_color;
+          }
+          .date {
+            color: #ccc;
+          }
+        }
+        > li {
+          overflow: hidden;
+          padding: 15px 0;
+          border-bottom: 1px dashed #eee;
+          cursor: pointer;
+          .avator {
+            float: left;
             .thumb {
-              position: absolute;
-              top: 5px;
-              right: 10px;
+              float: left;
               overflow: hidden;
-              width: 40px;
-              height: 40px;
+              width: 20px;
+              height: 20px;
               border-radius: 50%;
+              cursor: pointer;
               img {
                 width: 100%;
               }
             }
-          }
-        }
-        .menu {
-          height: 50px;
-          text-align: center;
-          li {
-            font: 16px '微软雅黑';
-            line-height: 30px;
-            display: inline-block;
-            padding: 8px 15px;
-            cursor: pointer;
-            border-bottom: 4px solid white;
-          }
-          .active {
-            border-color: $blue_color;
-          }
-        }
-      }
-    }
-    .main {
-      overflow: hidden;
-      margin: 10px 0 0 10px;
-      background: white;
-      box-shadow: 0 0 10px rgba(0, 0, 0, .3);
-      .taskList {
-        overflow: auto;
-        width: 100%;
-        height: 100%;
-        .dates {
-          padding: 15px 20px 0;
-          p {
-            .days {
+            .priority {
               display: inline-block;
-              width: 100px;
-              color: $blue_color;
+              width: 50px;
+              height: 15px;
+              background: url(img/icon_priority.png) no-repeat center center;
+            }
+            .taskName {
+              font-size: 16px;
+              display: inline-block;
+              height: 18px;
+              margin-left: 20px;
+              color: #666;
+            }
+            .project {
+              font-size: 12px;
+              margin-left: 20px;
+              color: #fff;
+              // background: #ccc;
+              padding: 2px;
+              border-radius: 3px;
             }
             .past {
               color: $red_color;
             }
-            .date {
+            .finished {
+              font-style: italic;
+              text-decoration: line-through;
               color: #ccc;
             }
           }
-          > li {
-            overflow: hidden;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-            .avator {
-              float: left;
-              .thumb {
-                float: left;
-                overflow: hidden;
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                img {
-                  width: 100%;
-                }
-              }
-              .priority {
-                display: inline-block;
-                width: 50px;
-                height: 15px;
-                background: url(../img/priority_icon.png) no-repeat center center;
-              }
-              .taskName {
-                font-size: 16px;
-                display: inline-block;
-                height: 18px;
-                margin-left: 20px;
-                color: #666;
-              }
-              .project {
-                font-size: 12px;
-                margin-left: 20px;
-                color: #fff;
-                // background: #ccc;
-                padding: 2px;
-                border-radius: 3px;
-              }
-              .past {
-                color: $red_color;
-              }
-              .finished {
-                font-style: italic;
-                text-decoration: line-through;
-                color: #ccc;
-              }
+          .other {
+            position: relative;
+            float: right;
+            margin-right: 50px;
+            .like {
+              display: inline-block;
+              width: 23px;
+              height: 19px;
+              margin-right: 80px;
+              background: url(img/icon_like.png) no-repeat;
             }
-            .other {
-              position: relative;
-              float: right;
-              margin-right: 50px;
-              .like {
-                display: inline-block;
-                width: 23px;
-                height: 19px;
-                margin-right: 80px;
-                background: url(../img/icon_like.png) no-repeat;
-              }
-              .massage {
-                position: absolute;
-                top: 0;
-                right: 10px;
-                padding-left: 30px;
-                color: #ccc;
-                background: url(../img/icon_massage.png) no-repeat 0 center;
-              }
+            .massage {
+              position: absolute;
+              top: 0;
+              right: 10px;
+              padding-left: 30px;
+              color: #ccc;
+              background: url(img/icon_massage.png) no-repeat 0 center;
             }
           }
         }

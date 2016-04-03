@@ -1,9 +1,11 @@
 angular.module('teamTask', [
   'ui.router',
+  'ngAnimate',
   'task.controllers.login',
   'task.controllers.sidebar',
   'task.controllers.taskList',
   'task.controllers.createTask',
+  'task.controllers.taskDetail',
   'task.services.localStorage',
   'task.services.interceptor',
   'task.services.user',
@@ -46,12 +48,12 @@ angular.module('teamTask', [
     Bmob.initialize("5d447ad3a22ca5a70ec26ca01a9f5176", "8a010f08c229de9b811d3a86a3b24c1b");
 
     // 事件转发，注意接收名和转发名不能一样，否则陷入死循环
-    $rootScope.$on('ClickFromSidebar', function(event, msg) {
-      $rootScope.$broadcast("SidebarClicked", msg); // 
+    $rootScope.$on('NeedShowTaskList', function(event, msg) {
+      $rootScope.$broadcast("PleaseShowTaskList", msg); // 
     })
 
-    $rootScope.$on('CreateFromTaskDetail', function(event, msg) {
-      $rootScope.$broadcast("TaskCreated", msg); // 
+    $rootScope.$on('NeedShowTaskDetail', function(event, msg) {
+      $rootScope.$broadcast("PleaseShowTaskDetail", msg); // 
     })
 
     // 判断登录状态，跳到不同页面

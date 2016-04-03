@@ -4,19 +4,19 @@
 
 		<meta charset="utf-8" />
 		<title>特扬任务管理系统</title>
-		<meta http-equiv="Pragma" content="no-cache" />
-		<meta http-equiv="Cache-Control" content="no-cache" />
-		<meta http-equiv="expires" content="0" />
+		<!-- <meta http-equiv="Pragma" content="no-cache" /> -->
+		<meta http-equiv="Cache-Control" content="max-age>0" />
+		<!-- <meta http-equiv="expires" content="0" /> -->
 
 		<!--优先脚本-->
-		<script src="lib/angular/angular.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="lib/angular-ui-router/release/angular-ui-router.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="teamTask.js" type="text/javascript" charset="utf-8"></script>
-		<script src="lib/bmob.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/angular/angular.min.js" charset="utf-8"></script>
+		<script src="lib/angular-ui-router/release/angular-ui-router.min.js" charset="utf-8"></script>
+		<script src="teamTask.js" charset="utf-8"></script>
+		<script src="lib/bmob.js" charset="utf-8"></script>
 		
 		<!--样式文件-->
-		<link rel="stylesheet" type="text/css" href="style.css"/>
-		<link rel="stylesheet" type="text/css" href="lib/nprogress/nprogress.css"/>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<link href="lib/nprogress/nprogress.css" rel="stylesheet" type="text/css" />
 		
 	</head>
 
@@ -27,8 +27,9 @@
 
 
 	<!--非优先脚本-->
-	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-	<script src="lib/layer/layer.js" type="text/javascript" charset="utf-8"></script>
-	<script src="lib/nprogress/nprogress.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/jquery/dist/jquery.min.js" charset="utf-8"></script>
+	<script src="lib/layer/layer.js" charset="utf-8"></script>
+	<script src="lib/nprogress/nprogress.js" charset="utf-8"></script>
+	<script src="lib/angular-animate/angular-animate.min.js" charset="utf-8"></script>
 
 </html>

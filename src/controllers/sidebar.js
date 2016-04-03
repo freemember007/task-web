@@ -45,7 +45,7 @@ angular.module('task.controllers.sidebar', [])
     $scope.clickSidebar = function(subject, objectId) {
       console.log($scope.currentParams)
       $scope.currentParams = { subject: subject, objectId: objectId };
-      $scope.$emit('ClickFromSidebar', $scope.currentParams);
+      $scope.$emit('NeedShowTaskList', $scope.currentParams);
     };
 
   }

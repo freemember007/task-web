@@ -4,7 +4,7 @@
   <div class="right_top">
     <div class="container">
       <div class="head">
-        <span class="addTask">
+        <span class="add_task">
 								新建一个任务
 							</span>
         <span class="user">
@@ -41,12 +41,12 @@
     <div class="taskList">
       <!--一天前-->
       <ul class="dates" ng-repeat="x in taskList">
-        <p>
+        <p class="date">
           <span class="days" ng-class="{'past': x.delay}">{{x.groupName}}</span>
           <span class="date">{{x.subGroupName}}</span>
         </p>
-        <li ng-repeat="d in x.tasks">
-          <div class="avator">
+        <li ng-repeat="d in x.tasks" ng-click="showTaskDetail(d.objectId)">
+          <div class="avator" >
             <div class="thumb" ng-show="myself" ng-click="completeTask(d.objectId)"><img src="img/icon_complete.png" /></div>
             <div class="thumb" ng-show="!myself"><img ng-src="http://file.bmob.cn/{{d.assignee.avatar.url}}" /></div>
             <span class="priority"></span>

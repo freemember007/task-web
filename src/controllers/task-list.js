@@ -13,29 +13,22 @@ angular.module('task.controllers.taskList', [])
       var currentParams = { 'subject': 'assignee', 'objectId': $scope.userInfo.objectId }; //当前任务列表参数
 
       $(document).ready(function(){
-        var H=$(window).height();
-        var W=$(window).width();
-
-        $('.task_container').height(H);
-        $('.createTask').height(H);
-        var w=$('.left').width();
-        $('.right').width(W-w);
-        $('.main').height(H-120).width($('.right').width()-20);
-
-        $('.left_container').height(H-79);
 
         $('.menu li').click(function(){
           $(this).siblings().removeClass('active');
           $(this).addClass('active');
         })
-        $('.taskList').width($('.taskList').width()+20);
         
-        $('.addTask').click(function(){
+        $('.add_task').click(function(){
           $('.createTask').show(200);
           $("#taskName").focus(); 
         })
 
       })
+
+      $scope.showTaskDetail = function(taskId){
+        $scope.$emit('NeedShowTaskDetail', {'taskId': taskId});
+      }
 
       $scope.allTaskList = []; // 所有任务
       $scope.taskList = []; // 当前Tab任务
@@ -43,15 +36,15 @@ angular.module('task.controllers.taskList', [])
       $scope.myself = true; // 当前任务列表是否我负责的
       $scope.done = false; // 当前任务是否完成
 
-      // 监听SidebarClicked事件
-      $scope.$on('SidebarClicked', function(event, msg) {
+      // 监听PleaseShowTaskList事件
+      $scope.$on('PleaseShowTaskList', function(event, msg) {
         $scope.getTaskList(msg);
       })
 
       // 监听TaskCreated事件
-      $scope.$on('TaskCreated', function(event, msg) {
-        $scope.getTaskList(msg);
-      })
+      // $scope.$on('TaskCreated', function(event, msg) {
+      //   $scope.getTaskList(msg);
+      // })
 
       // 获取任务列表方法
       $scope.getTaskList = function(params) {
