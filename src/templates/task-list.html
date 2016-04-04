@@ -52,7 +52,7 @@
             <span class="priority"></span>
             <span class="taskName" ng-class="{'past': x.delay}" ng-if="!done">{{d.title}}</span>
             <span class="taskName finished" ng-class="{'past': x.delay}" ng-if="done">{{d.title}}</span>
-            <span class="project" ng-style="{'background': '{{d.project.color.replace('#99','#')}}'}">{{d.project.name}}</span>
+            <span class="project" ng-style="{'background': d.project.color.replace('#99','#')}">{{d.project.name}}</span>
           </div>
           <div class="other">
             <span class="like" ng-if="!myself"></span>

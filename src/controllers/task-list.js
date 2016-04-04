@@ -1,13 +1,14 @@
 angular.module('task.controllers.taskList', [])
 
   .controller('TaskListController', [
-    '$timeout',
     '$scope',
+    '$rootScope',
+    '$timeout',
     '$location',
     'LocalStorage',
     'Task',
     'User',
-    function($timeout, $scope, $location, LocalStorage, Task, User) {
+    function($scope, $rootScope, $timeout, $location, LocalStorage, Task, User) {
 
       $scope.userInfo = LocalStorage.getObject('userInfo');
       var currentParams = { 'subject': 'assignee', 'objectId': $scope.userInfo.objectId }; //当前任务列表参数
@@ -48,13 +49,14 @@ angular.module('task.controllers.taskList', [])
 
       // 获取任务列表方法
       $scope.getTaskList = function(params) {
+        if(params)$('#task_detail_container').hide(200);
         $scope.done = false;
         params = params || currentParams;
         Task.find(params, function(data) {
         	$scope.myself = params.subject === 'assignee' && params.objectId === 'EuGz444d' ? true : false;
           $scope.allTaskList = data;
           setLength();
-          console.log($scope.allTaskList);
+          // console.log($scope.allTaskList);
           $scope.$apply(function() {
             $scope.taskList = $scope.allTaskList[1];
             currentParams = params;
@@ -73,6 +75,7 @@ angular.module('task.controllers.taskList', [])
         Task.update({updaterId: $scope.userInfo.objectId, objectId: objectId, status: 2}, function(data){
           $scope.getTaskList({ 'subject': 'assignee', 'objectId': 'EuGz444d' });
           console.log(data);
+          return false; //暂时的丑陋办法
         })
       }
 

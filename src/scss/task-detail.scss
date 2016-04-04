@@ -1,30 +1,37 @@
 #task_detail_container {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 100px;
   right: 0;
   bottom: 0px;
-  overflow: auto;
   width: 36%;
   padding: 10px;
-  // border-top: 2px solid #2196F3;
   background: $right_bk;
   background-position-y: center;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
+}
+
+#task_detail {
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  top: 0px;
   ////////// 头部区
   .head_chunk {
-    height: 38px;
-    line-height: 38px;
+    height: 50px;
+    line-height: 50px;
     color: #ccc;
     font-size: 14px;
     margin-left: 10px;
     span {
       margin-left: 20px;
     }
-    img {
+    .icon_close {
       position: absolute;
       right: 20px;
       top: 20px;
+      cursor: pointer;
     }
   }
   .title {
@@ -32,7 +39,7 @@
     line-height: 50px;
     background: url("img/icon_complete.png") no-repeat left center;
     padding-left: 40px;
-    margin: 10px;
+    margin-left: 7px;
     >input {
       font-size: 24px;
       width: 100%;
@@ -45,9 +52,12 @@
   ///////// 内容区
   .content {
     overflow: auto;
+    position: absolute;
+    width: 100%;
     margin-top: 10px;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ccc;
+    color: #666;
     // 列表通用属性
     >li {
       margin: 10px;
@@ -56,48 +66,90 @@
       line-height: 50px;
       background-position: left center;
       background-repeat: no-repeat;
-      >select {
-        font-size: 16px;
+      >.toggle_child {
+        position: relative;
+        cursor: pointer;
+        >ul {
+          display: none;
+          position: absolute;
+          overflow: auto;
+          padding: 5px;
+          left: -5px;
+          height: 300px;
+          width: 80%;
+          border: 1px solid #2196f3;
+          background: white;
+          z-index: 1001;
+          >li {
+            line-height: 40px;
+          }
+        }
+      }
+      input {
+        font-size: 14px;
         width: 100%;
         height: 50px;
         color: #666;
         border: none;
         outline: none;
-        overflow: hidden;
-        >option {
-          padding: 10px;
+      }
+    }
+    // 项目
+    .project_container {
+      background-image: url(img/icon_project.png);
+      .project {
+        height: 30px;
+        padding: 10px 0px;
+        line-height: 30px;
+        .project_color {
+          width: 30px;
+          height: 30px;
+          float: left;
+          margin-right: 10px;
+          border-radius: 5px;
         }
       }
     }
-    // 1.项目
-    >:first-child {
-      background-image: url(img/icon_project.png);
-      .project {
-        background: url(img/project_color.png) no-repeat left center;
-        padding-left: 40px;
-      }
-    }
-    // 2.责任人
-    >:nth-child(2) {
+    // 责任人
+    .assignee_container {
       background-image: url(img/icon_assign.png);
       .assignee {
-        background: url(img/avatar_default.png) no-repeat left center;
-        padding-left: 40px;
+        height: 30px;
+        padding: 10px 0px;
+        line-height: 30px;
+        >img {
+          width: 30px;
+          height: 30px;
+          float: left;
+          margin-right: 10px;
+          border-radius: 50%;
+        }
       }
     }
-    // 3.截止时间
-    >:nth-child(3) {
+    // 截止时间
+    .deadline_container {
       background-image: url(img/icon_date.png);
-      color: #ccc;
+      .deadline {
+        // color: #999;
+      }
     }
-    // 4.优先级
-    >.priority {
+    // 优先级
+    .priority_container {
       background-image: url(img/icon_priority.png);
-      color: #ccc;
-      
+      .priority {
+        // color: #999;
+      }
     }
-    // 5.子任务
-    >:nth-child(5) {
+
+    // 附件
+    .file_container {
+      background-image: url(img/icon_subtask.png);
+      img {
+        width: 120px;
+      }
+    }
+    // 子任务
+    .checklist_container {
       background-image: url(img/icon_subtask.png);
       background-position: left 20px;
       >ul {
@@ -105,9 +157,8 @@
           background: url(img/icon_complete.png) no-repeat left center;
           background-size: 20px 20px;
           padding-left: 40px;
-          height: 50px;
+          // height: 50px;
           line-height: 50px;
-          color: #666;
           border-bottom: 1px solid #eee;
           img {
             float: right;
@@ -116,76 +167,82 @@
           }
         }
         >:last-child {
-          background: transparent;
           padding-left: 0;
         }
       }
     }
-    // 6.评论
-    >:nth-child(6) {
+    // 评论
+    .comments {
       background-image: url(img/icon_massage.png);
-      background-position: left 8px;
+      background-position: left 15px;
+      font-size: 12px;
       ul {
         >li {
-          color: #ccc;
+          padding: 5px 0px;
           border-bottom: 1px solid #eee;
           .comment_user {
-            background: url(img/avatar_default.png) no-repeat left center;
-            background-size: 20px 20px;
-            padding-left: 40px;
-            height: 30px;
-            line-height: 30px;
+            height: 24px;
+            line-height: 24px;
             color: #ccc;
-            span {
-              color: #ccc;
+            // float: left;
+            img {
+              width: 24px;
+              height: 24px;
+              float: left;
+              border-radius: 50%;
+            }
+            .comment_name {
+              float: left;
+              padding-left: 5px;
+            }
+            .comment_createdAt {
               float: right;
+              padding-left: 5px;
             }
           }
           .comment_content {
-            height: 50px;
-            line-height: 50px;
-            color: #666;
+            line-height: 24px;
+          }
+          .add_comment {
+            line-height: 35px;
+            >input {
+              height: 35px;
+              font-size: 12px;
+            }
           }
         }
         >:last-child {
-          border-bottom: 0px;
+          >input {
+            font-size: 12px;
+          }
         }
       }
     }
   }
-  //////// 底部操作区
-  .foot_chunk {
-    width: 170px;
-    margin: 0 auto;
+}
+
+.floating_panel_close {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 51px;
+  color: #464C59;
+  cursor: pointer;
+  overflow: hidden;
+  position: absolute;
+  top: 0px;
+  left: -36px;
+  background: transparent none repeat scroll 0% 0%;
+  .icon_close {
+    width: 30px;
+    height: 47px;
+    display: block;
     text-align: center;
-    // background: url('img/icon_delete.png') no-repeat; //todo:找金波要图标
-    height: 40px;
-    line-height: 40px;
-    color: #ccc;
-  }
-  .floating_panel_close {
-    flex: 0 0 auto;
-    width: 36px;
-    height: 51px;
-    color: #464C59;
-    cursor: pointer;
-    overflow: hidden;
-    position: absolute;
-    left: -36px;
-    top: 0;
-    background: transparent none repeat scroll 0% 0%;
-    .icon_close {
-      width: 30px;
-      height: 47px;
-      display: block;
-      text-align: center;
-      line-height: 47px;
-      margin-left: 6px;
-      font-size: 1.125rem;
-      font-weight: 600;
-      background: #FFF none repeat scroll 0% 0%;
-      box-shadow: -1px 0px 8px 0px rgba(0, 0, 0, 0.2);
-      border-bottom-left-radius: 4px;
-    }
+    line-height: 47px;
+    margin-left: 6px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    background: #FFF none repeat scroll 0% 0%;
+    box-shadow: -1px 0px 8px 0px rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 4px;
   }
 }

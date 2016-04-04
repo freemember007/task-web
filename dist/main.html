@@ -82,7 +82,7 @@
             <span class="priority"></span>
             <span class="taskName" ng-class="{'past': x.delay}" ng-if="!done">{{d.title}}</span>
             <span class="taskName finished" ng-class="{'past': x.delay}" ng-if="done">{{d.title}}</span>
-            <span class="project" ng-style="{'background': '{{d.project.color.replace('#99','#')}}'}">{{d.project.name}}</span>
+            <span class="project" ng-style="{'background': d.project.color.replace('#99','#')}">{{d.project.name}}</span>
           </div>
           <div class="other">
             <span class="like" ng-if="!myself"></span>
@@ -136,7 +136,7 @@
 
         <!-- 选择责任人 -->
         <li class="assigneeName">
-          <span class="thumb"><img src="{{task.assigneeAvatar}}"/></span>
+          <span class="thumb"><img ng-src="{{task.assigneeAvatar}}"/></span>
           <span class="memberName">{{task.assigneeName}}</span>
           <ul class="assigneeList">
             <li ng-repeat="team in companyInfo.teams">
@@ -172,90 +172,115 @@
   </div>
 </div>
 <div id="task_detail_container" ng-controller="TaskDetailController">
-  <!-- 头部区 -->
-  <div class="head_chunk">
-    2016年02月01日<span>由肖一江创建</span><img src="img/icon_close.png">
-  </div>
-  <div class="title">
-      <input type="text" placeholder="请输入任务名称" ng-model="task.title" />
-  </div>
-  <!-- 内容区 -->
-  <ul class="content">
-    <!-- 项目 -->
-    <li>
-      <div class="project">
-        {{task.project.name}}
-      </div>
-    </li>
-    <!-- 责任人 -->
-    <li>
-      <div class="assignee">
-        {{task.assignee.name}}
-      </div>
-    </li>
-    <!-- 到期时间 -->
-    <li>
-      <!-- <p>{{task.deadline.iso}}</p> -->
-      <select class="priorityValue" ng-model="task.deadline.iso">
-        <option ng-repeat="date in dateList" value="{{date}}">{{date}}</option>
-      </select>
-    </li>
-    <!-- 优先级 -->
-    <li class="priority">
-      <!-- <span>{{task.priority}}</span> -->
-      <select class="priorityValue" ng-model="task.priority.toString()">
-        <option value="0">不紧急</option>
-        <option value="1">一般紧急</option>
-        <option value="2">紧急</option>
-        <option value="3">非常紧急</option>
-      </select>
-    </li>
-    <!-- 子任务 -->
-    <li>
-      <ul>
-        <li>
-          患者管理页面修改<img src="img/icon_close.png">
-        </li>
-        <li>
-          患者管理页面修改<img src="img/icon_close.png">
-        </li>
-        <li>
-          患者管理页面修改<img src="img/icon_close.png">
-        </li>
-        <li>
-          添加子任务
-        </li>
-      </ul>
-    </li>
-    <!-- 评论 -->
-    <li>
-      <ul>
-        <li>
-          <div class="comment_user">
-            张士超 <span>2小时前</span>
-          </div>
-          <div class="comment_content">
-            这个页面尽可能设计的简洁点
-          </div>
-        </li>
-        <li>
-          <div class="comment_user">
-            张士超 <span>2小时前</span>
-          </div>
-          <div class="comment_content">
-            这个页面尽可能设计的简洁点
-          </div>
-        </li>
-        <li>
-          <div class="add_comment">
-            添加评论
-          </div>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  <div class="foot_chunk">
+  <div id="task_detail">
+    <!-- 头部区 -->
+    <div class="head_chunk">
+      {{task.createdAt}}<span>由{{task.assigner.name}}创建</span>
+      <!-- <img class="icon_close" src="img/icon_close.png"> -->
+    </div>
+    <div class="title">
+      <input type="text" class="taskNameInput" placeholder="请输入任务名称" ng-model="task.title" ng-keydown="completeTask($event)"/>
+    </div>
+    <!-- 内容区 -->
+    <ul class="content">
+      <!-- 项目 -->
+      <li class="project_container">
+        <div class="project toggle_child">
+          <span class="project_color" ng-style="{'background': task.project.color.replace('#99','#')}"></span>
+          <!-- <span class="project_name"></span> -->
+          {{task.project.name}}
+          <ul class="project_list">
+            <li class="project" ng-repeat="project in companyInfo.projects track by $index" ng-click="task.project = project;updateTask({'project': project})">
+              <span class="project_color" ng-style="{'background': project.color.replace('#99','#')}"></span>
+              {{project.name}}
+            </li>
+          </ul>
+        </div>
+      </li>
+      <!-- 责任人 -->
+      <li class="assignee_container">
+        <div class="assignee toggle_child">
+          <img src="http://file.bmob.cn/{{task.assignee.avatar.url}}">
+          {{task.assignee.name}}
+          <ul class="assignee_list">
+            <li ng-repeat="team in companyInfo.teams">
+              ------ {{team.name}} ------
+              <ul>
+                <li class="assignee" ng-repeat="member in team.members"  ng-click="task.assignee=member;updateTask({'team':team.objectId,'assignee':member.objectId})">
+                  <img src="http://file.bmob.cn/{{member.avatar.url}}">
+                  {{member.name}}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <!-- 到期时间 -->
+      <li class="deadline_container">
+        <div class="deadline toggle_child">
+          {{task.deadline.iso||'无期限'}}
+          <ul class="deadline_list">
+            <li class="deadline" ng-repeat="deadline in deadlineList" ng-click="task.deadline.iso=deadline;updateTask({'deadline': deadline,'status': 1})">
+              {{deadline}}
+            </li>
+          </ul>
+        </div>
+      </li>
+      <!-- 优先级 -->
+      <li class="priority_container">
+        <div class="priority toggle_child">
+          {{priorityList[task.priority]}}
+          <ul class="priority_list">
+            <li class="priority" ng-repeat="priority in priorityList" ng-click="task.priority = $index;updateTask({'priority': $index})">
+              {{priority}}
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- 附件 -->
+      <li class="file_container">
+        <a ng-href="http://file.bmob.cn/{{task.file.url}}" target="_blank">
+          <img src="http://file.bmob.cn/{{task.file.url}}">
+        </a>
+        
+      </li>
+
+      <!-- 子任务 -->
+      <li class="checklist_container">
+        <ul>
+          <!-- <li>
+            患者管理页面修改<img src="img/icon_close.png">
+          </li> -->
+          <li>
+            <input type="text" placeholder="添加子任务"/>
+          </li>
+        </ul>
+      </li>
+      <!-- 评论 -->
+      <li class="comments">
+        <ul>
+          <li ng-repeat="comment in task.comments">
+            <div class="comment_user">
+              <img ng-src="{{comment.userUrl}}">
+              <span class="comment_name">{{comment.userName}}</span>
+              <span class="comment_createdAt">{{comment.sendTimg}}</span>
+            </div>
+            <div class="comment_content">
+              {{comment.userMsg}}
+            </div>
+          </li>
+          <li>
+            <div class="add_comment">
+              <input type="text" placeholder="添加评论" ng-model="task.newComment" ng-keydown="addComment($event)" />
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <!--   <div class="foot_chunk">
     删除改任务
+  </div> -->
   </div>
   <div class="floating_panel_close">
     <i class="icon_close">X</i>

@@ -29,6 +29,7 @@ angular.module('task.services.task', [])
     update: function(params, callback) {
       Bmob.Cloud.run('updateTask', params, {
         success: function(data) {
+          console.log(params)
           data = JSON.parse(data);
           callback(data);
         },

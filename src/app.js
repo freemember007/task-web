@@ -1,6 +1,5 @@
 angular.module('teamTask', [
   'ui.router',
-  'ngAnimate',
   'task.controllers.login',
   'task.controllers.sidebar',
   'task.controllers.taskList',
@@ -55,6 +54,10 @@ angular.module('teamTask', [
     $rootScope.$on('NeedShowTaskDetail', function(event, msg) {
       $rootScope.$broadcast("PleaseShowTaskDetail", msg); // 
     })
+
+    $rootScope.globalStatus = {
+      showDetail: false,
+    }
 
     // 判断登录状态，跳到不同页面
     if (LocalStorage.getObject('userInfo').objectId) {

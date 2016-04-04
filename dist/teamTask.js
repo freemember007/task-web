@@ -1,6 +1,5 @@
 angular.module('teamTask', [
   'ui.router',
-  'ngAnimate',
   'task.controllers.login',
   'task.controllers.sidebar',
   'task.controllers.taskList',
@@ -55,6 +54,10 @@ angular.module('teamTask', [
     $rootScope.$on('NeedShowTaskDetail', function(event, msg) {
       $rootScope.$broadcast("PleaseShowTaskDetail", msg); // 
     })
+
+    $rootScope.globalStatus = {
+      showDetail: false,
+    }
 
     // 判断登录状态，跳到不同页面
     if (LocalStorage.getObject('userInfo').objectId) {
@@ -211,7 +214,7 @@ angular.module('task.controllers.sidebar', [])
       }, {
         success: function(data) {
           var summaryList = JSON.parse(data);
-          console.log(summaryList);
+          // console.log(summaryList);
           $scope.$apply(function() {
             $scope.summaryList = summaryList;
             $timeout(function() {
@@ -241,43 +244,98 @@ angular.module('task.controllers.taskDetail', [])
 
 .controller('TaskDetailController', [
   '$scope',
+  '$rootScope',
   'Task',
   '$timeout',
-  function($scope, Task, $timeout) {
+  'LocalStorage',
+  function($scope, $rootScope, Task, $timeout, LocalStorage) {
 
-    $scope.showTaskDetail = false;
-    $scope.task = {};
-    $scope.dateList = [];
+    $scope.deadlineList = [];
+    $scope.priorityList = ['不紧急', '一般紧急', '紧急', '非常紧急'];
+    $scope.userInfo = LocalStorage.getObject('userInfo');
+    $scope.companyInfo = LocalStorage.getObject('companyInfo');
+
+    $(document).ready(function() {
+      $(".taskNameInput").focus(function() {
+        $(".taskNameInput").css("background-color", "#FFFFCC");
+      });
+      $(".taskNameInput").blur(function() {
+        $(".taskNameInput").css("background-color", "#FFF");
+      });
+      $('.icon_close').click(function() {
+        $('#task_detail_container').hide(200);
+      })
+      $('.submit').click(function() {
+        $('.createTask').hide(200);
+      })
+      $('.toggle_child').click(function() {
+        $(this).children('ul').slideToggle(200);
+      })
+    })
+
 
     $scope.$on('PleaseShowTaskDetail', function(event, msg) {
       Task.findOne(msg, function(data) {
-        console.log(data)
         $scope.task = data; //todo:从列表过来的可以不用请求
         $timeout($('#task_detail_container').show(200)); //$timeout 延迟加载，否则没数据
-        for (var i = 0; i < 14; i++) { //可选截止日期：从今天开始共14天
+        for (var i = 0; i < 7; i++) { //可选截止日期：从今天开始共14天
           if ($scope.task.deadline && $scope.task.deadline.iso) {
             var date = new Date($scope.task.deadline.iso.replace(/-/g, '/'));
           } else {
             var date = new Date();
           }
           date.setDate(date.getDate() + i);
-          $scope.dateList[i] = date.toLocaleDateString().replace(/\//g, '-').replace(/-(\d)-/, '-0$1-').replace(/-(\d)$/, '-0$1') + ' 00:00:00';
+          $scope.deadlineList[i] = date.toLocaleDateString().replace(/\//g, '-').replace(/-(\d)-/, '-0$1-').replace(/-(\d)$/, '-0$1') + ' 00:00:00';
         }
       })
     })
+
+    $scope.addComment = function(e){
+      if($scope.task.newComment && e.keyCode === 13){
+        var comment = {
+          'userId': $scope.userInfo.objectId,
+          'userMsg': $scope.task.newComment,
+          'userName': $scope.userInfo.name,
+          'userUrl': 'http://file.bmob.cn/' + $scope.userInfo.avatar.url,
+          'sendTimg': new Date().toLocaleString()
+        };
+        $scope.task.comments = $scope.task.comments || [];
+        $scope.task.comments.push(comment);
+        $scope.updateTask({'comment': comment});
+        $scope.task.newComment = '';
+      }
+    }
+
+    $scope.completeTask = function(e){
+      if($scope.task.title && e.keyCode === 13){
+        $scope.updateTask({'title': $scope.task.title});
+        $(".taskNameInput").blur();
+      }
+    }
+
+    $scope.updateTask = function(params) {
+      var postData = angular.extend(params);
+      postData.objectId = $scope.task.objectId;
+      postData.updaterId = $scope.userInfo.objectId;
+      Task.update(postData, function(data) {
+        $scope.$emit('NeedShowTaskList');
+        console.log(data)
+      })
+    }
 
   }
 ]);
 angular.module('task.controllers.taskList', [])
 
   .controller('TaskListController', [
-    '$timeout',
     '$scope',
+    '$rootScope',
+    '$timeout',
     '$location',
     'LocalStorage',
     'Task',
     'User',
-    function($timeout, $scope, $location, LocalStorage, Task, User) {
+    function($scope, $rootScope, $timeout, $location, LocalStorage, Task, User) {
 
       $scope.userInfo = LocalStorage.getObject('userInfo');
       var currentParams = { 'subject': 'assignee', 'objectId': $scope.userInfo.objectId }; //当前任务列表参数
@@ -318,13 +376,14 @@ angular.module('task.controllers.taskList', [])
 
       // 获取任务列表方法
       $scope.getTaskList = function(params) {
+        if(params)$('#task_detail_container').hide(200);
         $scope.done = false;
         params = params || currentParams;
         Task.find(params, function(data) {
         	$scope.myself = params.subject === 'assignee' && params.objectId === 'EuGz444d' ? true : false;
           $scope.allTaskList = data;
           setLength();
-          console.log($scope.allTaskList);
+          // console.log($scope.allTaskList);
           $scope.$apply(function() {
             $scope.taskList = $scope.allTaskList[1];
             currentParams = params;
@@ -343,6 +402,7 @@ angular.module('task.controllers.taskList', [])
         Task.update({updaterId: $scope.userInfo.objectId, objectId: objectId, status: 2}, function(data){
           $scope.getTaskList({ 'subject': 'assignee', 'objectId': 'EuGz444d' });
           console.log(data);
+          return false; //暂时的丑陋办法
         })
       }
 
@@ -477,6 +537,7 @@ angular.module('task.services.task', [])
     update: function(params, callback) {
       Bmob.Cloud.run('updateTask', params, {
         success: function(data) {
+          console.log(params)
           data = JSON.parse(data);
           callback(data);
         },

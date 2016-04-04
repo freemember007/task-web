@@ -84,12 +84,6 @@ select:focus {
         .createTask .mask .container .opt .projectName {
           position: relative;
           cursor: pointer; }
-          .createTask .mask .container .opt .projectName .color {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border-radius: 3px;
-            background: #9c3; }
           .createTask .mask .container .opt .projectName > ul {
             top: 30px;
             left: 45px;
@@ -349,148 +343,187 @@ select:focus {
 
 #task_detail_container {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 100px;
   right: 0;
   bottom: 0px;
-  overflow: auto;
   width: 36%;
   padding: 10px;
   background: #fff;
   background-position-y: center;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3); }
-  #task_detail_container .head_chunk {
-    height: 38px;
-    line-height: 38px;
+
+#task_detail {
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  top: 0px; }
+  #task_detail .head_chunk {
+    height: 50px;
+    line-height: 50px;
     color: #ccc;
     font-size: 14px;
     margin-left: 10px; }
-    #task_detail_container .head_chunk span {
+    #task_detail .head_chunk span {
       margin-left: 20px; }
-    #task_detail_container .head_chunk img {
+    #task_detail .head_chunk .icon_close {
       position: absolute;
       right: 20px;
-      top: 20px; }
-  #task_detail_container .title {
+      top: 20px;
+      cursor: pointer; }
+  #task_detail .title {
     height: 50px;
     line-height: 50px;
     background: url("img/icon_complete.png") no-repeat left center;
     padding-left: 40px;
-    margin: 10px; }
-    #task_detail_container .title > input {
+    margin-left: 7px; }
+    #task_detail .title > input {
       font-size: 24px;
       width: 100%;
       height: 50px;
       color: #666;
       border: none;
       outline: none; }
-  #task_detail_container .content {
+  #task_detail .content {
     overflow: auto;
+    position: absolute;
+    width: 100%;
     margin-top: 10px;
     border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ccc; }
-    #task_detail_container .content > li {
+    border-bottom: 1px solid #ccc;
+    color: #666; }
+    #task_detail .content > li {
       margin: 10px;
       padding-left: 40px;
       line-height: 50px;
       background-position: left center;
       background-repeat: no-repeat; }
-      #task_detail_container .content > li > select {
-        font-size: 16px;
+      #task_detail .content > li > .toggle_child {
+        position: relative;
+        cursor: pointer; }
+        #task_detail .content > li > .toggle_child > ul {
+          display: none;
+          position: absolute;
+          overflow: auto;
+          padding: 5px;
+          left: -5px;
+          height: 300px;
+          width: 80%;
+          border: 1px solid #2196f3;
+          background: white;
+          z-index: 1001; }
+          #task_detail .content > li > .toggle_child > ul > li {
+            line-height: 40px; }
+      #task_detail .content > li input {
+        font-size: 14px;
         width: 100%;
         height: 50px;
         color: #666;
         border: none;
-        outline: none;
-        overflow: hidden; }
-        #task_detail_container .content > li > select > option {
-          padding: 10px; }
-    #task_detail_container .content > :first-child {
+        outline: none; }
+    #task_detail .content .project_container {
       background-image: url(img/icon_project.png); }
-      #task_detail_container .content > :first-child .project {
-        background: url(img/project_color.png) no-repeat left center;
-        padding-left: 40px; }
-    #task_detail_container .content > :nth-child(2) {
+      #task_detail .content .project_container .project {
+        height: 30px;
+        padding: 10px 0px;
+        line-height: 30px; }
+        #task_detail .content .project_container .project .project_color {
+          width: 30px;
+          height: 30px;
+          float: left;
+          margin-right: 10px;
+          border-radius: 5px; }
+    #task_detail .content .assignee_container {
       background-image: url(img/icon_assign.png); }
-      #task_detail_container .content > :nth-child(2) .assignee {
-        background: url(img/avatar_default.png) no-repeat left center;
-        padding-left: 40px; }
-    #task_detail_container .content > :nth-child(3) {
-      background-image: url(img/icon_date.png);
-      color: #ccc; }
-    #task_detail_container .content > .priority {
-      background-image: url(img/icon_priority.png);
-      color: #ccc; }
-    #task_detail_container .content > :nth-child(5) {
+      #task_detail .content .assignee_container .assignee {
+        height: 30px;
+        padding: 10px 0px;
+        line-height: 30px; }
+        #task_detail .content .assignee_container .assignee > img {
+          width: 30px;
+          height: 30px;
+          float: left;
+          margin-right: 10px;
+          border-radius: 50%; }
+    #task_detail .content .deadline_container {
+      background-image: url(img/icon_date.png); }
+    #task_detail .content .priority_container {
+      background-image: url(img/icon_priority.png); }
+    #task_detail .content .file_container {
+      background-image: url(img/icon_subtask.png); }
+      #task_detail .content .file_container img {
+        width: 120px; }
+    #task_detail .content .checklist_container {
       background-image: url(img/icon_subtask.png);
       background-position: left 20px; }
-      #task_detail_container .content > :nth-child(5) > ul > li {
+      #task_detail .content .checklist_container > ul > li {
         background: url(img/icon_complete.png) no-repeat left center;
         background-size: 20px 20px;
         padding-left: 40px;
-        height: 50px;
         line-height: 50px;
-        color: #666;
         border-bottom: 1px solid #eee; }
-        #task_detail_container .content > :nth-child(5) > ul > li img {
+        #task_detail .content .checklist_container > ul > li img {
           float: right;
           margin: 17.5px 10px;
           height: 15px; }
-      #task_detail_container .content > :nth-child(5) > ul > :last-child {
-        background: transparent;
+      #task_detail .content .checklist_container > ul > :last-child {
         padding-left: 0; }
-    #task_detail_container .content > :nth-child(6) {
+    #task_detail .content .comments {
       background-image: url(img/icon_massage.png);
-      background-position: left 8px; }
-      #task_detail_container .content > :nth-child(6) ul > li {
-        color: #ccc;
+      background-position: left 15px;
+      font-size: 12px; }
+      #task_detail .content .comments ul > li {
+        padding: 5px 0px;
         border-bottom: 1px solid #eee; }
-        #task_detail_container .content > :nth-child(6) ul > li .comment_user {
-          background: url(img/avatar_default.png) no-repeat left center;
-          background-size: 20px 20px;
-          padding-left: 40px;
-          height: 30px;
-          line-height: 30px;
+        #task_detail .content .comments ul > li .comment_user {
+          height: 24px;
+          line-height: 24px;
           color: #ccc; }
-          #task_detail_container .content > :nth-child(6) ul > li .comment_user span {
-            color: #ccc;
-            float: right; }
-        #task_detail_container .content > :nth-child(6) ul > li .comment_content {
-          height: 50px;
-          line-height: 50px;
-          color: #666; }
-      #task_detail_container .content > :nth-child(6) ul > :last-child {
-        border-bottom: 0px; }
-  #task_detail_container .foot_chunk {
-    width: 170px;
-    margin: 0 auto;
+          #task_detail .content .comments ul > li .comment_user img {
+            width: 24px;
+            height: 24px;
+            float: left;
+            border-radius: 50%; }
+          #task_detail .content .comments ul > li .comment_user .comment_name {
+            float: left;
+            padding-left: 5px; }
+          #task_detail .content .comments ul > li .comment_user .comment_createdAt {
+            float: right;
+            padding-left: 5px; }
+        #task_detail .content .comments ul > li .comment_content {
+          line-height: 24px; }
+        #task_detail .content .comments ul > li .add_comment {
+          line-height: 35px; }
+          #task_detail .content .comments ul > li .add_comment > input {
+            height: 35px;
+            font-size: 12px; }
+      #task_detail .content .comments ul > :last-child > input {
+        font-size: 12px; }
+
+.floating_panel_close {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 51px;
+  color: #464C59;
+  cursor: pointer;
+  overflow: hidden;
+  position: absolute;
+  top: 0px;
+  left: -36px;
+  background: transparent none repeat scroll 0% 0%; }
+  .floating_panel_close .icon_close {
+    width: 30px;
+    height: 47px;
+    display: block;
     text-align: center;
-    height: 40px;
-    line-height: 40px;
-    color: #ccc; }
-  #task_detail_container .floating_panel_close {
-    flex: 0 0 auto;
-    width: 36px;
-    height: 51px;
-    color: #464C59;
-    cursor: pointer;
-    overflow: hidden;
-    position: absolute;
-    left: -36px;
-    top: 0;
-    background: transparent none repeat scroll 0% 0%; }
-    #task_detail_container .floating_panel_close .icon_close {
-      width: 30px;
-      height: 47px;
-      display: block;
-      text-align: center;
-      line-height: 47px;
-      margin-left: 6px;
-      font-size: 1.125rem;
-      font-weight: 600;
-      background: #FFF none repeat scroll 0% 0%;
-      box-shadow: -1px 0px 8px 0px rgba(0, 0, 0, 0.2);
-      border-bottom-left-radius: 4px; }
+    line-height: 47px;
+    margin-left: 6px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    background: #FFF none repeat scroll 0% 0%;
+    box-shadow: -1px 0px 8px 0px rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 4px; }
 
 .right {
   position: absolute;

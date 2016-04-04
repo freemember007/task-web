@@ -58,13 +58,6 @@
         .projectName {
           position: relative;
           cursor: pointer;
-          .color {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border-radius: 3px;
-            background: #9c3;
-          }
           > ul {
             // position: absolute;
             top: 30px;

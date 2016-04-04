@@ -37,7 +37,7 @@
 
         <!-- 选择责任人 -->
         <li class="assigneeName">
-          <span class="thumb"><img src="{{task.assigneeAvatar}}"/></span>
+          <span class="thumb"><img ng-src="{{task.assigneeAvatar}}"/></span>
           <span class="memberName">{{task.assigneeName}}</span>
           <ul class="assigneeList">
             <li ng-repeat="team in companyInfo.teams">

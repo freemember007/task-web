@@ -24,7 +24,7 @@ angular.module('task.controllers.sidebar', [])
       }, {
         success: function(data) {
           var summaryList = JSON.parse(data);
-          console.log(summaryList);
+          // console.log(summaryList);
           $scope.$apply(function() {
             $scope.summaryList = summaryList;
             $timeout(function() {
