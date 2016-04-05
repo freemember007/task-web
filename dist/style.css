@@ -557,9 +557,41 @@ select:focus {
           background-position-y: center; }
           .right .right_top .container .head .add_task:hover {
             color: #2196f3; }
+        .right .right_top .container .head .notification_container {
+          display: none;
+          /*   通知栏  */ }
+          .right .right_top .container .head .notification_container .notification {
+            position: absolute;
+            top: 50px;
+            right: 10%;
+            width: 300px;
+            height: 330px;
+            font-size: 12px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.3); }
+            .right .right_top .container .head .notification_container .notification li {
+              height: 76px;
+              border-bottom: 1px #ccc dashed;
+              margin: 0px 5px;
+              cursor: pointer; }
+              .right .right_top .container .head .notification_container .notification li img {
+                height: 30px;
+                float: left;
+                margin: 15px;
+                border-radius: 50%; }
+              .right .right_top .container .head .notification_container .notification li .message {
+                padding-top: 15px;
+                line-height: 20px;
+                color: #666; }
+            .right .right_top .container .head .notification_container .notification .border_bottom {
+              border: 0px; }
+            .right .right_top .container .head .notification_container .notification .expire {
+              color: #fc5c5c; }
         .right .right_top .container .head .user {
           float: right; }
           .right .right_top .container .head .user .username {
+            cursor: pointer;
             font: 16px/50px '微软雅黑';
             padding-right: 80px;
             padding-left: 30px;
