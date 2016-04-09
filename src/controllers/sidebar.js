@@ -16,6 +16,11 @@ angular.module('task.controllers.sidebar', [])
       fetchSidebar();
     })
 
+    $scope.$on('PleaseClickSidebar', function(event, msg) {
+      $scope.clickSidebar(msg.subject, msg.objectId, msg.status);
+      fetchSidebar();
+    })
+
     //获取左侧菜单栏
     function fetchSidebar() {
       Bmob.Cloud.run('sidebar', {
@@ -30,6 +35,7 @@ angular.module('task.controllers.sidebar', [])
             $timeout(function() {
               $('.teamSummary .icon').click(function() {
                 $(this).parent().siblings('.team_group').slideToggle();
+                return false;
               })
             }, 200);
           })
@@ -42,9 +48,9 @@ angular.module('task.controllers.sidebar', [])
 
     fetchSidebar();
 
-    $scope.clickSidebar = function(subject, objectId) {
+    $scope.clickSidebar = function(subject, objectId, status) {
       console.log($scope.currentParams)
-      $scope.currentParams = { subject: subject, objectId: objectId };
+      $scope.currentParams = { subject: subject, objectId: objectId, status: status||1 };
       $scope.$emit('NeedShowTaskList', $scope.currentParams);
     };
 

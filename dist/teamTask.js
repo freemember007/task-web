@@ -9,7 +9,10 @@ angular.module('teamTask', [
   'task.services.interceptor',
   'task.services.user',
   'task.services.task',
-  'task.directives.focus'
+  'task.services.notification',
+  'task.directives.focus',
+  'task.filters',
+  'angularFileUpload'
 ])
 
 // 编译
@@ -41,12 +44,17 @@ angular.module('teamTask', [
   '$rootScope',
   '$state',
   'LocalStorage',
-  function($rootScope, $state, LocalStorage) {
+  '$timeout',
+  function($rootScope, $state, LocalStorage, $timeout) {
 
     // Bmob Sdk 初始化
     Bmob.initialize("5d447ad3a22ca5a70ec26ca01a9f5176", "8a010f08c229de9b811d3a86a3b24c1b");
 
     // 事件转发，注意接收名和转发名不能一样，否则陷入死循环
+    $rootScope.$on('NeedClickSidebar', function(event, msg) {
+      $rootScope.$broadcast("PleaseClickSidebar", msg); // 
+    })
+    
     $rootScope.$on('NeedShowTaskList', function(event, msg) {
       $rootScope.$broadcast("PleaseShowTaskList", msg); // 
     })
@@ -59,6 +67,18 @@ angular.module('teamTask', [
       showDetail: false,
     }
 
+    $rootScope.currentTaskDetailId = ''; //全局当前任务ID
+
+    //jquery动画
+    $(document).ready(function() {
+      $(document).keydown(function(e){
+        if(e.keyCode == 27){
+          $rootScope.currentTaskDetailId = '';
+          $timeout($('.j_slide_layer').hide(200));
+        }
+      })
+    })
+
     // 判断登录状态，跳到不同页面
     if (LocalStorage.getObject('userInfo').objectId) {
       $state.go('main');
@@ -68,6 +88,27 @@ angular.module('teamTask', [
 
   }
 ]);
+angular.module('task.filters', [])
+
+.filter('jsjson', function() {
+  return function(input) {
+    if(input ){
+      return JSON.parse(input);
+    }else{
+      return []
+    }
+  };
+})
+
+.filter('addHost', function() {
+  return function(input){
+    if(input){
+      return 'http://file.bmob.cn/' + input;
+    }else{
+      return ''
+    }
+  };
+});
 angular.module('task.controllers.createTask', [])
 
 .controller('CreatTaskController', [
@@ -75,72 +116,102 @@ angular.module('task.controllers.createTask', [])
   'LocalStorage',
   'Task',
   '$window',
-  function($scope, LocalStorage, Task, $window) {
+  '$filter',
+  '$timeout',
+  function($scope, LocalStorage, Task, $window, $filter, $timeout) {
 
     var now = new Date();
     var oneDay = 24 * 60 * 60 * 1000;
-    var weekFormat = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+    var weekFormat = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    $scope.filter = $filter; //供模板中的事件函数用
     $scope.userInfo = LocalStorage.getObject('userInfo');
     $scope.companyInfo = LocalStorage.getObject('companyInfo');
-    $scope.task = {
+
+    $scope.taskInit = {
       'title': '',
       'company': $scope.companyInfo.objectId,
       'team': $scope.userInfo.team.objectId,
       'assigner': $scope.userInfo.objectId,
       'assignee': $scope.userInfo.objectId,
       'assigneeName': $scope.userInfo.name, //初始值
-      'assigneeAvatar': 'http://file.bmob.cn/' + $scope.userInfo.avatar.url,
+      'assigneeAvatar': $filter('addHost')($scope.userInfo.avatar.url),
       'costHours': 2,
+      'costHoursFormat': '2小时',
       'priority': 0,
       'project': { "name": "其他", "color": "#99999999" },
-      'createdAt': (now.getMonth() + 1) + '月' + now.getDate() + '日',
-      'deadline': now.toLocaleDateString().replace(/\//g, '-').replace(/-(\d)-/, '-0$1-').replace(/-(\d)$/, '-0$1') + ' 00:00:00', //初始值
-      'deadlineFormat': '今天' + (now.getMonth() + 1) + '月' + now.getDate() + '日' + '(' + weekFormat[now.getDay()] + ')', //初始值
+      'createdAt': $filter('date')(now, 'MM月dd日 HH:mm'),
+      'deadline': $filter('date')(now, 'yyyy-MM-dd 00:00:00'), //初始值
+      'deadlineFormat': $filter('date')(now, '今天M月d日(') + weekFormat[now.getDay()] + ')', //初始值
+      'fileUrl': ''
     };
+    $scope.task = {}
+    for(var k in $scope.taskInit) $scope.task[k] = $scope.taskInit[k];
     $scope.dateList = [];
     // $scope.priorityList = ['不紧急', '一般', '紧急', '非常紧急'];
+    $scope.costHoursObjectList = [
+      {'costHours': 2, 'costHoursFormat': '2小时'},
+      {'costHours': 4, 'costHoursFormat': '0.5天'},
+      {'costHours': 8, 'costHoursFormat': '1天'},
+      {'costHours': 12, 'costHoursFormat': '1.5天'},
+      {'costHours': 16, 'costHoursFormat': '2天'},
+      {'costHours': 20, 'costHoursFormat': '2.5天'},
+      {'costHours': 24, 'costHoursFormat': '3天'},
+      {'costHours': 32, 'costHoursFormat': '4天'},
+      {'costHours': 40, 'costHoursFormat': '5天'}
+    ]
+    
+
+    // 上传图片
+    $scope.upload = function(that){
+      var file = that.files[0];
+      var name = that.value;
+      var file = new Bmob.File(name, file);     
+      file.save().then(function(obj) {
+        $scope.task.file = { 
+          '__type': 'File',
+          'filename': that.value,
+          'group': 'group1',
+          'url': obj.url().replace('http://file.bmob.cn/', '')
+        };
+        $timeout($scope.task.fileUrl = obj.url());
+      }, function(error) {
+        console.log(error);
+      });
+    }
 
     $(document).ready(function() {
-
       $("#taskName").focus(function() {
-        $("#taskName").css("background-color", "#FFFFCC");
+        $(this).css("background-color", "#FFFFCC");
       });
       $("#taskName").blur(function() {
-        $("#taskName").css("background-color", "#FFF");
+        $(this).css("background-color", "#FFF");
       });
       $('.close').click(function() {
         $('.createTask').hide(200);
       })
-      $('.submit').click(function() {
-        $('.createTask').hide(200);
-      })
-      $('.projectName').click(function() {
-        $('.projectList').slideToggle(200);
-      })
-      $('.assigneeName').click(function() {
-        $('.assigneeList').slideToggle(200);
-      })
-      $('.deadline').click(function() {
-        $('.dateList').slideToggle(200);
-      })
-      $('.priority').click(function() {
-        $('.priorityList').slideToggle(200);
+      $('.createTask .toggle_child').click(function() {
+        $(this).children('ul').slideToggle(200);
       })
     })
 
     //添加任务
     $scope.createTask = function() {
-      var task = {}; //构建post参数临时变量
-      for(var k in $scope.task) task[k] = $scope.task[k];
-      delete task.assigneeName;
-      delete task.assigneeAvatar;
-      delete task.createdAt;
-      delete task.deadlineFormat;
-      Task.create(task, function(data) {
-        console.log(data);
-        $scope.$emit('NeedShowTaskList');
-        // $window.location.reload()
-      })
+      if($scope.task.title != ''){
+        var task = {}; //构建post参数临时变量
+        for(var k in $scope.task) task[k] = $scope.task[k];
+        delete task.assigneeName;
+        delete task.assigneeAvatar;
+        delete task.createdAt;
+        delete task.deadlineFormat;
+        delete task.costHoursFormat;
+        Task.create(task, function(data) {
+          console.log(data);
+          $scope.task = {};
+          for(var k in $scope.taskInit) $scope.task[k] = $scope.taskInit[k];
+          $scope.$emit('NeedShowTaskList');
+          $('.createTask').hide(200);
+        })
+      }
     };
 
     for (var i = 0; i < 14; i++) { //可选截止日期：从今天开始共14天
@@ -148,9 +219,9 @@ angular.module('task.controllers.createTask', [])
       var then = new Date();
       then.setDate(then.getDate() + i);
       $scope.dateList[i] = {};
-      $scope.dateList[i].deadline = then.toLocaleDateString().replace(/\//g, '-').replace(/-(\d)-/, '-0$1-').replace(/-(\d)$/, '-0$1') + ' 00:00:00';
+      $scope.dateList[i].deadline = $filter('date')(then, 'yyyy-MM-dd 00:00:00')
       var diff = (then - now) / oneDay;
-      var monthAndDate = (then.getMonth() + 1) + '月' + then.getDate() + '日';
+      var monthAndDate = $filter('date')(then, 'M月d日');
       var week = weekFormat[then.getDay()];
       if (diff === 2) {
         $scope.dateList[i].deadlineFormat = '后天' + monthAndDate + ('(' + week + ')');
@@ -162,6 +233,7 @@ angular.module('task.controllers.createTask', [])
         $scope.dateList[i].deadlineFormat = monthAndDate + week
       }
     }
+    $scope.dateList.unshift({'deadline':'', deadlineFormat:'无期限'})
 
   }
 ]);
@@ -206,6 +278,11 @@ angular.module('task.controllers.sidebar', [])
       fetchSidebar();
     })
 
+    $scope.$on('PleaseClickSidebar', function(event, msg) {
+      $scope.clickSidebar(msg.subject, msg.objectId, msg.status);
+      fetchSidebar();
+    })
+
     //获取左侧菜单栏
     function fetchSidebar() {
       Bmob.Cloud.run('sidebar', {
@@ -220,6 +297,7 @@ angular.module('task.controllers.sidebar', [])
             $timeout(function() {
               $('.teamSummary .icon').click(function() {
                 $(this).parent().siblings('.team_group').slideToggle();
+                return false;
               })
             }, 200);
           })
@@ -232,9 +310,9 @@ angular.module('task.controllers.sidebar', [])
 
     fetchSidebar();
 
-    $scope.clickSidebar = function(subject, objectId) {
+    $scope.clickSidebar = function(subject, objectId, status) {
       console.log($scope.currentParams)
-      $scope.currentParams = { subject: subject, objectId: objectId };
+      $scope.currentParams = { subject: subject, objectId: objectId, status: status||1 };
       $scope.$emit('NeedShowTaskList', $scope.currentParams);
     };
 
@@ -248,9 +326,10 @@ angular.module('task.controllers.taskDetail', [])
   'Task',
   '$timeout',
   'LocalStorage',
-  function($scope, $rootScope, Task, $timeout, LocalStorage) {
+  '$filter',
+  function($scope, $rootScope, Task, $timeout, LocalStorage, $filter) {
 
-    $scope.deadlineList = [];
+    $scope.dateList = [];
     $scope.priorityList = ['不紧急', '一般紧急', '紧急', '非常紧急'];
     $scope.userInfo = LocalStorage.getObject('userInfo');
     $scope.companyInfo = LocalStorage.getObject('companyInfo');
@@ -263,12 +342,11 @@ angular.module('task.controllers.taskDetail', [])
         $(".taskNameInput").css("background-color", "#FFF");
       });
       $('.icon_close').click(function() {
-        $('#task_detail_container').hide(200);
+        $rootScope.currentTaskDetailId = '';
+        $timeout($('#task_detail_container').hide(200))
       })
-      $('.submit').click(function() {
-        $('.createTask').hide(200);
-      })
-      $('.toggle_child').click(function() {
+
+      $('#task_detail_container .toggle_child').click(function() {
         $(this).children('ul').slideToggle(200);
       })
     })
@@ -277,16 +355,25 @@ angular.module('task.controllers.taskDetail', [])
     $scope.$on('PleaseShowTaskDetail', function(event, msg) {
       Task.findOne(msg, function(data) {
         $scope.task = data; //todo:从列表过来的可以不用请求
-        $timeout($('#task_detail_container').show(200)); //$timeout 延迟加载，否则没数据
-        for (var i = 0; i < 7; i++) { //可选截止日期：从今天开始共14天
-          if ($scope.task.deadline && $scope.task.deadline.iso) {
-            var date = new Date($scope.task.deadline.iso.replace(/-/g, '/'));
-          } else {
-            var date = new Date();
-          }
-          date.setDate(date.getDate() + i);
-          $scope.deadlineList[i] = date.toLocaleDateString().replace(/\//g, '-').replace(/-(\d)-/, '-0$1-').replace(/-(\d)$/, '-0$1') + ' 00:00:00';
+        if ($scope.task.deadline && $scope.task.deadline.iso) {
+          var date = new Date($scope.task.deadline.iso.replace(/-/g, '/'));
+          $scope.task.deadlineFormat = $scope.formatDeadline(date); //初始值
+        } else {
+          $scope.task.deadlineFormat = '无期限';
         }
+        $timeout($('#task_detail_container').show(200)); //$timeout 延迟加载，否则没数据
+        for (var i = 0; i < 14; i++) { //可选截止日期：从今天开始共14天
+          $scope.dateList[i] = {};
+          var date = new Date();
+          date.setDate(date.getDate() + i);
+          date.setHours(0);
+          date.setMinutes(0);
+          date.setSeconds(0);
+          date.setMilliseconds(0);
+          $scope.dateList[i].deadline = $filter('date')(date, 'yyyy-MM-dd 00:00:00');
+          $scope.dateList[i].deadlineFormat = $scope.formatDeadline(date);
+        }
+        $scope.dateList.unshift({'deadline':'', deadlineFormat:'无期限'}) //todo:保存是无法清空时间,请求服务端支持
       })
     })
 
@@ -296,8 +383,8 @@ angular.module('task.controllers.taskDetail', [])
           'userId': $scope.userInfo.objectId,
           'userMsg': $scope.task.newComment,
           'userName': $scope.userInfo.name,
-          'userUrl': 'http://file.bmob.cn/' + $scope.userInfo.avatar.url,
-          'sendTimg': new Date().toLocaleString()
+          'userUrl': $filter('addHost')($scope.userInfo.avatar.url),
+          'sendTimg': (new Date()).getTime() //存毫秒数，方便解析，不能用各种toString()
         };
         $scope.task.comments = $scope.task.comments || [];
         $scope.task.comments.push(comment);
@@ -306,7 +393,16 @@ angular.module('task.controllers.taskDetail', [])
       }
     }
 
-    $scope.completeTask = function(e){
+    $scope.addCheck = function(e){
+      if($scope.task.newCheck && e.keyCode === 13){
+        $scope.task.checklist.push({'item':$scope.task.newCheck, 'complete':'1'});
+        $scope.updateTask({'checklist': $scope.task.checklist});
+        $scope.task.newCheck = '';
+      }
+    }
+
+
+    $scope.alterTitle = function(e){
       if($scope.task.title && e.keyCode === 13){
         $scope.updateTask({'title': $scope.task.title});
         $(".taskNameInput").blur();
@@ -319,8 +415,38 @@ angular.module('task.controllers.taskDetail', [])
       postData.updaterId = $scope.userInfo.objectId;
       Task.update(postData, function(data) {
         $scope.$emit('NeedShowTaskList');
-        console.log(data)
+        console.log(data);
+        if(params.status) { //如果是完成任务和重启任务 todo:改时间不要隐藏详情
+          $('#task_detail_container').hide(200);
+          $rootScope.currentTaskDetailId = '';
+        }
       })
+    }
+
+    $scope.formatDeadline = function(date){ //后续考虑做成指令
+      var now = new Date();
+      now.setHours(0);
+      now.setMinutes(0);
+      now.setSeconds(0);
+      now.setMilliseconds(0);
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      var oneDay = 24 * 60 * 60 * 1000;
+      var weekFormat = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+      var diff = (date - now) / oneDay;
+      var monthAndDate = $filter('date')(date, 'M月d日');
+      var week = weekFormat[date.getDay()];
+      if (diff === 2) {
+        return '后天' + monthAndDate + ('(' + week + ')');
+      } else if (diff === 0) {
+        return '今天' + monthAndDate + ('(' + week + ')');
+      } else if (diff === 1) {
+        return '明天' + monthAndDate + ('(' + week + ')');
+      } else { //diff >1 && diff < 7
+        return monthAndDate + week
+      }
     }
 
   }
@@ -335,106 +461,102 @@ angular.module('task.controllers.taskList', [])
   'LocalStorage',
   'Task',
   'User',
-  function($scope, $rootScope, $timeout, $location, LocalStorage, Task, User) {
+  'Notification',
+  function($scope, $rootScope, $timeout, $location, LocalStorage, Task, User, Notification) {
 
+    //变量声明
     $scope.userInfo = LocalStorage.getObject('userInfo');
-    var currentParams = { 'subject': 'assignee', 'objectId': $scope.userInfo.objectId }; //当前任务列表参数
-
-    $(document).ready(function() {
-
-      $('.menu li').click(function() {
-        $(this).siblings().removeClass('active');
-        $(this).addClass('active');
-      })
-
-      $('.add_task').click(function() {
-        $('.createTask').show(200);
-        $("#taskName").focus();
-      })
-
-    })
-
-    $scope.showNotification = function() {
-      Bmob.Cloud.run('notification', {
-        'userId': $scope.userInfo.objectId
-      }, {
-        success: function(data) {
-          data = JSON.parse(data);
-          $scope.notifications = data;
-          console.log(data)
-          $timeout($('.notification_container').toggle(200));
-        },
-        error: function(err) {
-          console.log(err);
-        }
-      })
-    }
-
-    $scope.clickNotification = function(params) {
-      $('.notification_container').hide()
-      $scope.getTaskList({'subject': params.subject, 'objectId': params.objectId});
-      $scope.$emit('NeedShowTaskDetail', { 'taskId': params.taskId });
-
-    }
-
-    $scope.showTaskDetail = function(taskId) {
-      $scope.$emit('NeedShowTaskDetail', { 'taskId': taskId });
-    }
-
+    $scope.currentParams = { //当前任务列表参数
+      'subject': 'assignee',
+      'objectId': $scope.userInfo.objectId,
+      'status': 1
+    };
     $scope.allTaskList = []; // 所有任务
     $scope.taskList = []; // 当前Tab任务
     $scope.length = []; // 任务数
     $scope.myself = true; // 当前任务列表是否我负责的
     $scope.done = false; // 当前任务是否完成
 
+    //jquery动画
+    $(document).ready(function() {
+      $('.add_task').click(function() {
+        $('.createTask').show(200);
+        $("#taskName").focus();
+      })
+    })
+
     // 监听PleaseShowTaskList事件
     $scope.$on('PleaseShowTaskList', function(event, msg) {
       $scope.getTaskList(msg);
     })
 
-    // 监听TaskCreated事件
-    // $scope.$on('TaskCreated', function(event, msg) {
-    //   $scope.getTaskList(msg);
-    // })
+    //通知相关
+    $scope.checkNotification = function(){
+      console.log('start check');
+      Notification.check({
+        'action': 'check',
+        'userId': $scope.userInfo.objectId
+      }, function(data){
+        if(data.count == 0){
+          $scope.unreadNotificationNumber = ''
+          $scope.showNotificationNumber = false;
+        }else{
+          $scope.showNotificationNumber = true;
+          $scope.unreadNotificationNumber = data.count;
+        } 
+      })
+    }
+    $scope.findNotification = function() {
+      Notification.find({
+        'action': 'find', 
+        'userId': $scope.userInfo.objectId
+      }, function(data){
+          $scope.notifications = data;
+          $timeout($('.notification_container').toggle(200));
+      })
+    }
+    $scope.clickNotification = function(params) {
+      $('.notification_container').hide();
+      Notification.read({
+        'action': 'read', 
+        'notificationId': params.notificationId
+      }, function(data){
+        console.log(data)
+      });
+      // $scope.getTaskList({'subject': params.subject, 'objectId': params.objectId, 'status': params.status});
+      $scope.$emit('NeedClickSidebar', {'subject': params.subject, 'objectId': params.objectId, 'status': params.status});
+      $scope.$emit('NeedShowTaskDetail', { 'taskId': params.taskId });
+      $rootScope.currentTaskDetailId = params.taskId;
+      $scope.checkNotification();
 
-    // 获取任务列表方法
+    }
+
+    // 任务列表相关
     $scope.getTaskList = function(params) {
-      if (params) $('#task_detail_container').hide(200);
+      if (params) { //如果是主动点击
+        $('#task_detail_container').hide(200);
+        $rootScope.currentTaskDetailId = '';
+      }
       $scope.done = false;
-      params = params || currentParams;
+      params = params || $scope.currentParams;
+      params.userId = $scope.userInfo.objectId;
       Task.find(params, function(data) {
-        $scope.myself = params.subject === 'assignee' && params.objectId === 'EuGz444d' ? true : false;
+        $scope.myself = params.subject === 'assignee' && params.objectId === $scope.userInfo.objectId ? true : false;
         $scope.allTaskList = data;
         setLength();
-        // console.log($scope.allTaskList);
         $scope.$apply(function() {
-          $scope.taskList = $scope.allTaskList[1];
-          currentParams = params;
+          $scope.filterTaskList(params.status);
+          $timeout($scope.currentParams = params)
         });
-        $('.menu li').removeClass('active');
-        $('#default').addClass('active');
       })
     }
 
-    //初始化任务列表
-    $scope.getTaskList();
-
-
-    //完成任务
-    $scope.completeTask = function(objectId) {
-      Task.update({ updaterId: $scope.userInfo.objectId, objectId: objectId, status: 2 }, function(data) {
-        $scope.getTaskList({ 'subject': 'assignee', 'objectId': 'EuGz444d' });
-        console.log(data);
-        return false; //暂时的丑陋办法
-      })
-    }
-
-    $scope.logout = function() {
-      User.logout()
-    }
-
-
-    $scope.filterTaskList = function(p) {
+    $scope.filterTaskList = function(p,$event) {
+      if($event){ //如果是主动点击
+        $('#task_detail_container').hide(200);
+        $rootScope.currentTaskDetailId = '';
+      }
+      $scope.currentParams.status = p;
       $scope.taskList = $scope.allTaskList[p];
       if (p == 2) {
         $scope.done = true;
@@ -452,6 +574,38 @@ angular.module('task.controllers.taskList', [])
         $scope.length[index] = length;
       })
     }
+
+    // 更新任务
+    $scope.updateTask = function(params) {
+      var postData = angular.extend(params);
+      postData.updaterId = $scope.userInfo.objectId;
+      Task.update(postData, function(data) {
+        $scope.getTaskList();
+        console.log(data)
+      })
+    }
+
+    // 打开任务详情
+    $scope.showTaskDetail = function(taskId) {
+      if(taskId === $rootScope.currentTaskDetailId){
+        $('#task_detail_container').hide(200);
+        $rootScope.currentTaskDetailId = '';
+      }else{
+        $scope.$emit('NeedShowTaskDetail', { 'taskId': taskId });
+        $rootScope.currentTaskDetailId = taskId;
+      }
+    }
+
+    //退出
+    $scope.logout = function() {
+      User.logout()
+    }
+
+    //初始化
+    $scope.getTaskList();
+    $scope.checkNotification();
+    setInterval($scope.checkNotification, 30000);
+
   }
 ]);
 angular.module('task.directives.focus', [])
@@ -526,6 +680,46 @@ angular.module('task.services.localStorage',[])
     },
     clear: function(){
       $window.localStorage.clear();
+    }
+  }
+}])
+angular.module('task.services.notification', [])
+
+.factory('Notification', ['LocalStorage', function(LocalStorage) {
+
+  return {
+    find: function(params, callback) {
+      Bmob.Cloud.run('notification', params, {
+        success: function(data) {
+          data = JSON.parse(data);
+          callback(data);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      })
+    },
+    check: function(params, callback) {
+      Bmob.Cloud.run('notification', params, {
+        success: function(data) {
+          data = JSON.parse(data);
+          callback(data);
+        },
+        error: function(err) {
+          console.log(err);s
+        }
+      })
+    },
+    read: function(params, callback) {
+      Bmob.Cloud.run('notification', params, {
+        success: function(data) {
+          data = JSON.parse(data);
+          callback(data);
+        },
+        error: function(err) {
+          console.log(err);s
+        }
+      })
     }
   }
 }])

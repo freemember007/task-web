@@ -1,4 +1,4 @@
-<div class="createTask" ng-controller="CreatTaskController">
+<div class="createTask j_slide_layer" ng-controller="CreatTaskController">
   <div class="mask">
     <div class="container">
 
@@ -8,14 +8,14 @@
         <span class="assigner">由{{userInfo.name}}创建</span>
       </p>
       <p class="taskName">
-        <input id="taskName" type="text" focus placeholder="请输入任务名称" ng-model="task.title" />
+        <input id="taskName" type="text" focus placeholder="请输入工作名称" ng-model="task.title" />
       </p>
 
       <!-- 选项 -->
       <ul class="opt">
 
         <!-- 选择项目 -->
-        <li class="projectName">
+        <li class="projectName toggle_child">
           <span class="color"></span>
           <span class="name">{{task.project.name}}</span>
           <ul class="projectList">
@@ -26,7 +26,7 @@
         </li>
 
         <!-- 选择截止时间 -->
-        <li class="deadline">
+        <li class="deadline toggle_child">
           <span class="name">{{task.deadlineFormat}}</span>
           <ul class="dateList">
             <li ng-repeat="date in dateList" ng-click="task.deadlineFormat = date.deadlineFormat; task.deadline=date.deadline">
@@ -35,16 +35,18 @@
           </ul>
         </li>
 
+
+
         <!-- 选择责任人 -->
-        <li class="assigneeName">
+        <li class="assigneeName toggle_child">
           <span class="thumb"><img ng-src="{{task.assigneeAvatar}}"/></span>
           <span class="memberName">{{task.assigneeName}}</span>
           <ul class="assigneeList">
             <li ng-repeat="team in companyInfo.teams">
               ------ {{team.name}} ------
               <ul>
-                <li ng-repeat="member in team.members" ng-click="task.assigneeName = member.name; task.assignee = member.objectId; task.team = team.objectId; task.assigneeAvatar = 'http://file.bmob.cn/' + member.avatar.url">
-                  <span class="thumb"><img src="http://file.bmob.cn/{{member.avatar.url}}"/></span>
+                <li ng-repeat="member in team.members" ng-click="task.assigneeName = member.name; task.assignee = member.objectId; task.team = team.objectId; task.assigneeAvatar = filter('addHost')(member.avatar.url)">
+                  <span class="thumb"><img ng-src="{{member.avatar.url|addHost}}"/></span>
                   <span class="memberName">{{member.name}}</span>
                 </li>
               </ul>
@@ -52,15 +54,33 @@
           </ul>
         </li>
 
+      <!-- 选择工作量 -->
+        <li class="costHours toggle_child">
+          <span class="name">{{task.costHoursFormat}}</span>
+          <ul class="costHoursList">
+            <li ng-repeat="costHoursObject in costHoursObjectList" ng-click="task.costHours = costHoursObject.costHours; task.costHoursFormat = costHoursObject.costHoursFormat">
+              {{costHoursObject.costHoursFormat}}
+            </li>
+          </ul>
+        </li>
+
+        <!-- 上传文件 -->
+        <li class="file">
+          <input type="file" id="fileInput" onchange="angular.element(this).scope().upload(this)"/>
+          <span class="button" ng-show="!task.fileUrl" onclick="document.getElementById('fileInput').click()" >上传图片</span>
+          <img id="fileImage" ng-show="task.fileUrl" ng-src="{{task.fileUrl}}" onclick="document.getElementById('fileInput').click()">
+        </li>
+
         <!-- 选择优先级 -->
         <li class="priority">优先级：
           <select class="priorityValue" ng-model="task.priority">
-            <option value="0" name = "不紧急" >不紧急</option>
+            <option value="0" ng-selected>不紧急</option>
             <option value="1">一般紧急</option>
             <option value="2">紧急</option>
             <option value="3">非常紧急</option>
           </select>
         </li>
+
       </ul>
 
       <!-- 提交 -->

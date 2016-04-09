@@ -19,8 +19,8 @@
   top: 0px;
   ////////// 头部区
   .head_chunk {
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
     color: #ccc;
     font-size: 14px;
     margin-left: 10px;
@@ -35,35 +35,49 @@
     }
   }
   .title {
-    height: 50px;
-    line-height: 50px;
-    background: url("img/icon_complete.png") no-repeat left center;
-    padding-left: 40px;
-    margin-left: 7px;
-    >input {
+    margin-left: 5px;
+    >.uncomplete {
+      cursor: pointer;
+      background: url("img/icon_complete.png") no-repeat left 40%;
+      height: 40px;
+      width: 40px;
+      float: left;
+    }
+    >.completed {
+      cursor: pointer;
+      background: url("img/icon_completed.png") no-repeat left 40%;
+      height: 40px;
+      width: 40px;
+      float: left;
+    }
+    .taskNameInput {
       font-size: 24px;
-      width: 100%;
-      height: 50px;
+      height: 40px;
+      width: 90%;
       color: #666;
       border: none;
       outline: none;
+    }
+    >.complete {
+      color: #ccc;
+      font-style: italic;
+      text-decoration: line-through;
     }
   }
   ///////// 内容区
   .content {
     overflow: auto;
-    position: absolute;
-    width: 100%;
+    position: relative;
     margin-top: 10px;
+    margin-right: 10px;
     border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ccc;
     color: #666;
     // 列表通用属性
     >li {
+      position: relative;
       margin: 10px;
       padding-left: 40px;
-      // height: 50px;
-      line-height: 50px;
+      line-height: 40px;
       background-position: left center;
       background-repeat: no-repeat;
       >.toggle_child {
@@ -88,7 +102,6 @@
       input {
         font-size: 14px;
         width: 100%;
-        height: 50px;
         color: #666;
         border: none;
         outline: none;
@@ -96,6 +109,7 @@
     }
     // 项目
     .project_container {
+      z-index: 4;
       background-image: url(img/icon_project.png);
       .project {
         height: 30px;
@@ -112,6 +126,7 @@
     }
     // 责任人
     .assignee_container {
+      z-index: 3;
       background-image: url(img/icon_assign.png);
       .assignee {
         height: 30px;
@@ -128,6 +143,7 @@
     }
     // 截止时间
     .deadline_container {
+      z-index: 2;
       background-image: url(img/icon_date.png);
       .deadline {
         // color: #999;
@@ -135,15 +151,21 @@
     }
     // 优先级
     .priority_container {
+      z-index: 1;
       background-image: url(img/icon_priority.png);
       .priority {
         // color: #999;
+        >img {
+          margin-top: 10px;
+          float: left;
+          margin-right: 10px;
+        }
       }
     }
 
     // 附件
     .file_container {
-      background-image: url(img/icon_subtask.png);
+      background-image: url(img/icon_file.png);
       img {
         width: 120px;
       }
@@ -151,30 +173,48 @@
     // 子任务
     .checklist_container {
       background-image: url(img/icon_subtask.png);
-      background-position: left 20px;
+      background-position: left 15px;
       >ul {
         >li {
-          background: url(img/icon_complete.png) no-repeat left center;
-          background-size: 20px 20px;
-          padding-left: 40px;
-          // height: 50px;
-          line-height: 50px;
+          height: 24px;
+          padding: 10px 0px;
+          line-height: 24px;
           border-bottom: 1px solid #eee;
-          img {
+          vertical-align: middle;
+          // font-size: 12px;
+          .checkbox {
+            width: 24px;
+            height: 24px;
+            float: left;
+            margin-right: 10px;
+            cursor: pointer;
+          }
+          .complete {
+            color: #ccc;
+            font-style: italic;
+            text-decoration: line-through;
+          }
+          .uncomplete {
+            
+
+          }
+          .close {
             float: right;
-            margin: 17.5px 10px;
+            // margin: 10px 10px;
             height: 15px;
+            cursor: pointer;
           }
         }
         >:last-child {
           padding-left: 0;
+          height: 24px;
         }
       }
     }
     // 评论
     .comments {
       background-image: url(img/icon_massage.png);
-      background-position: left 15px;
+      background-position: left 10px;
       font-size: 12px;
       ul {
         >li {
@@ -183,8 +223,9 @@
           .comment_user {
             height: 24px;
             line-height: 24px;
+            margin-right: 5px;
             color: #ccc;
-            // float: left;
+            float: left;
             img {
               width: 24px;
               height: 24px;
@@ -205,6 +246,7 @@
           }
           .add_comment {
             line-height: 35px;
+            margin-right: 5px;
             >input {
               height: 35px;
               font-size: 12px;
@@ -217,6 +259,20 @@
           }
         }
       }
+    }
+  }
+  //////// 底部操作区
+  .foot_chunk {
+    margin: 0px 10px;
+    text-align: right;
+    height: 40px;
+    line-height: 40px;
+    >span {
+      cursor: pointer;
+      margin-left: 10px;
+      color: #ccc;
+      font-size: 12px;
+      border-bottom: 1px dotted #ddd;
     }
   }
 }

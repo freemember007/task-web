@@ -16,100 +16,102 @@
     background-position-y: center;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
     z-index: 1000;
-    .container {
-      height: 100%;
-      .head {
-        background: transparent url("img/icon_add_task.png") no-repeat 10px center;
-        border-bottom: 1px solid #eee;
-        .add_task {
-          line-height: 49px;
-          padding-left: 50px;
-          cursor: pointer;
-          color: #ccc;
-          background-position-x: 20px;
-          background-position-y: center;
-          &:hover {
-            color: $blue_color;
-          }
-        }
-        .notification_container {
-          display: none;
-          /*   通知栏  */
-          .notification {
-            position: absolute;
-            top:50px;
-            right: 10%;
-            width: 300px;
-            height: 330px;
-            font-size: 12px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-            li {
-              height: 76px;
-              border-bottom: 1px #ccc dashed;
-              margin: 0px 5px;
-              cursor: pointer;
-              img {
-                height: 30px;
-                float: left;
-                margin: 15px;
-                border-radius: 50%;
-              }
-              .message {
-                padding-top: 15px;
-                line-height: 20px;
-                color: #666
-              }
-            }
-            .border_bottom {
-              border: 0px;
-            }
-            .expire {
-              color: #fc5c5c;
-            }
-          }
-        }
-        .user {
-          float: right;
-          .username {
-            cursor: pointer;
-            font: 16px/50px '微软雅黑';
-            padding-right: 80px;
-            padding-left: 30px;
-            color: $blue_color;
-            background: url(img/icon_alert.png) no-repeat;
-            background-position: 0 center;
-            background-size: auto 100%;
-          }
-          .thumb {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            overflow: hidden;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            img {
-              width: 100%;
-            }
-          }
+    .head {
+      height: 49px;
+      line-height: 49px;
+      border-bottom: 1px solid #eee;
+      .add_task {
+        float: left;
+        background: transparent url("img/icon_add_task.png") no-repeat 20px center;
+        padding-left: 50px;
+        cursor: pointer;
+        color: #ccc;
+        &:hover {
+          color: $blue_color;
         }
       }
-      .menu {
+      /*  通知栏  */
+      .icon_notification {
+        text-align: right;
+        position: absolute;
+        right: 150px;
+        width: 30px;
         height: 50px;
-        text-align: center;
+        background: url("img/icon_alert.png") no-repeat left center /20px 22px;
+        cursor: pointer;
+        .badge {
+          position: absolute;
+          background: red;
+          color: #fff;
+          width: 16px;
+          height: 18px;
+          line-height: 18px;
+          text-align: center;
+          border-radius: 5px;
+          top: 5px;
+          right: -5px;
+          font-size: 12px;
+        }
+      }
+      .notification_container {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 10%;
+        width: 300px;
+        height: 310px;
+        overflow: auto;
+        font-size: 12px;
+        border-radius: 5px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+        background: #fff;
         li {
-          font: 16px '微软雅黑';
-          line-height: 30px;
-          display: inline-block;
-          padding: 8px 15px;
+          height: 76px;
+          border-bottom: 1px #ccc dashed;
           cursor: pointer;
-          border-bottom: 4px solid white;
+          background: #FFFFCC;
+          img {
+            height: 30px;
+            float: left;
+            margin: 15px;
+            border-radius: 50%;
+          }
+          .message {
+            padding-top: 15px;
+            line-height: 20px;
+            color: #666
+          }
         }
-        .active {
-          border-color: $blue_color;
+        .is_read {
+          background: #fff
         }
+      }
+      .thumb {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .menu {
+      height: 50px;
+      text-align: center;
+      li {
+        font: 16px '微软雅黑';
+        line-height: 30px;
+        display: inline-block;
+        padding: 8px 15px;
+        cursor: pointer;
+        border-bottom: 4px solid white;
+      }
+      .active {
+        border-color: $blue_color;
       }
     }
   }
@@ -130,7 +132,7 @@
           // font-style: italic;
           .days {
             display: inline-block;
-            width: 80px;
+            width: 90px;
             color: $blue_color;
           }
           .past {
@@ -140,76 +142,142 @@
             color: #ccc;
           }
         }
+        .choose {
+          background: #eee;
+        }
         > li {
           overflow: hidden;
-          padding: 15px 0;
+          padding: 15px 0px 15px 10px;
           border-bottom: 1px dashed #eee;
           cursor: pointer;
-          .avator {
-            float: left;
-            .thumb {
+          .task {
+            height: 40px;
+            line-height: 40px;
+            
+            .avator {
+              height: 40px;
+              line-height: 40px;
               float: left;
-              overflow: hidden;
-              width: 20px;
-              height: 20px;
-              border-radius: 50%;
-              cursor: pointer;
-              img {
-                width: 100%;
+              .thumb {
+                float: left;
+                // overflow: hidden;
+                height: 40px;
+                line-height: 40px;
+                cursor: pointer;
+                img {
+                  margin-top: 5px;
+                  width: 100%;
+                  width: 24px;
+                  height: 24px;
+                  border-radius: 50%;
+                }
+              }
+              .priority {
+                display: inline-block;
+                width: 50px;
+                height: 15px;
+                // background: url(img/icon_priority.png) no-repeat center center;
+              }
+              .taskName {
+                font-size: 16px;
+                display: inline-block;
+                height: 18px;
+                margin-left: 7px;
+                color: #666;
+              }
+              .project {
+                font-size: 12px;
+                margin-left: 20px;
+                color: #fff;
+                padding: 2px;
+                border-radius: 3px;
+              }
+              .past {
+                color: $red_color;
+              }
+              .finished {
+                font-style: italic;
+                text-decoration: line-through;
+                color: #ccc;
               }
             }
-            .priority {
-              display: inline-block;
-              width: 50px;
-              height: 15px;
-              background: url(img/icon_priority.png) no-repeat center center;
-            }
-            .taskName {
-              font-size: 16px;
-              display: inline-block;
-              height: 18px;
-              margin-left: 20px;
-              color: #666;
-            }
-            .project {
-              font-size: 12px;
-              margin-left: 20px;
-              color: #fff;
-              // background: #ccc;
-              padding: 2px;
-              border-radius: 3px;
-            }
-            .past {
-              color: $red_color;
-            }
-            .finished {
-              font-style: italic;
-              text-decoration: line-through;
-              color: #ccc;
-            }
-          }
-          .other {
-            position: relative;
-            float: right;
-            margin-right: 50px;
-            .like {
-              display: inline-block;
-              width: 23px;
-              height: 19px;
-              margin-right: 80px;
-              background: url(img/icon_like.png) no-repeat;
-            }
-            .massage {
-              position: absolute;
-              top: 0;
-              right: 10px;
-              padding-left: 30px;
-              color: #ccc;
-              background: url(img/icon_massage.png) no-repeat 0 center;
+            .other {
+              line-height: 40px;
+              position: relative;
+              float: right;
+              margin-right: 50px;
+              .tofollow {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(img/icon_tofollow.png) no-repeat;
+              }
+              .followed {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(img/icon_followed.png) no-repeat;
+              }
+              .tolike {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(img/icon_tolike.png) no-repeat;
+              }
+              .liked {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(img/icon_liked.png) no-repeat;
+              }
+              .comment {
+                position: absolute;
+                top: 0;
+                right: 30px;
+                padding-left: 20px;
+                color: #ccc;
+                background: url(img/icon_massage.png) no-repeat 0 center;
+              }
             }
           }
+          .checklist {
+            padding-left: 84px;
+            >li {
+              height: 40px;
+              line-height: 40px;
+              border-bottom: 1px dashed #eee;
+              vertical-align: middle;
+              .checkbox {
+                width: 24px;
+                height: 24px;
+                float: left;
+                margin-right: 10px;
+                margin-top: 8px;
+              }
+              .complete {
+                color: #ccc;
+                font-style: italic;
+                text-decoration: line-through;
+              }
+            }
+            >:last-child {
+              border-bottom: none;
+            }
+          }
+
         }
+
       }
     }
+
   }
+
 }

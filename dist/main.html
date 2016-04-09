@@ -17,8 +17,8 @@
           <span class="icon"></span>
         </p>
         <ul class="team_group">
-          <li class="team_one" ng-repeat="member in team.members" ng-click="clickSidebar('assignee', member.objectId)" ng-class="(currentParams.objectId == member.objectId) ? 'active' : ''">
-            <img ng-src="http://file.bmob.cn/{{member.avatar.url}}" ng-if="member.avatar.url" />
+          <li class="team_one" ng-repeat="member in team.members" ng-click="clickSidebar('assignee', member.objectId)" ng-class="(currentParams.objectId == member.objectId) ? 'active' : ''" ng-if="userInfo.objectId !== member.objectId">
+            <img ng-src="{{member.avatar.url|addHost}}" ng-if="member.avatar.url" />
             <img ng-src="img/avatar_default.png" ng-if="!member.avatar.url" />
             <span class="name">{{member.name}}</span>
             <span class="num">{{member.allNum}}</span>
@@ -29,81 +29,92 @@
   </div>
 </div> 
   <div class="right" ng-controller="TaskListController">
-  <!--顶部导航栏-->
+  <!--右上部-->
   <div class="right_top">
-    <div class="container">
-      <div class="head">
-        <span class="add_task">
-          新建一个任务
-        </span>
-        <span class="notification_container">
-          <ul class="notification">
-            <li ng-repeat="notification in notifications" ng-click="clickNotification({'subject': 'assignee','objectId':notification.assigneeId,'taskId':notification.taskId})">
-              <img ng-src="{{notification.updaterAvatar}}">
-              <div class="message">
-                {{notification.message}}
-              </div>
-            </li>
-          </ul>
-        </span>
-      <span class="user">
-          <span class="username" ng-click="showNotification()">
-            <!-- {{userInfo.name}} -->
-          </span>
-      <img class="thumb" src="http://file.bmob.cn/{{userInfo.avatar.url}}" ng-click="logout()">
-      </span>
+    <!--右顶部head-->
+    <div class="head">
+      <div class="add_task">
+        新建一个工作
+      </div>
+      <div class="icon_notification" ng-click="findNotification()">
+        <span class="badge" ng-show="showNotificationNumber">{{unreadNotificationNumber}}</span>
+      </div>
+      <ul class="notification_container j_slide_layer">
+        <li ng-class="{'is_read': notification.isRead}" ng-repeat="notification in notifications" ng-click="clickNotification({'subject': 'assignee','objectId':notification.assigneeId,'taskId':notification.taskId, 'notificationId': notification.objectId, 'status': notification.taskStatus})">
+          <img ng-src="{{notification.updaterAvatar}}">
+          <div class="message">
+            {{notification.message}}
+          </div>
+        </li>
+      </ul>
+      <img class="thumb" ng-src="{{userInfo.avatar.url|addHost}}" ng-click="logout()">
     </div>
+    <!--右顶部Tab-->
     <ul class="menu">
-      <li ng-click="filterTaskList(0)">
+      <li ng-class="{'active': currentParams.status == 0}" ng-click="filterTaskList(0,$event)">
         待办
         <span class="number">{{length[0]}}</span>
       </li>
-      <li id="default" class="active" ng-click="filterTaskList(1)">
+      <li id="default" ng-class="{'active': currentParams.status == 1}" ng-click="filterTaskList(1,$event)">
         进行
         <span class="number">{{length[1]}}</span>
       </li>
-      <li ng-click="filterTaskList(2)">
+      <li ng-class="{'active': currentParams.status == 2}" ng-click="filterTaskList(2,$event)">
         完成
         <span class="number">{{length[2]}}</span>
       </li>
-      <li ng-click="filterTaskList(3)">
+      <li ng-class="{'active': currentParams.status == 3}" ng-click="filterTaskList(3,$event)">
         搁置
         <span class="number">{{length[3]}}</span>
       </li>
     </ul>
   </div>
-</div>
-<!--主要内容展示区域-->
-<div class="main">
-  <div class="taskList">
-    <ul class="dates" ng-repeat="x in taskList">
-      <p class="date">
-        <span class="days" ng-class="{'past': x.delay}">{{x.groupName}}</span>
-        <span class="date">{{x.subGroupName}}</span>
-      </p>
-      <li ng-repeat="d in x.tasks" ng-click="showTaskDetail(d.objectId)">
-        <div class="avator">
-          <div class="thumb" ng-show="myself" ng-click="completeTask(d.objectId)"><img src="img/icon_complete.png" /></div>
-          <div class="thumb" ng-show="!myself"><img ng-src="http://file.bmob.cn/{{d.assignee.avatar.url}}" ng-click="getTaskList({'subject':'assignee','objectId':d.assignee.objectId})" /></div>
-          <span class="priority"></span>
-          <span class="taskName" ng-class="{'past': x.delay}" ng-if="!done">{{d.title}}</span>
-          <span class="taskName finished" ng-class="{'past': x.delay}" ng-if="done">{{d.title}}</span>
-          <span class="project" ng-style="{'background': d.project.color.replace('#99','#')}">{{d.project.name}}</span>
-        </div>
-        <div class="other">
-          <span class="like" ng-if="!myself"></span>
-        </div>
-      </li>
-    </ul>
+  <!--主要内容展示区域-->
+  <div class="main">
+    <div class="taskList">
+      <ul class="dates" ng-repeat="x in taskList">
+        <p class="date">
+          <span class="days" ng-class="{'past': x.delay}">{{x.groupName}}</span>
+          <span class="date">{{x.subGroupName}}</span>
+        </p>
+        <li ng-repeat="d in x.tasks track by $index" ng-click="showTaskDetail(d.objectId)" ng-class="{'choose': d.objectId === currentTaskDetailId}">
+          <!-- 主任务 -->
+          <div class="task">
+            <div class="avator">
+              <div class="thumb" ng-if="userInfo.objectId==d.assignee.objectId&&d.status==1" ng-click="updateTask({'objectId': d.objectId, 'status': 2});$event.stopPropagation()"><img ng-src="img/icon_complete.png" /></div>
+              <div class="thumb" ng-if="userInfo.objectId==d.assignee.objectId&&d.status==2" ng-click="updateTask({'objectId': d.objectId, 'status': 1});$event.stopPropagation()"><img ng-src="img/icon_completed.png" /></div>
+              <div class="thumb" ng-if="userInfo.objectId!==d.assignee.objectId"><img ng-src="{{d.assignee.avatar.url|addHost}}" ng-click="getTaskList({'subject':'assignee','objectId':d.assignee.objectId,'status':1});$event.stopPropagation()" /></div>
+              <span style="background: url(img/icon_priority{{d.priority}}.png) no-repeat center center;" class="priority"></span>
+              <span class="taskName" ng-class="{'past': x.delay}" ng-if="!done">{{d.title}}</span>
+              <span class="taskName finished" ng-class="{'past': x.delay}" ng-if="done">{{d.title}}</span>
+              <span class="project" ng-style="{'background': d.project.color.replace('#99','#')}">{{d.project.name}}</span>
+            </div>
+            <div class="other">
+              <span ng-class="{'tofollow': !d.followed, 'followed': d.followed}" ng-click="updateTask({'objectId': d.objectId, follower: {'action': d.followed?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()" ng-if="userInfo.objectId!==d.assignee.objectId&&d.status==1&&userInfo.objectId!==d.assigner.objectId&&userInfo.objectId!==d.team.leader.objectId"></span>
+              <span ng-class="{'tolike': !d.liked, 'liked': d.liked}" ng-click="updateTask({'objectId': d.objectId, liker: {'action': d.liked?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()" ng-if="userInfo.objectId!==d.assignee.objectId&&d.status==2"></span>
+              <span class="comment" >{{d.comments.length}}</span>
+            </div>
+          </div>
+          <!-- 子任务 -->
+          <ul class="checklist">
+            <li ng-repeat="check in d.checklist">
+                <img class="checkbox" ng-src="img/icon_completed.png" ng-show="check.complete == '2'" ng-click="d.checklist[$index].complete='1';updateTask({'objectId': d.objectId,'checklist': d.checklist});$event.stopPropagation()">
+                <img class="checkbox" ng-src="img/icon_complete.png" ng-show="check.complete == '1'" ng-click="d.checklist[$index].complete='2';updateTask({'objectId': d.objectId,'checklist': d.checklist});$event.stopPropagation()">
+                <span class="complete" ng-show="check.complete == '2'">{{check.item}}</span>
+                <span class="uncomplete" ng-show="check.complete == '1'">{{check.item}}</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="taskDetail">
+    </div>
   </div>
-  <div class="taskDetail">
-  </div>
-</div>
 </div>
 
 </div>
 
-<div class="createTask" ng-controller="CreatTaskController">
+<div class="createTask j_slide_layer" ng-controller="CreatTaskController">
   <div class="mask">
     <div class="container">
 
@@ -113,14 +124,14 @@
         <span class="assigner">由{{userInfo.name}}创建</span>
       </p>
       <p class="taskName">
-        <input id="taskName" type="text" focus placeholder="请输入任务名称" ng-model="task.title" />
+        <input id="taskName" type="text" focus placeholder="请输入工作名称" ng-model="task.title" />
       </p>
 
       <!-- 选项 -->
       <ul class="opt">
 
         <!-- 选择项目 -->
-        <li class="projectName">
+        <li class="projectName toggle_child">
           <span class="color"></span>
           <span class="name">{{task.project.name}}</span>
           <ul class="projectList">
@@ -131,7 +142,7 @@
         </li>
 
         <!-- 选择截止时间 -->
-        <li class="deadline">
+        <li class="deadline toggle_child">
           <span class="name">{{task.deadlineFormat}}</span>
           <ul class="dateList">
             <li ng-repeat="date in dateList" ng-click="task.deadlineFormat = date.deadlineFormat; task.deadline=date.deadline">
@@ -140,16 +151,18 @@
           </ul>
         </li>
 
+
+
         <!-- 选择责任人 -->
-        <li class="assigneeName">
+        <li class="assigneeName toggle_child">
           <span class="thumb"><img ng-src="{{task.assigneeAvatar}}"/></span>
           <span class="memberName">{{task.assigneeName}}</span>
           <ul class="assigneeList">
             <li ng-repeat="team in companyInfo.teams">
               ------ {{team.name}} ------
               <ul>
-                <li ng-repeat="member in team.members" ng-click="task.assigneeName = member.name; task.assignee = member.objectId; task.team = team.objectId; task.assigneeAvatar = 'http://file.bmob.cn/' + member.avatar.url">
-                  <span class="thumb"><img src="http://file.bmob.cn/{{member.avatar.url}}"/></span>
+                <li ng-repeat="member in team.members" ng-click="task.assigneeName = member.name; task.assignee = member.objectId; task.team = team.objectId; task.assigneeAvatar = filter('addHost')(member.avatar.url)">
+                  <span class="thumb"><img ng-src="{{member.avatar.url|addHost}}"/></span>
                   <span class="memberName">{{member.name}}</span>
                 </li>
               </ul>
@@ -157,15 +170,33 @@
           </ul>
         </li>
 
+      <!-- 选择工作量 -->
+        <li class="costHours toggle_child">
+          <span class="name">{{task.costHoursFormat}}</span>
+          <ul class="costHoursList">
+            <li ng-repeat="costHoursObject in costHoursObjectList" ng-click="task.costHours = costHoursObject.costHours; task.costHoursFormat = costHoursObject.costHoursFormat">
+              {{costHoursObject.costHoursFormat}}
+            </li>
+          </ul>
+        </li>
+
+        <!-- 上传文件 -->
+        <li class="file">
+          <input type="file" id="fileInput" onchange="angular.element(this).scope().upload(this)"/>
+          <span class="button" ng-show="!task.fileUrl" onclick="document.getElementById('fileInput').click()" >上传图片</span>
+          <img id="fileImage" ng-show="task.fileUrl" ng-src="{{task.fileUrl}}" onclick="document.getElementById('fileInput').click()">
+        </li>
+
         <!-- 选择优先级 -->
         <li class="priority">优先级：
           <select class="priorityValue" ng-model="task.priority">
-            <option value="0" name = "不紧急" >不紧急</option>
+            <option value="0" ng-selected>不紧急</option>
             <option value="1">一般紧急</option>
             <option value="2">紧急</option>
             <option value="3">非常紧急</option>
           </select>
         </li>
+
       </ul>
 
       <!-- 提交 -->
@@ -177,16 +208,20 @@
     </div>
   </div>
 </div>
-<div id="task_detail_container" ng-controller="TaskDetailController">
+<div id="task_detail_container" class="j_slide_layer" ng-controller="TaskDetailController">
   <div id="task_detail">
+
     <!-- 头部区 -->
     <div class="head_chunk">
       {{task.createdAt}}<span>由{{task.assigner.name}}创建</span>
       <!-- <img class="icon_close" src="img/icon_close.png"> -->
     </div>
     <div class="title">
-      <input type="text" class="taskNameInput" placeholder="请输入任务名称" ng-model="task.title" ng-keydown="completeTask($event)"/>
+      <div class="uncomplete" ng-if="task.status==1" ng-click="task.status=2;updateTask({'status': 2})"></div>
+      <div class="completed" ng-if="task.status==2" ng-click="task.status=1;updateTask({'status': 1})"></div>
+      <input type="text" class="taskNameInput" ng-class="{'complete': task.status==2}" placeholder="请输入任务名称" ng-model="task.title" ng-keydown="alterTitle($event)"/>
     </div>
+
     <!-- 内容区 -->
     <ul class="content">
       <!-- 项目 -->
@@ -206,14 +241,14 @@
       <!-- 责任人 -->
       <li class="assignee_container">
         <div class="assignee toggle_child">
-          <img src="http://file.bmob.cn/{{task.assignee.avatar.url}}">
+          <img ng-src="{{task.assignee.avatar.url|addHost}}">
           {{task.assignee.name}}
           <ul class="assignee_list">
             <li ng-repeat="team in companyInfo.teams">
               ------ {{team.name}} ------
               <ul>
                 <li class="assignee" ng-repeat="member in team.members"  ng-click="task.assignee=member;updateTask({'team':team.objectId,'assignee':member.objectId})">
-                  <img src="http://file.bmob.cn/{{member.avatar.url}}">
+                  <img ng-src="{{member.avatar.url|addHost}}">
                   {{member.name}}
                 </li>
               </ul>
@@ -224,10 +259,10 @@
       <!-- 到期时间 -->
       <li class="deadline_container">
         <div class="deadline toggle_child">
-          {{task.deadline.iso||'无期限'}}
+          {{task.deadlineFormat}}
           <ul class="deadline_list">
-            <li class="deadline" ng-repeat="deadline in deadlineList" ng-click="task.deadline.iso=deadline;updateTask({'deadline': deadline,'status': 1})">
-              {{deadline}}
+            <li class="deadline" ng-repeat="date in dateList" ng-click="task.deadlineFormat=date.deadlineFormat;updateTask({'deadline': date.deadline,'status': date.deadline ? 1 : 0})">
+              {{date.deadlineFormat}}
             </li>
           </ul>
         </div>
@@ -235,9 +270,11 @@
       <!-- 优先级 -->
       <li class="priority_container">
         <div class="priority toggle_child">
+          <img src="img/icon_priority{{task.priority}}.png">
           {{priorityList[task.priority]}}
           <ul class="priority_list">
             <li class="priority" ng-repeat="priority in priorityList" ng-click="task.priority = $index;updateTask({'priority': $index})">
+              <img src="img/icon_priority{{$index}}.png">
               {{priority}}
             </li>
           </ul>
@@ -245,9 +282,9 @@
       </li>
 
       <!-- 附件 -->
-      <li class="file_container">
-        <a ng-href="http://file.bmob.cn/{{task.file.url}}" target="_blank">
-          <img src="http://file.bmob.cn/{{task.file.url}}">
+      <li class="file_container" ng-if="task.file.url">
+        <a ng-href="{{task.file.url|addHost}}" target="_blank">
+          <img ng-src="{{task.file.url|addHost}}">
         </a>
         
       </li>
@@ -255,11 +292,14 @@
       <!-- 子任务 -->
       <li class="checklist_container">
         <ul>
-          <!-- <li>
-            患者管理页面修改<img src="img/icon_close.png">
-          </li> -->
+          <li ng-repeat="check in task.checklist track by $index">
+            <img class="checkbox" ng-src="img/icon_completed.png" ng-show="check.complete == '2'" ng-click="task.checklist[$index].complete='1';updateTask({'checklist': task.checklist})">
+            <img class="checkbox" ng-src="img/icon_complete.png" ng-show="check.complete == '1'" ng-click="task.checklist[$index].complete='2';updateTask({'checklist': task.checklist})">
+            <span class="{'complete':check.complete=='2','uncomplete':check.complete == '1'}">{{check.item}}</span>
+            <img class="close" src="img/icon_close.png" ng-click="task.checklist.splice($index,1);updateTask({'checklist': task.checklist})"><!-- todo:不传String也不报错？ -->
+          </li>
           <li>
-            <input type="text" placeholder="添加子任务"/>
+            <input type="text" placeholder="添加子任务" ng-model="task.newCheck" ng-keydown="addCheck($event)"/>
           </li>
         </ul>
       </li>
@@ -270,7 +310,7 @@
             <div class="comment_user">
               <img ng-src="{{comment.userUrl}}">
               <span class="comment_name">{{comment.userName}}</span>
-              <span class="comment_createdAt">{{comment.sendTimg}}</span>
+              <span class="comment_createdAt">{{comment.sendTimg|date:'MM/dd HH:mm'}}</span>
             </div>
             <div class="comment_content">
               {{comment.userMsg}}
@@ -283,10 +323,15 @@
           </li>
         </ul>
       </li>
+      <!-- 底部操作区 -->
+    <div class="foot_chunk">
+      <span ng-if="task.status == 1" ng-click="updateTask({'status': 3})">搁置任务</span>
+      <span ng-if="task.status == 3" ng-click="updateTask({'status': 1})">重启任务</span>
+      <span ng-if="userInfo.objectId==task.assignee.objectId||userInfo.objectId==task.assigner.objectId||userInfo.objectId==task.team.leader.objectId" ng-click="updateTask({'status': 4})">删除任务</span>
+    </div>
     </ul>
-    <!--   <div class="foot_chunk">
-    删除改任务
-  </div> -->
+
+    
   </div>
   <div class="floating_panel_close">
     <i class="icon_close">X</i>

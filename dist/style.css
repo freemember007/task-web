@@ -13,7 +13,8 @@ a {
 iframe {
   border: none; }
 
-html, body {
+html,
+body {
   height: 100%; }
 
 select {
@@ -65,7 +66,7 @@ select:focus {
           font-size: 24px;
           width: 100%;
           height: 50px;
-          margin: 20px auto;
+          margin: 5px auto;
           color: #666;
           border: none;
           outline: none; }
@@ -83,7 +84,9 @@ select:focus {
             font-size: 14px; }
         .createTask .mask .container .opt .projectName {
           position: relative;
-          cursor: pointer; }
+          cursor: pointer;
+          background: url(img/icon_project.png) no-repeat;
+          z-index: 1; }
           .createTask .mask .container .opt .projectName > ul {
             top: 30px;
             left: 45px;
@@ -95,11 +98,9 @@ select:focus {
             background: white; }
         .createTask .mask .container .opt .deadline {
           position: relative;
-          cursor: pointer; }
-          .createTask .mask .container .opt .deadline input {
-            cursor: pointer;
-            border: none;
-            outline: none; }
+          cursor: pointer;
+          background: url(img/icon_date.png) no-repeat;
+          z-index: 1; }
           .createTask .mask .container .opt .deadline > ul {
             top: 30px;
             left: 45px;
@@ -109,9 +110,24 @@ select:focus {
             padding-bottom: 10px;
             border: 1px solid #2196f3;
             background: white; }
+        .createTask .mask .container .opt .costHours {
+          position: relative;
+          cursor: pointer;
+          background: url(img/icon_assign.png) no-repeat; }
+          .createTask .mask .container .opt .costHours > ul {
+            top: 30px;
+            left: 45px;
+            display: none;
+            overflow: auto;
+            height: 150px;
+            padding-bottom: 10px;
+            border: 1px solid #2196f3;
+            background: white; }
         .createTask .mask .container .opt .assigneeName {
+          position: relative;
           display: inline-block;
-          cursor: pointer; }
+          cursor: pointer;
+          background: url(img/icon_assign.png) no-repeat; }
           .createTask .mask .container .opt .assigneeName .thumb img {
             cursor: pointer;
             height: 24px;
@@ -130,16 +146,27 @@ select:focus {
             padding-bottom: 10px;
             border: 1px solid #2196f3;
             background: white; }
-        .createTask .mask .container .opt > :first-child {
-          background: url(img/icon_project.png) no-repeat; }
-        .createTask .mask .container .opt > :nth-child(2) {
-          background: url(img/icon_date.png) no-repeat; }
-        .createTask .mask .container .opt > :nth-child(3) {
-          background: url(img/icon_assign.png) no-repeat; }
-        .createTask .mask .container .opt > :nth-child(4) {
+        .createTask .mask .container .opt .file {
+          display: inline-block;
+          z-index: -1;
+          background: url(img/icon_file.png) no-repeat; }
+          .createTask .mask .container .opt .file > input {
+            display: none; }
+          .createTask .mask .container .opt .file > .button {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 12px;
+            color: white;
+            border-radius: 3px;
+            background: #ccc;
+            cursor: pointer;
+            z-index: -1; }
+          .createTask .mask .container .opt .file > img {
+            height: 60px;
+            z-index: -1;
+            cursor: pointer; }
+        .createTask .mask .container .opt > .priority {
           background: url(img/icon_priority.png) no-repeat; }
-        .createTask .mask .container .opt > :nth-child(5) {
-          background: url(img/icon_subtask.png) no-repeat; }
       .createTask .mask .container .submit {
         position: absolute;
         right: 20px;
@@ -147,7 +174,8 @@ select:focus {
         cursor: pointer; }
         .createTask .mask .container .submit .button {
           display: inline-block;
-          padding: 3px 10px;
+          padding: 10px 20px;
+          font-size: 16px;
           color: white;
           border-radius: 5px;
           background: #2196f3; }
@@ -194,7 +222,7 @@ select:focus {
       height: 300px;
       background-color: #FFF; }
     #login_container .box .title {
-      font-size: 24px;
+      font-size: 22px;
       height: 64px;
       width: 100%;
       line-height: 64px; }
@@ -270,6 +298,8 @@ select:focus {
           height: 30px; }
       .task_container .left .left_container .mySummary :hover {
         background: #3e484f; }
+      .task_container .left .left_container .teamSummary > :first-child .team_group {
+        display: block; }
       .task_container .left .left_container .teamSummary li {
         position: relative;
         padding-left: 30px; }
@@ -288,45 +318,47 @@ select:focus {
             margin-left: 50px; }
           .task_container .left .left_container .teamSummary li .teamName .icon {
             position: absolute;
-            top: 15px;
-            left: 215px;
+            top: 5px;
+            left: 200px;
             display: block;
-            width: 20px;
-            height: 30px;
+            width: 50px;
+            height: 50px;
             background: url(img/triangle.png) no-repeat;
             background-position: center center; }
           .task_container .left .left_container .teamSummary li .teamName:hover {
             background: #3e484f; }
-        .task_container .left .left_container .teamSummary li .team_group .team_one {
-          position: relative;
-          margin-left: 20px;
-          padding: 15px 0; }
-          .task_container .left .left_container .teamSummary li .team_group .team_one > img {
-            width: 30px;
-            border-radius: 50%; }
-          .task_container .left .left_container .teamSummary li .team_group .team_one .name {
-            font-size: 14px;
-            line-height: 30px;
-            position: absolute;
-            top: 15px;
-            left: 40px;
-            display: inline-block;
-            width: 100px;
-            height: 30px; }
-          .task_container .left .left_container .teamSummary li .team_group .team_one .num {
-            line-height: 30px;
-            position: absolute;
-            top: 15px;
-            left: 135px;
-            padding-left: 0; }
-        .task_container .left .left_container .teamSummary li .team_group :hover {
-          background: #3e484f; }
-        .task_container .left .left_container .teamSummary li .team_group > :first-child {
-          padding-top: 0; }
-          .task_container .left .left_container .teamSummary li .team_group > :first-child .num {
-            top: 0; }
-          .task_container .left .left_container .teamSummary li .team_group > :first-child .name {
-            top: 0; }
+        .task_container .left .left_container .teamSummary li .team_group {
+          display: none; }
+          .task_container .left .left_container .teamSummary li .team_group .team_one {
+            position: relative;
+            margin-left: 20px;
+            padding: 15px 0; }
+            .task_container .left .left_container .teamSummary li .team_group .team_one > img {
+              width: 30px;
+              border-radius: 50%; }
+            .task_container .left .left_container .teamSummary li .team_group .team_one .name {
+              font-size: 14px;
+              line-height: 30px;
+              position: absolute;
+              top: 15px;
+              left: 40px;
+              display: inline-block;
+              width: 100px;
+              height: 30px; }
+            .task_container .left .left_container .teamSummary li .team_group .team_one .num {
+              line-height: 30px;
+              position: absolute;
+              top: 15px;
+              left: 135px;
+              padding-left: 0; }
+          .task_container .left .left_container .teamSummary li .team_group :hover {
+            background: #3e484f; }
+          .task_container .left .left_container .teamSummary li .team_group > :first-child {
+            padding-top: 0; }
+            .task_container .left .left_container .teamSummary li .team_group > :first-child .num {
+              top: 0; }
+            .task_container .left .left_container .teamSummary li .team_group > :first-child .name {
+              top: 0; }
         .task_container .left .left_container .teamSummary li .project .team_one {
           position: relative; }
           .task_container .left .left_container .teamSummary li .project .team_one .name {
@@ -360,8 +392,8 @@ select:focus {
   bottom: 0px;
   top: 0px; }
   #task_detail .head_chunk {
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
     color: #ccc;
     font-size: 14px;
     margin-left: 10px; }
@@ -373,30 +405,42 @@ select:focus {
       top: 20px;
       cursor: pointer; }
   #task_detail .title {
-    height: 50px;
-    line-height: 50px;
-    background: url("img/icon_complete.png") no-repeat left center;
-    padding-left: 40px;
-    margin-left: 7px; }
-    #task_detail .title > input {
+    margin-left: 5px; }
+    #task_detail .title > .uncomplete {
+      cursor: pointer;
+      background: url("img/icon_complete.png") no-repeat left 40%;
+      height: 40px;
+      width: 40px;
+      float: left; }
+    #task_detail .title > .completed {
+      cursor: pointer;
+      background: url("img/icon_completed.png") no-repeat left 40%;
+      height: 40px;
+      width: 40px;
+      float: left; }
+    #task_detail .title .taskNameInput {
       font-size: 24px;
-      width: 100%;
-      height: 50px;
+      height: 40px;
+      width: 90%;
       color: #666;
       border: none;
       outline: none; }
+    #task_detail .title > .complete {
+      color: #ccc;
+      font-style: italic;
+      text-decoration: line-through; }
   #task_detail .content {
     overflow: auto;
-    position: absolute;
-    width: 100%;
+    position: relative;
     margin-top: 10px;
+    margin-right: 10px;
     border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ccc;
     color: #666; }
     #task_detail .content > li {
+      position: relative;
       margin: 10px;
       padding-left: 40px;
-      line-height: 50px;
+      line-height: 40px;
       background-position: left center;
       background-repeat: no-repeat; }
       #task_detail .content > li > .toggle_child {
@@ -418,11 +462,11 @@ select:focus {
       #task_detail .content > li input {
         font-size: 14px;
         width: 100%;
-        height: 50px;
         color: #666;
         border: none;
         outline: none; }
     #task_detail .content .project_container {
+      z-index: 4;
       background-image: url(img/icon_project.png); }
       #task_detail .content .project_container .project {
         height: 30px;
@@ -435,6 +479,7 @@ select:focus {
           margin-right: 10px;
           border-radius: 5px; }
     #task_detail .content .assignee_container {
+      z-index: 3;
       background-image: url(img/icon_assign.png); }
       #task_detail .content .assignee_container .assignee {
         height: 30px;
@@ -447,31 +492,48 @@ select:focus {
           margin-right: 10px;
           border-radius: 50%; }
     #task_detail .content .deadline_container {
+      z-index: 2;
       background-image: url(img/icon_date.png); }
     #task_detail .content .priority_container {
+      z-index: 1;
       background-image: url(img/icon_priority.png); }
+      #task_detail .content .priority_container .priority > img {
+        margin-top: 10px;
+        float: left;
+        margin-right: 10px; }
     #task_detail .content .file_container {
-      background-image: url(img/icon_subtask.png); }
+      background-image: url(img/icon_file.png); }
       #task_detail .content .file_container img {
         width: 120px; }
     #task_detail .content .checklist_container {
       background-image: url(img/icon_subtask.png);
-      background-position: left 20px; }
+      background-position: left 15px; }
       #task_detail .content .checklist_container > ul > li {
-        background: url(img/icon_complete.png) no-repeat left center;
-        background-size: 20px 20px;
-        padding-left: 40px;
-        line-height: 50px;
-        border-bottom: 1px solid #eee; }
-        #task_detail .content .checklist_container > ul > li img {
+        height: 24px;
+        padding: 10px 0px;
+        line-height: 24px;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle; }
+        #task_detail .content .checklist_container > ul > li .checkbox {
+          width: 24px;
+          height: 24px;
+          float: left;
+          margin-right: 10px;
+          cursor: pointer; }
+        #task_detail .content .checklist_container > ul > li .complete {
+          color: #ccc;
+          font-style: italic;
+          text-decoration: line-through; }
+        #task_detail .content .checklist_container > ul > li .close {
           float: right;
-          margin: 17.5px 10px;
-          height: 15px; }
+          height: 15px;
+          cursor: pointer; }
       #task_detail .content .checklist_container > ul > :last-child {
-        padding-left: 0; }
+        padding-left: 0;
+        height: 24px; }
     #task_detail .content .comments {
       background-image: url(img/icon_massage.png);
-      background-position: left 15px;
+      background-position: left 10px;
       font-size: 12px; }
       #task_detail .content .comments ul > li {
         padding: 5px 0px;
@@ -479,7 +541,9 @@ select:focus {
         #task_detail .content .comments ul > li .comment_user {
           height: 24px;
           line-height: 24px;
-          color: #ccc; }
+          margin-right: 5px;
+          color: #ccc;
+          float: left; }
           #task_detail .content .comments ul > li .comment_user img {
             width: 24px;
             height: 24px;
@@ -494,12 +558,24 @@ select:focus {
         #task_detail .content .comments ul > li .comment_content {
           line-height: 24px; }
         #task_detail .content .comments ul > li .add_comment {
-          line-height: 35px; }
+          line-height: 35px;
+          margin-right: 5px; }
           #task_detail .content .comments ul > li .add_comment > input {
             height: 35px;
             font-size: 12px; }
       #task_detail .content .comments ul > :last-child > input {
         font-size: 12px; }
+  #task_detail .foot_chunk {
+    margin: 0px 10px;
+    text-align: right;
+    height: 40px;
+    line-height: 40px; }
+    #task_detail .foot_chunk > span {
+      cursor: pointer;
+      margin-left: 10px;
+      color: #ccc;
+      font-size: 12px;
+      border-bottom: 1px dotted #ddd; }
 
 .floating_panel_close {
   flex: 0 0 auto;
@@ -543,84 +619,89 @@ select:focus {
     background-position-y: center;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     z-index: 1000; }
-    .right .right_top .container {
-      height: 100%; }
-      .right .right_top .container .head {
-        background: transparent url("img/icon_add_task.png") no-repeat 10px center;
-        border-bottom: 1px solid #eee; }
-        .right .right_top .container .head .add_task {
-          line-height: 49px;
-          padding-left: 50px;
-          cursor: pointer;
-          color: #ccc;
-          background-position-x: 20px;
-          background-position-y: center; }
-          .right .right_top .container .head .add_task:hover {
-            color: #2196f3; }
-        .right .right_top .container .head .notification_container {
-          display: none;
-          /*   通知栏  */ }
-          .right .right_top .container .head .notification_container .notification {
-            position: absolute;
-            top: 50px;
-            right: 10%;
-            width: 300px;
-            height: 330px;
-            font-size: 12px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.3); }
-            .right .right_top .container .head .notification_container .notification li {
-              height: 76px;
-              border-bottom: 1px #ccc dashed;
-              margin: 0px 5px;
-              cursor: pointer; }
-              .right .right_top .container .head .notification_container .notification li img {
-                height: 30px;
-                float: left;
-                margin: 15px;
-                border-radius: 50%; }
-              .right .right_top .container .head .notification_container .notification li .message {
-                padding-top: 15px;
-                line-height: 20px;
-                color: #666; }
-            .right .right_top .container .head .notification_container .notification .border_bottom {
-              border: 0px; }
-            .right .right_top .container .head .notification_container .notification .expire {
-              color: #fc5c5c; }
-        .right .right_top .container .head .user {
-          float: right; }
-          .right .right_top .container .head .user .username {
-            cursor: pointer;
-            font: 16px/50px '微软雅黑';
-            padding-right: 80px;
-            padding-left: 30px;
-            color: #2196f3;
-            background: url(img/icon_alert.png) no-repeat;
-            background-position: 0 center;
-            background-size: auto 100%; }
-          .right .right_top .container .head .user .thumb {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            overflow: hidden;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%; }
-            .right .right_top .container .head .user .thumb img {
-              width: 100%; }
-      .right .right_top .container .menu {
+    .right .right_top .head {
+      height: 49px;
+      line-height: 49px;
+      border-bottom: 1px solid #eee;
+      /*  通知栏  */ }
+      .right .right_top .head .add_task {
+        float: left;
+        background: transparent url("img/icon_add_task.png") no-repeat 20px center;
+        padding-left: 50px;
+        cursor: pointer;
+        color: #ccc; }
+        .right .right_top .head .add_task:hover {
+          color: #2196f3; }
+      .right .right_top .head .icon_notification {
+        text-align: right;
+        position: absolute;
+        right: 150px;
+        width: 30px;
         height: 50px;
-        text-align: center; }
-        .right .right_top .container .menu li {
-          font: 16px '微软雅黑';
-          line-height: 30px;
-          display: inline-block;
-          padding: 8px 15px;
+        background: url("img/icon_alert.png") no-repeat left center/20px 22px;
+        cursor: pointer; }
+        .right .right_top .head .icon_notification .badge {
+          position: absolute;
+          background: red;
+          color: #fff;
+          width: 16px;
+          height: 18px;
+          line-height: 18px;
+          text-align: center;
+          border-radius: 5px;
+          top: 5px;
+          right: -5px;
+          font-size: 12px; }
+      .right .right_top .head .notification_container {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 10%;
+        width: 300px;
+        height: 310px;
+        overflow: auto;
+        font-size: 12px;
+        border-radius: 5px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+        background: #fff; }
+        .right .right_top .head .notification_container li {
+          height: 76px;
+          border-bottom: 1px #ccc dashed;
           cursor: pointer;
-          border-bottom: 4px solid white; }
-        .right .right_top .container .menu .active {
-          border-color: #2196f3; }
+          background: #FFFFCC; }
+          .right .right_top .head .notification_container li img {
+            height: 30px;
+            float: left;
+            margin: 15px;
+            border-radius: 50%; }
+          .right .right_top .head .notification_container li .message {
+            padding-top: 15px;
+            line-height: 20px;
+            color: #666; }
+        .right .right_top .head .notification_container .is_read {
+          background: #fff; }
+      .right .right_top .head .thumb {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; }
+        .right .right_top .head .thumb img {
+          width: 100%; }
+    .right .right_top .menu {
+      height: 50px;
+      text-align: center; }
+      .right .right_top .menu li {
+        font: 16px '微软雅黑';
+        line-height: 30px;
+        display: inline-block;
+        padding: 8px 15px;
+        cursor: pointer;
+        border-bottom: 4px solid white; }
+      .right .right_top .menu .active {
+        border-color: #2196f3; }
   .right .main {
     margin: 110px 0 0 10px;
     background: white;
@@ -636,67 +717,117 @@ select:focus {
           font-weight: bold; }
           .right .main .taskList .dates p .days {
             display: inline-block;
-            width: 80px;
+            width: 90px;
             color: #2196f3; }
           .right .main .taskList .dates p .past {
             color: #ea2929; }
           .right .main .taskList .dates p .date {
             color: #ccc; }
+        .right .main .taskList .dates .choose {
+          background: #eee; }
         .right .main .taskList .dates > li {
           overflow: hidden;
-          padding: 15px 0;
+          padding: 15px 0px 15px 10px;
           border-bottom: 1px dashed #eee;
           cursor: pointer; }
-          .right .main .taskList .dates > li .avator {
-            float: left; }
-            .right .main .taskList .dates > li .avator .thumb {
-              float: left;
-              overflow: hidden;
-              width: 20px;
-              height: 20px;
-              border-radius: 50%;
-              cursor: pointer; }
-              .right .main .taskList .dates > li .avator .thumb img {
-                width: 100%; }
-            .right .main .taskList .dates > li .avator .priority {
-              display: inline-block;
-              width: 50px;
-              height: 15px;
-              background: url(img/icon_priority.png) no-repeat center center; }
-            .right .main .taskList .dates > li .avator .taskName {
-              font-size: 16px;
-              display: inline-block;
-              height: 18px;
-              margin-left: 20px;
-              color: #666; }
-            .right .main .taskList .dates > li .avator .project {
-              font-size: 12px;
-              margin-left: 20px;
-              color: #fff;
-              padding: 2px;
-              border-radius: 3px; }
-            .right .main .taskList .dates > li .avator .past {
-              color: #ea2929; }
-            .right .main .taskList .dates > li .avator .finished {
-              font-style: italic;
-              text-decoration: line-through;
-              color: #ccc; }
-          .right .main .taskList .dates > li .other {
-            position: relative;
-            float: right;
-            margin-right: 50px; }
-            .right .main .taskList .dates > li .other .like {
-              display: inline-block;
-              width: 23px;
-              height: 19px;
-              margin-right: 80px;
-              background: url(img/icon_like.png) no-repeat; }
-            .right .main .taskList .dates > li .other .massage {
-              position: absolute;
-              top: 0;
-              right: 10px;
-              padding-left: 30px;
-              color: #ccc;
-              background: url(img/icon_massage.png) no-repeat 0 center; }
+          .right .main .taskList .dates > li .task {
+            height: 40px;
+            line-height: 40px; }
+            .right .main .taskList .dates > li .task .avator {
+              height: 40px;
+              line-height: 40px;
+              float: left; }
+              .right .main .taskList .dates > li .task .avator .thumb {
+                float: left;
+                height: 40px;
+                line-height: 40px;
+                cursor: pointer; }
+                .right .main .taskList .dates > li .task .avator .thumb img {
+                  margin-top: 5px;
+                  width: 100%;
+                  width: 24px;
+                  height: 24px;
+                  border-radius: 50%; }
+              .right .main .taskList .dates > li .task .avator .priority {
+                display: inline-block;
+                width: 50px;
+                height: 15px; }
+              .right .main .taskList .dates > li .task .avator .taskName {
+                font-size: 16px;
+                display: inline-block;
+                height: 18px;
+                margin-left: 7px;
+                color: #666; }
+              .right .main .taskList .dates > li .task .avator .project {
+                font-size: 12px;
+                margin-left: 20px;
+                color: #fff;
+                padding: 2px;
+                border-radius: 3px; }
+              .right .main .taskList .dates > li .task .avator .past {
+                color: #ea2929; }
+              .right .main .taskList .dates > li .task .avator .finished {
+                font-style: italic;
+                text-decoration: line-through;
+                color: #ccc; }
+            .right .main .taskList .dates > li .task .other {
+              line-height: 40px;
+              position: relative;
+              float: right;
+              margin-right: 50px; }
+              .right .main .taskList .dates > li .task .other .tofollow {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(img/icon_tofollow.png) no-repeat; }
+              .right .main .taskList .dates > li .task .other .followed {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(img/icon_followed.png) no-repeat; }
+              .right .main .taskList .dates > li .task .other .tolike {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(img/icon_tolike.png) no-repeat; }
+              .right .main .taskList .dates > li .task .other .liked {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(img/icon_liked.png) no-repeat; }
+              .right .main .taskList .dates > li .task .other .comment {
+                position: absolute;
+                top: 0;
+                right: 30px;
+                padding-left: 20px;
+                color: #ccc;
+                background: url(img/icon_massage.png) no-repeat 0 center; }
+          .right .main .taskList .dates > li .checklist {
+            padding-left: 84px; }
+            .right .main .taskList .dates > li .checklist > li {
+              height: 40px;
+              line-height: 40px;
+              border-bottom: 1px dashed #eee;
+              vertical-align: middle; }
+              .right .main .taskList .dates > li .checklist > li .checkbox {
+                width: 24px;
+                height: 24px;
+                float: left;
+                margin-right: 10px;
+                margin-top: 8px; }
+              .right .main .taskList .dates > li .checklist > li .complete {
+                color: #ccc;
+                font-style: italic;
+                text-decoration: line-through; }
+            .right .main .taskList .dates > li .checklist > :last-child {
+              border-bottom: none; }
 
 /*# sourceMappingURL=style.css.map */
