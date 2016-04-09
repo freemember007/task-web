@@ -60,11 +60,11 @@
       <!-- 优先级 -->
       <li class="priority_container">
         <div class="priority toggle_child">
-          <img src="img/icon_priority{{task.priority}}.png">
+          <img ng-src="img/icon_priority{{task.priority}}.png">
           {{priorityList[task.priority]}}
           <ul class="priority_list">
             <li class="priority" ng-repeat="priority in priorityList" ng-click="task.priority = $index;updateTask({'priority': $index})">
-              <img src="img/icon_priority{{$index}}.png">
+              <img ng-src="img/icon_priority{{$index}}.png">
               {{priority}}
             </li>
           </ul>
