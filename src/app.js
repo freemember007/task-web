@@ -59,13 +59,15 @@ angular.module('teamTask', [
       $rootScope.$broadcast("PleaseShowTaskList", msg); // 
     })
 
-    $rootScope.$on('NeedShowTaskDetail', function(event, msg) {
-      $rootScope.$broadcast("PleaseShowTaskDetail", msg); // 
-    })
+    // $rootScope.$on('NeedShowTaskDetail', function(event, msg) {
+    //   $rootScope.$broadcast("PleaseShowTaskDetail", msg); // 
+    // })
 
     $rootScope.globalStatus = {
       showDetail: false,
     }
+
+    $rootScope.currentParams = {};
 
     $rootScope.currentTaskDetailId = ''; //全局当前任务ID
 

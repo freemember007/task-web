@@ -47,21 +47,20 @@
           <span class="days" ng-class="{'past': x.delay}">{{x.groupName}}</span>
           <span class="date">{{x.subGroupName}}</span>
         </p>
-        <li ng-repeat="d in x.tasks track by $index" ng-click="showTaskDetail(d.objectId)" ng-class="{'choose': d.objectId === currentTaskDetailId}">
+        <li ng-repeat="d in x.tasks track by $index" ng-click="showTaskDetail(d)" ng-class="{'choose': d.objectId === currentTaskDetailId}">
           <!-- 主任务 -->
           <div class="task">
             <div class="avator">
-              <div class="thumb" ng-if="userInfo.objectId==d.assignee.objectId&&d.status==1" ng-click="updateTask({'objectId': d.objectId, 'status': 2});$event.stopPropagation()"><img ng-src="img/icon_complete.png" /></div>
-              <div class="thumb" ng-if="userInfo.objectId==d.assignee.objectId&&d.status==2" ng-click="updateTask({'objectId': d.objectId, 'status': 1});$event.stopPropagation()"><img ng-src="img/icon_completed.png" /></div>
-              <div class="thumb" ng-if="userInfo.objectId!==d.assignee.objectId"><img ng-src="{{d.assignee.avatar.url|addHost}}" ng-click="getTaskList({'subject':'assignee','objectId':d.assignee.objectId,'status':1});$event.stopPropagation()" /></div>
+              <div class="thumb" ng-if="myself&&doing" ng-click="updateTask({'objectId': d.objectId, 'status': 2});$event.stopPropagation()"><img ng-src="img/icon_complete.png" /></div>
+              <div class="thumb" ng-if="myself&&done" ng-click="updateTask({'objectId': d.objectId, 'status': 1});$event.stopPropagation()"><img ng-src="img/icon_completed.png" /></div>
+              <div class="thumb" ng-if="!myself"><img ng-src="{{d.assignee.avatar.url|addHost}}" ng-click="getTaskList({'subject':'assignee','objectId':d.assignee.objectId,'status':1});$event.stopPropagation()" /></div>
               <span style="background: url(img/icon_priority{{d.priority}}.png) no-repeat center center;" class="priority"></span>
-              <span class="taskName" ng-class="{'past': x.delay}" ng-if="!done">{{d.title}}</span>
-              <span class="taskName finished" ng-class="{'past': x.delay}" ng-if="done">{{d.title}}</span>
+              <span class="taskName" ng-class="{'past': x.delay, 'finished': d.status==2}" >{{d.title}}</span>
               <span class="project" ng-style="{'background': d.project.color.replace('#99','#')}">{{d.project.name}}</span>
             </div>
             <div class="other">
-              <span ng-class="{'tofollow': !d.followed, 'followed': d.followed}" ng-click="updateTask({'objectId': d.objectId, follower: {'action': d.followed?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()" ng-if="userInfo.objectId!==d.assignee.objectId&&d.status==1&&userInfo.objectId!==d.assigner.objectId&&userInfo.objectId!==d.team.leader.objectId"></span>
-              <span ng-class="{'tolike': !d.liked, 'liked': d.liked}" ng-click="updateTask({'objectId': d.objectId, liker: {'action': d.liked?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()" ng-if="userInfo.objectId!==d.assignee.objectId&&d.status==2"></span>
+              <span ng-class="{'tofollow': !d.followed, 'followed': d.followed}" ng-click="updateTask({'objectId': d.objectId, follower: {'action': d.followed?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()" ng-if="!myself&&doing&&userInfo.objectId!==d.assigner.objectId&&userInfo.objectId!==d.team.leader.objectId"></span>
+              <span ng-class="{'tolike': !d.liked, 'liked': d.liked}" ng-click="updateTask({'objectId': d.objectId, liker: {'action': d.liked?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()" ng-if="!myself&&done"></span>
               <span class="comment" >{{d.comments.length}}</span>
             </div>
           </div>
@@ -70,14 +69,11 @@
             <li ng-repeat="check in d.checklist">
                 <img class="checkbox" ng-src="img/icon_completed.png" ng-show="check.complete == '2'" ng-click="d.checklist[$index].complete='1';updateTask({'objectId': d.objectId,'checklist': d.checklist});$event.stopPropagation()">
                 <img class="checkbox" ng-src="img/icon_complete.png" ng-show="check.complete == '1'" ng-click="d.checklist[$index].complete='2';updateTask({'objectId': d.objectId,'checklist': d.checklist});$event.stopPropagation()">
-                <span class="complete" ng-show="check.complete == '2'">{{check.item}}</span>
-                <span class="uncomplete" ng-show="check.complete == '1'">{{check.item}}</span>
+                <span ng-class="{'complete': check.complete == '2', 'uncomplete': check.complete == '1'}">{{check.item}}</span>
             </li>
           </ul>
         </li>
       </ul>
-    </div>
-    <div class="taskDetail">
     </div>
   </div>
 </div>

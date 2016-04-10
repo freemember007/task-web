@@ -3,13 +3,13 @@ angular.module('task.controllers.sidebar', [])
 .controller('SidebarController', [
   '$timeout',
   '$scope',
+  '$rootScope',
   'LocalStorage',
   'User',
   'Task',
-  function($timeout, $scope, LocalStorage, User, Task) {
+  function($timeout, $scope, $rootScope, LocalStorage, User, Task) {
 
     $scope.userInfo = LocalStorage.getObject('userInfo');
-    $scope.currentParams = {};
 
     // 监听TaskUpdate事件
     $scope.$on('TaskCreated', function(event, msg) {
@@ -49,9 +49,9 @@ angular.module('task.controllers.sidebar', [])
     fetchSidebar();
 
     $scope.clickSidebar = function(subject, objectId, status) {
-      console.log($scope.currentParams)
-      $scope.currentParams = { subject: subject, objectId: objectId, status: status||1 };
-      $scope.$emit('NeedShowTaskList', $scope.currentParams);
+      console.log($rootScope.currentParams)
+      $rootScope.currentParams = { subject: subject, objectId: objectId, status: status||1 };
+      $scope.$emit('NeedShowTaskList', $rootScope.currentParams);
     };
 
   }

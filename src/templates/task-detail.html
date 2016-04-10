@@ -85,7 +85,7 @@
           <li ng-repeat="check in task.checklist track by $index">
             <img class="checkbox" ng-src="img/icon_completed.png" ng-show="check.complete == '2'" ng-click="task.checklist[$index].complete='1';updateTask({'checklist': task.checklist})">
             <img class="checkbox" ng-src="img/icon_complete.png" ng-show="check.complete == '1'" ng-click="task.checklist[$index].complete='2';updateTask({'checklist': task.checklist})">
-            <span class="{'complete':check.complete=='2','uncomplete':check.complete == '1'}">{{check.item}}</span>
+            <span ng-class="{'complete':check.complete=='2','uncomplete':check.complete == '1'}">{{check.item}}</span>
             <img class="close" src="img/icon_close.png" ng-click="task.checklist.splice($index,1);updateTask({'checklist': task.checklist})"><!-- todo:不传String也不报错？ -->
           </li>
           <li>

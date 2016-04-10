@@ -33,15 +33,18 @@ angular.module('task.controllers.taskDetail', [])
 
 
     $scope.$on('PleaseShowTaskDetail', function(event, msg) {
-      Task.findOne(msg, function(data) {
-        $scope.task = data; //todo:从列表过来的可以不用请求
+      // Task.findOne(msg, function(data) {
+        $scope.task = msg.task; //todo:从列表过来的可以不用请求
         if ($scope.task.deadline && $scope.task.deadline.iso) {
           var date = new Date($scope.task.deadline.iso.replace(/-/g, '/'));
           $scope.task.deadlineFormat = $scope.formatDeadline(date); //初始值
         } else {
           $scope.task.deadlineFormat = '无期限';
         }
-        $timeout($('#task_detail_container').show(200)); //$timeout 延迟加载，否则没数据
+        $timeout($('#task_detail_container').show(200)) //$timeout 延迟加载，否则没数据
+        $timeout($('#task_detail').scrollTop(0)) //0必须加
+        $rootScope.currentTaskDetailId = $scope.task.objectId;
+        
         for (var i = 0; i < 14; i++) { //可选截止日期：从今天开始共14天
           $scope.dateList[i] = {};
           var date = new Date();
@@ -54,7 +57,7 @@ angular.module('task.controllers.taskDetail', [])
           $scope.dateList[i].deadlineFormat = $scope.formatDeadline(date);
         }
         $scope.dateList.unshift({'deadline':'', deadlineFormat:'无期限'}) //todo:保存是无法清空时间,请求服务端支持
-      })
+      // })
     })
 
     $scope.addComment = function(e){
@@ -94,9 +97,10 @@ angular.module('task.controllers.taskDetail', [])
       postData.objectId = $scope.task.objectId;
       postData.updaterId = $scope.userInfo.objectId;
       Task.update(postData, function(data) {
-        $scope.$emit('NeedShowTaskList');
+        // $scope.$emit('NeedShowTaskList');
         console.log(data);
-        if(params.status) { //如果是完成任务和重启任务 todo:改时间不要隐藏详情
+        if(params.status !== undefined) { //如果是完成任务和重启任务 todo:改时间不要隐藏详情
+          $scope.getTaskList(); //直接调用父controller方法
           $('#task_detail_container').hide(200);
           $rootScope.currentTaskDetailId = '';
         }

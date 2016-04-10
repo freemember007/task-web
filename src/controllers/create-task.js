@@ -97,7 +97,7 @@ angular.module('task.controllers.createTask', [])
           console.log(data);
           $scope.task = {};
           for(var k in $scope.taskInit) $scope.task[k] = $scope.taskInit[k];
-          $scope.$emit('NeedShowTaskList');
+          $scope.$emit('NeedShowTaskList', {'subject': 'assignee', 'objectId': task.assignee, status: 1}); //todo:回头加参数或调用showSiderbar方法
           $('.createTask').hide(200);
         })
       }
