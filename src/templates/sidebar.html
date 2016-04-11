@@ -2,20 +2,20 @@
   <h1 class="company">杭州特扬网络</h1>
   <div class="left_container">
     <ul class="mySummary">
-      <li  class="active" ng-repeat="x in summaryList.mySummary" ng-click="clickSidebar(x.field, userInfo.objectId)">
-        <span class = "active" class="label">{{x.title}}</span>
+      <li ng-class="{'active': currentParams.subject == x.field && currentParams.objectId == userInfo.objectId}" ng-repeat="x in summaryList.mySummary" ng-click="clickSidebar(x.field, userInfo.objectId)">
+        <span class="label">{{x.title}}</span>
         <span class="num">{{x.allNum}}</span>
       </li>
     </ul>
     <ul class="teamSummary">
       <li ng-repeat="team in summaryList.teamSummary">
-        <p class="teamName " ng-click="clickSidebar('team', team.objectId)" ng-class="(currentParams.objectId == team.objectId) ? 'active' : ''" >
+        <p class="teamName " ng-click="clickSidebar('team', team.objectId)" ng-class="{'active' : currentParams.objectId == team.objectId}">
           <span class="label">{{team.name}}</span>
           <span class="num">{{team.allNum}}</span>
           <span class="icon"></span>
         </p>
         <ul class="team_group">
-          <li class="team_one" ng-repeat="member in team.members" ng-click="clickSidebar('assignee', member.objectId)" ng-class="(currentParams.objectId == member.objectId) ? 'active' : ''" ng-if="userInfo.objectId !== member.objectId">
+          <li class="team_one" ng-repeat="member in team.members" ng-click="clickSidebar('assignee', member.objectId)"  ng-class="{'active': currentParams.objectId == member.objectId}" ng-if="userInfo.objectId !== member.objectId">
             <img ng-src="{{member.avatar.url|addHost}}" ng-if="member.avatar.url" />
             <img ng-src="img/avatar_default.png" ng-if="!member.avatar.url" />
             <span class="name">{{member.name}}</span>

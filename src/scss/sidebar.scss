@@ -26,15 +26,15 @@
     }
     .left_container {
       overflow: auto;
-      margin-top: 90px;
+      margin-top: 75px;
       // margin-bottom: 90px;
       width: 267px;
-      height: 85%; //否则下面一截显示不出来, todo:left_container外面再套个div应该可以解决
+      height: 88%; //否则下面一截显示不出来, todo:left_container外面再套个div应该可以解决
       cursor: pointer;
       .mySummary {
         li {
           position: relative;
-          padding: 15px 0 15px 30px;
+          padding: 10px 0 10px 30px;
           .label {
             line-height: 30px;
             display: inline-block;
@@ -60,10 +60,11 @@
         }
         li {
           position: relative;
-          padding-left: 30px;
+          
           .teamName {
             height: 30px;
-            padding: 15px 0;
+            padding: 10px 0;
+            padding-left: 30px;
             .label {
               line-height: 30px;
               display: inline-block;
@@ -82,7 +83,7 @@
               left: 200px;
               display: block;
               width: 50px;
-              height: 50px;
+              height: 40px;
               background: url(img/triangle.png) no-repeat;
               background-position: center center;
             }
@@ -93,65 +94,34 @@
           .team_group {
             display: none;
             .team_one {
+              height: 30px;
+              line-height: 30px;
               position: relative;
-              margin-left: 20px;
-              padding: 15px 0;
-
+              padding: 10px 0;
+              padding-left: 50px;
               > img {
+                float: left;
                 width: 30px;
                 border-radius: 50%;
               }
               .name {
                 font-size: 14px;
-                line-height: 30px;
-                position: absolute;
-                top: 15px;
-                left: 40px;
-                display: inline-block;
-                width: 100px;
-                height: 30px;
+                margin-left: 10px;
               }
               .num {
-                line-height: 30px;
-                position: absolute;
-                top: 15px;
-                left: 135px;
-                padding-left: 0;
+                float: right;
+                font-size: 14px;
+                margin-right: 62px;
               }
             }
             :hover {
               background: $list_active;
             }
-            >:first-child {
-              padding-top: 0;
-              .num {
-                top: 0;
-              }
-              .name {
-                top: 0;
-              }
-            }
-          }
-          .project {
-            .team_one {
-              position: relative;
-              .name {
-                padding-left: 0;
-                background: none;
-              }
-              .num {
-                position: absolute;
-                top: 0;
-                left: 200px;
-                display: inline-block;
-                height: 30px;
-              }
-            }
           }
         }
-        .active {
-          background: $list_active;
-        }
+      }
+      .active {
+        background: $list_active;
       }
     }
   }

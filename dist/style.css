@@ -277,13 +277,13 @@ select:focus {
       z-index: 1000; }
     .task_container .left .left_container {
       overflow: auto;
-      margin-top: 90px;
+      margin-top: 75px;
       width: 267px;
-      height: 85%;
+      height: 88%;
       cursor: pointer; }
       .task_container .left .left_container .mySummary li {
         position: relative;
-        padding: 15px 0 15px 30px; }
+        padding: 10px 0 10px 30px; }
         .task_container .left .left_container .mySummary li .label {
           line-height: 30px;
           display: inline-block;
@@ -301,11 +301,11 @@ select:focus {
       .task_container .left .left_container .teamSummary > :first-child .team_group {
         display: block; }
       .task_container .left .left_container .teamSummary li {
-        position: relative;
-        padding-left: 30px; }
+        position: relative; }
         .task_container .left .left_container .teamSummary li .teamName {
           height: 30px;
-          padding: 15px 0; }
+          padding: 10px 0;
+          padding-left: 30px; }
           .task_container .left .left_container .teamSummary li .teamName .label {
             line-height: 30px;
             display: inline-block;
@@ -322,7 +322,7 @@ select:focus {
             left: 200px;
             display: block;
             width: 50px;
-            height: 50px;
+            height: 40px;
             background: url(img/triangle.png) no-repeat;
             background-position: center center; }
           .task_container .left .left_container .teamSummary li .teamName:hover {
@@ -330,47 +330,25 @@ select:focus {
         .task_container .left .left_container .teamSummary li .team_group {
           display: none; }
           .task_container .left .left_container .teamSummary li .team_group .team_one {
+            height: 30px;
+            line-height: 30px;
             position: relative;
-            margin-left: 20px;
-            padding: 15px 0; }
+            padding: 10px 0;
+            padding-left: 50px; }
             .task_container .left .left_container .teamSummary li .team_group .team_one > img {
+              float: left;
               width: 30px;
               border-radius: 50%; }
             .task_container .left .left_container .teamSummary li .team_group .team_one .name {
               font-size: 14px;
-              line-height: 30px;
-              position: absolute;
-              top: 15px;
-              left: 40px;
-              display: inline-block;
-              width: 100px;
-              height: 30px; }
+              margin-left: 10px; }
             .task_container .left .left_container .teamSummary li .team_group .team_one .num {
-              line-height: 30px;
-              position: absolute;
-              top: 15px;
-              left: 135px;
-              padding-left: 0; }
+              float: right;
+              font-size: 14px;
+              margin-right: 62px; }
           .task_container .left .left_container .teamSummary li .team_group :hover {
             background: #3e484f; }
-          .task_container .left .left_container .teamSummary li .team_group > :first-child {
-            padding-top: 0; }
-            .task_container .left .left_container .teamSummary li .team_group > :first-child .num {
-              top: 0; }
-            .task_container .left .left_container .teamSummary li .team_group > :first-child .name {
-              top: 0; }
-        .task_container .left .left_container .teamSummary li .project .team_one {
-          position: relative; }
-          .task_container .left .left_container .teamSummary li .project .team_one .name {
-            padding-left: 0;
-            background: none; }
-          .task_container .left .left_container .teamSummary li .project .team_one .num {
-            position: absolute;
-            top: 0;
-            left: 200px;
-            display: inline-block;
-            height: 30px; }
-      .task_container .left .left_container .teamSummary .active {
+      .task_container .left .left_container .active {
         background: #3e484f; }
 
 #task_detail_container {
