@@ -1,5 +1,5 @@
 <div class="left" ng-controller="SidebarController">
-  <h1 class="company">杭州特扬网络</h1>
+  <h1 class="company" ng-click="clickSidebar('assignee', userInfo.objectId, 1)">杭州特扬网络</h1>
   <div class="left_container">
     <ul class="mySummary">
       <li ng-class="{'active': currentParams.subject == x.field && currentParams.objectId == userInfo.objectId}" ng-repeat="x in summaryList.mySummary" ng-click="clickSidebar(x.field, userInfo.objectId)">

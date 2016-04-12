@@ -24,6 +24,12 @@ angular.module('task.controllers.taskList', [])
     $scope.allTaskList = []; // 所有任务
     $scope.taskList = []; // 当前Tab任务
     $scope.length = []; // 任务数
+    $scope.progressList = [
+      {'percent': '---', 'style': 'transparent transparent transparent transparent'},
+      {'percent': '25', 'style': 'transparent #008000 transparent transparent'},
+      {'percent': '50', 'style': 'transparent #008000 #008000 transparent'},
+      {'percent': '75', 'style': 'transparent #008000 #008000 #008000'},
+    ]
 
     //jquery动画
     $(document).ready(function() {
@@ -32,6 +38,16 @@ angular.module('task.controllers.taskList', [])
         $("#taskName").focus();
       })
     })
+
+    //极端丑陋...
+    $scope.showProgressList = function(e){
+        $(e.target).parent().children('ul').slideToggle(200);
+        e.stopPropagation();
+    }
+    $scope.hideProgressList = function(e){
+      $(e.target).parent().parent().hide(200);
+      e.stopPropagation();
+    }
 
     // 监听PleaseShowTaskList事件
     $scope.$on('PleaseShowTaskList', function(event, msg) {
@@ -46,21 +62,22 @@ angular.module('task.controllers.taskList', [])
         'userId': $scope.userInfo.objectId
       }, function(data){
         if(data.count == 0){
-          $scope.unreadNotificationNumber = ''
-          $scope.showNotificationNumber = false;
+          $timeout($scope.unreadNotificationNumber = '');
+          $timeout($scope.showNotificationNumber = false);
         }else{
-          $scope.showNotificationNumber = true;
-          $scope.unreadNotificationNumber = data.count;
+          $timeout($scope.showNotificationNumber = true);
+          $timeout($scope.unreadNotificationNumber = data.count);
         } 
       })
     }
     $scope.findNotification = function() {
+      $('.notification_container').toggle(200)
       Notification.find({
         'action': 'find', 
         'userId': $scope.userInfo.objectId
       }, function(data){
-          $scope.notifications = data;
-          $timeout($('.notification_container').toggle(200));
+          $timeout($scope.notifications = data);
+          // $timeout($('.notification_container').toggle(200));
       })
     }
     $scope.clickNotification = function(params) {
@@ -71,12 +88,7 @@ angular.module('task.controllers.taskList', [])
       }, function(data){
         console.log(data)
       });
-      // $scope.$emit('NeedClickSidebar', {'subject': params.subject, 'objectId': params.objectId, 'status': params.status, 'taskId': params.taskId});
-      // Task.findOne({'taskId': params.taskId}, function(data) {
-      //   $scope.$broadcast('PleaseShowTaskDetail', { 'task': data });
-      // })
       $scope.getTaskList({'subject': params.subject, 'objectId': params.objectId, 'status': params.status, 'taskId': params.taskId});
-      // $rootScope.currentTaskDetailId = params.taskId;
       $scope.checkNotification();
     }
 

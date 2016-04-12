@@ -21,10 +21,8 @@ angular.module('teamTask', [
   '$urlRouterProvider',
   '$httpProvider',
   function($stateProvider, $urlRouterProvider, $httpProvider) {
-
+    
     $httpProvider.interceptors.push('Interceptor');
-
-    // $urlRouterProvider.otherwise("/login");
 
     $stateProvider
       .state('main', {
@@ -58,10 +56,6 @@ angular.module('teamTask', [
     $rootScope.$on('NeedShowTaskList', function(event, msg) {
       $rootScope.$broadcast("PleaseShowTaskList", msg); // 
     })
-
-    // $rootScope.$on('NeedShowTaskDetail', function(event, msg) {
-    //   $rootScope.$broadcast("PleaseShowTaskDetail", msg); // 
-    // })
 
     $rootScope.globalStatus = {
       showDetail: false,

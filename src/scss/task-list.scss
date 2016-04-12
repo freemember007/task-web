@@ -176,7 +176,6 @@
                 display: inline-block;
                 width: 50px;
                 height: 15px;
-                // background: url(img/icon_priority.png) no-repeat center center;
               }
               .taskName {
                 font-size: 16px;
@@ -192,6 +191,75 @@
                 padding: 2px;
                 border-radius: 3px;
               }
+              >.progress_container {
+                display: inline;
+                font-size: 16px;
+                margin-left: 20px;
+                padding: 2px;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                >.progress {
+                  position: absolute;
+                  display: inline;
+                  font-size: 16px;
+                  margin-left: 20px;
+                  padding: 2px;
+                  width: 30px;
+                  height: 30px;
+                  line-height: 30px;
+                  text-align: center;
+                  border-radius: 50%;
+                  border:1px solid transparent;
+                  transform:rotate(-45deg);
+                }
+                >.percent {
+                  margin-left: 30px;
+                  height: 40px;
+                  line-height: 40px;
+                  color: #ddd;
+                  text-align: center;
+                  font-size: 16px;
+                }
+                >.progress_list {
+                  display: none;
+                  >.progress_container {
+                    margin-left: -50px;
+                    font-size: 16px;
+                    padding: 10px 0;
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    text-align: center;
+                    >.progress {
+                      position: absolute;
+                      font-size: 16px;
+                      margin-left: 20px;
+                      padding: 2px;
+                      width: 30px;
+                      height: 30px;
+                      line-height: 30px;
+                      text-align: center;
+                      border-radius: 50%;
+                      border:1px solid transparent;
+                      transform:rotate(-45deg);
+                      background: #fff;
+                    }
+                    >.percent {
+                      position: absolute;
+                      width: 40px;
+                      height: 40px;
+                      line-height: 40px;
+                      color: #ddd;
+                      text-align: center;
+                      font-size: 16px;
+                    }
+                  }
+                  
+                }
+              }
+              
               .past {
                 color: $red_color;
               }
