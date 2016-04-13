@@ -37,6 +37,9 @@ angular.module('task.controllers.taskList', [])
         $('.createTask').show(200);
         $("#taskName").focus();
       })
+      $('.close').click(function() {
+        $('.j_slide_layer').hide(200);
+      })
     })
 
     //极端丑陋...
@@ -69,6 +72,19 @@ angular.module('task.controllers.taskList', [])
           $timeout($scope.unreadNotificationNumber = data.count);
         } 
       })
+    }
+    $scope.readAllNotification = function(){
+      Notification.read({
+        'action': 'readAll', 
+        'userId': $scope.userInfo.objectId
+      }, function(data){
+        console.log(data);
+        $timeout($scope.unreadNotificationNumber = '');
+        $timeout($scope.showNotificationNumber = false);
+        for(var i = 0; i < $scope.notifications.length; i++){
+          $scope.notifications[i].isRead = true;
+        }
+      });
     }
     $scope.findNotification = function() {
       $('.notification_container').toggle(200)

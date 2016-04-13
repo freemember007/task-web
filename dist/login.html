@@ -8,11 +8,11 @@
     <div class="img_title_style"><img src="img/logo.png"></div>
     
     <div class="content">
-      <div class="title">
+      <div class="title" ng-keydown="login($event, user)">
         <p>特扬工作流协作系统登录</p>
         <input class="input" type="text" placeholder="你的手机号" ng-model="user.username"/>
         <input class="input" type="password" placeholder="你的密码" ng-model="user.password"/>
-        <button class="button" ng-click="login(user)">登录</button>
+        <button class="button" ng-click="login($event, user)">登录</button>
       </div>
     </div>
   </div>

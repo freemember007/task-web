@@ -40,14 +40,22 @@
       <div class="icon_notification" ng-click="findNotification()">
         <span class="badge" ng-show="showNotificationNumber">{{unreadNotificationNumber}}</span>
       </div>
-      <ul class="notification_container j_slide_layer">
-        <li ng-class="{'is_read': notification.isRead}" ng-repeat="notification in notifications" ng-click="clickNotification({'subject': 'assignee','objectId':notification.assigneeId,'taskId':notification.taskId, 'notificationId': notification.objectId, 'status': notification.taskStatus})">
-          <img ng-src="{{notification.updaterAvatar}}">
-          <div class="message">
-            {{notification.message}}
-          </div>
-        </li>
-      </ul>
+      <div class="notification_container j_slide_layer">
+        <div class="title_container">
+          <span class='title'>通知</span>
+          <span class="read_all" ng-show="showNotificationNumber" ng-click="readAllNotification()">标记全部已读</span>
+          <span class="close"></span>
+        </div>
+        <ul>
+          <li ng-class="{'is_read': notification.isRead}" ng-repeat="notification in notifications" ng-click="clickNotification({'subject': 'assignee','objectId':notification.assigneeId,'taskId':notification.taskId, 'notificationId': notification.objectId, 'status': notification.taskStatus})">
+            <img ng-src="{{notification.updaterAvatar}}">
+            <div class="message">
+              {{notification.message}}
+            </div>
+          </li>
+        </ul>
+      </div>
+      
       <img class="thumb" ng-src="{{userInfo.avatar.url|addHost}}" ng-click="logout()">
     </div>
     <!--右顶部Tab-->

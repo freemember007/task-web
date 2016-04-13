@@ -12,12 +12,13 @@ angular.module('task.controllers.login', [])
       }
 
       //登录
-      $scope.login = function(params){
-        User.login(params, function(data){
-          $state.go('main')
-        });
+      $scope.login = function(e, user){
+        if(e.type == 'click'||e.keyCode == 13){
+          User.login(user, function(data){
+            $state.go('main')
+          });
+        }
       }
-
     }
 
   ]);

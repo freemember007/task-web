@@ -247,12 +247,13 @@ angular.module('task.controllers.login', [])
       }
 
       //登录
-      $scope.login = function(params){
-        User.login(params, function(data){
-          $state.go('main')
-        });
+      $scope.login = function(e, user){
+        if(e.type == 'click'||e.keyCode == 13){
+          User.login(user, function(data){
+            $state.go('main')
+          });
+        }
       }
-
     }
 
   ]);
@@ -263,11 +264,16 @@ angular.module('task.controllers.sidebar', [])
   '$scope',
   '$rootScope',
   'LocalStorage',
+  '$state',
   'User',
   'Task',
-  function($timeout, $scope, $rootScope, LocalStorage, User, Task) {
+  function($timeout, $scope, $rootScope, LocalStorage, $state, User, Task) {
 
     $scope.userInfo = LocalStorage.getObject('userInfo');
+
+    if(!$scope.userInfo.company){
+      $state.go('login')
+    }
 
     // 监听TaskUpdate事件
     $scope.$on('TaskCreated', function(event, msg) {
@@ -490,6 +496,9 @@ angular.module('task.controllers.taskList', [])
         $('.createTask').show(200);
         $("#taskName").focus();
       })
+      $('.close').click(function() {
+        $('.j_slide_layer').hide(200);
+      })
     })
 
     //极端丑陋...
@@ -522,6 +531,19 @@ angular.module('task.controllers.taskList', [])
           $timeout($scope.unreadNotificationNumber = data.count);
         } 
       })
+    }
+    $scope.readAllNotification = function(){
+      Notification.read({
+        'action': 'readAll', 
+        'userId': $scope.userInfo.objectId
+      }, function(data){
+        console.log(data);
+        $timeout($scope.unreadNotificationNumber = '');
+        $timeout($scope.showNotificationNumber = false);
+        for(var i = 0; i < $scope.notifications.length; i++){
+          $scope.notifications[i].isRead = true;
+        }
+      });
     }
     $scope.findNotification = function() {
       $('.notification_container').toggle(200)
@@ -741,7 +763,7 @@ angular.module('task.services.notification', [])
           callback(data);
         },
         error: function(err) {
-          console.log(err);s
+          console.log(err);
         }
       })
     },
@@ -752,7 +774,18 @@ angular.module('task.services.notification', [])
           callback(data);
         },
         error: function(err) {
-          console.log(err);s
+          console.log(err);
+        }
+      })
+    },
+    readAll: function(params, callback) {
+      Bmob.Cloud.run('notification', params, {
+        success: function(data) {
+          data = JSON.parse(data);
+          callback(data);
+        },
+        error: function(err) {
+          console.log(err);
         }
       })
     }

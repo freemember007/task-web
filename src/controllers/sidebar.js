@@ -5,11 +5,16 @@ angular.module('task.controllers.sidebar', [])
   '$scope',
   '$rootScope',
   'LocalStorage',
+  '$state',
   'User',
   'Task',
-  function($timeout, $scope, $rootScope, LocalStorage, User, Task) {
+  function($timeout, $scope, $rootScope, LocalStorage, $state, User, Task) {
 
     $scope.userInfo = LocalStorage.getObject('userInfo');
+
+    if(!$scope.userInfo.company){
+      $state.go('login')
+    }
 
     // 监听TaskUpdate事件
     $scope.$on('TaskCreated', function(event, msg) {

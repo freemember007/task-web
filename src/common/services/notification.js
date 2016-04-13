@@ -21,7 +21,7 @@ angular.module('task.services.notification', [])
           callback(data);
         },
         error: function(err) {
-          console.log(err);s
+          console.log(err);
         }
       })
     },
@@ -32,7 +32,18 @@ angular.module('task.services.notification', [])
           callback(data);
         },
         error: function(err) {
-          console.log(err);s
+          console.log(err);
+        }
+      })
+    },
+    readAll: function(params, callback) {
+      Bmob.Cloud.run('notification', params, {
+        success: function(data) {
+          data = JSON.parse(data);
+          callback(data);
+        },
+        error: function(err) {
+          console.log(err);
         }
       })
     }
