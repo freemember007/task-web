@@ -598,20 +598,20 @@ select:focus {
     background-position-y: center;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     z-index: 1000; }
-    .right .right_top .head {
+    .right .right_top > .head {
       height: 49px;
       line-height: 49px;
       border-bottom: 1px solid #eee;
       /*  通知栏  */ }
-      .right .right_top .head .add_task {
+      .right .right_top > .head .add_task {
         float: left;
         background: transparent url("img/icon_add_task.png") no-repeat 20px center;
         padding-left: 50px;
         cursor: pointer;
         color: #ccc; }
-        .right .right_top .head .add_task:hover {
+        .right .right_top > .head .add_task:hover {
           color: #2196f3; }
-      .right .right_top .head .icon_notification {
+      .right .right_top > .head .icon_notification {
         text-align: right;
         position: absolute;
         right: 150px;
@@ -619,7 +619,7 @@ select:focus {
         height: 50px;
         background: url("img/icon_alert.png") no-repeat left center/20px 22px;
         cursor: pointer; }
-        .right .right_top .head .icon_notification .badge {
+        .right .right_top > .head .icon_notification .badge {
           position: absolute;
           background: red;
           color: #fff;
@@ -631,7 +631,7 @@ select:focus {
           top: 5px;
           right: -5px;
           font-size: 12px; }
-      .right .right_top .head .notification_container {
+      .right .right_top > .head .notification_container {
         display: none;
         position: absolute;
         top: 50px;
@@ -641,13 +641,13 @@ select:focus {
         border-radius: 5px;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
         background: #fff; }
-        .right .right_top .head .notification_container > .title_container {
+        .right .right_top > .head .notification_container > .title_container {
           font-size: 16px;
           border-bottom: 1px solid #ccc; }
-          .right .right_top .head .notification_container > .title_container > .title {
+          .right .right_top > .head .notification_container > .title_container > .title {
             font-size: 16px;
             margin-left: 15px; }
-          .right .right_top .head .notification_container > .title_container > .read_all {
+          .right .right_top > .head .notification_container > .title_container > .read_all {
             margin-left: 100px;
             font-size: 12px;
             color: white;
@@ -655,7 +655,7 @@ select:focus {
             padding: 5px;
             border-radius: 5px;
             cursor: pointer; }
-          .right .right_top .head .notification_container > .title_container > .close {
+          .right .right_top > .head .notification_container > .title_container > .close {
             position: absolute;
             right: 10px;
             top: 15px;
@@ -665,34 +665,34 @@ select:focus {
             cursor: pointer;
             background: #AAA url("img/icon_close.png") no-repeat scroll center center/100% 100%;
             border-radius: 50%; }
-        .right .right_top .head .notification_container > ul {
+        .right .right_top > .head .notification_container > ul {
           overflow: auto;
           height: 310px; }
-          .right .right_top .head .notification_container > ul > li {
-            height: 76px;
+          .right .right_top > .head .notification_container > ul > li {
+            padding: 10px;
+            background: #FFFFCC no-repeat;
             border-bottom: 1px #ccc dashed;
-            cursor: pointer;
-            background: #FFFFCC; }
-            .right .right_top .head .notification_container > ul > li img {
-              height: 30px;
+            cursor: pointer; }
+            .right .right_top > .head .notification_container > ul > li img {
               float: left;
-              margin: 15px;
+              height: 30px;
+              margin: 3px;
               border-radius: 50%; }
-            .right .right_top .head .notification_container > ul > li .message {
-              padding-top: 15px;
+            .right .right_top > .head .notification_container > ul > li .message {
+              padding-left: 45px;
               line-height: 20px;
               color: #666; }
-        .right .right_top .head .notification_container .is_read {
-          background: #fff; }
-      .right .right_top .head .thumb {
+        .right .right_top > .head .notification_container .is_read {
+          background-color: #fff; }
+      .right .right_top > .head .thumb {
         position: absolute;
         top: 5px;
-        right: 10px;
+        right: 60px;
         overflow: hidden;
         width: 40px;
         height: 40px;
         border-radius: 50%; }
-        .right .right_top .head .thumb img {
+        .right .right_top > .head .thumb img {
           width: 100%; }
     .right .right_top .menu {
       height: 50px;

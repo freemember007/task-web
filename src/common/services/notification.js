@@ -6,6 +6,7 @@ angular.module('task.services.notification', [])
     find: function(params, callback) {
       Bmob.Cloud.run('notification', params, {
         success: function(data) {
+          // console.log(data);
           data = JSON.parse(data);
           callback(data);
         },

@@ -33,8 +33,8 @@ angular.module('task.controllers.sidebar', [])
         userId: $scope.userInfo.objectId
       }, {
         success: function(data) {
+          // console.log(data);
           var summaryList = JSON.parse(data);
-          // console.log(summaryList);
           $scope.$apply(function() {
             $scope.summaryList = summaryList;
             $timeout(function() {

@@ -6,6 +6,7 @@ angular.module('task.services.task', [])
     find: function(params, callback) {
       Bmob.Cloud.run('taskList', params, {
         success: function(data) {
+          // console.log(data);
           data = JSON.parse(data);
           LocalStorage.setObject('taskList', data);
           callback(data);
@@ -29,7 +30,7 @@ angular.module('task.services.task', [])
     update: function(params, callback) {
       Bmob.Cloud.run('updateTask', params, {
         success: function(data) {
-          console.log(params)
+          console.log(data);
           data = JSON.parse(data);
           callback(data);
         },

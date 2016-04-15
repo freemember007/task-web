@@ -292,8 +292,8 @@ angular.module('task.controllers.sidebar', [])
         userId: $scope.userInfo.objectId
       }, {
         success: function(data) {
+          // console.log(data);
           var summaryList = JSON.parse(data);
-          // console.log(summaryList);
           $scope.$apply(function() {
             $scope.summaryList = summaryList;
             $timeout(function() {
@@ -537,12 +537,13 @@ angular.module('task.controllers.taskList', [])
         'action': 'readAll', 
         'userId': $scope.userInfo.objectId
       }, function(data){
-        console.log(data);
+        // console.log(data);
         $timeout($scope.unreadNotificationNumber = '');
         $timeout($scope.showNotificationNumber = false);
         for(var i = 0; i < $scope.notifications.length; i++){
           $scope.notifications[i].isRead = true;
         }
+        setTimeout(function(){$('.notification_container').hide()}, 500);
       });
     }
     $scope.findNotification = function() {
@@ -573,13 +574,7 @@ angular.module('task.controllers.taskList', [])
         $('#task_detail_container').hide(200);
         $rootScope.currentTaskDetailId = '';
       }
-
       params = params || $rootScope.currentParams;
-      if(params.subject == 'assignee' && params.objectId == $scope.userInfo.objectId){
-        $scope.myself =  true;
-      }else{
-        $scope.myself = false;
-      }
       params.userId = $scope.userInfo.objectId;
       Task.find(params, function(data) {
         $scope.allTaskList = data;
@@ -588,6 +583,11 @@ angular.module('task.controllers.taskList', [])
           $scope.filterTaskList(params.status, null, params.taskId);
           delete params.taskId; // 丑陋
           $timeout($rootScope.currentParams = params);
+          if(params.subject == 'assignee' && params.objectId == $scope.userInfo.objectId){
+            $scope.myself =  true;
+          }else{
+            $scope.myself = false;
+          }
         });
       })
     }
@@ -613,7 +613,7 @@ angular.module('task.controllers.taskList', [])
       $timeout($('.right').scrollTop(0));
       if(taskId){
         for(var i=0; i<$scope.taskList.length; i++){
-          console.log($scope.taskList[i])
+          // console.log($scope.taskList[i])
           for(var j=0; j<$scope.taskList[i].tasks.length; j++){
             if($scope.taskList[i].tasks[j].objectId == taskId){
               $scope.showTaskDetail($scope.taskList[i].tasks[j]);
@@ -639,7 +639,7 @@ angular.module('task.controllers.taskList', [])
       postData.updaterId = $scope.userInfo.objectId;
       Task.update(postData, function(data) {
         $scope.getTaskList();
-        console.log(data)
+        // console.log(data)
       })
     }
 
@@ -660,7 +660,7 @@ angular.module('task.controllers.taskList', [])
 
     //初始化
     $scope.getTaskList();
-    $scope.checkNotification();
+    setTimeout($scope.checkNotification, 300)
     setInterval($scope.checkNotification, 30000);
 
   }
@@ -683,22 +683,22 @@ angular.module('task.services.interceptor', [])
 
   return {
     'request': function(config) {
-      NProgress.start()
+      // NProgress.start()
       return config;
     },
 
     'requestError': function(rejection) {
-      NProgress.done()
+      // NProgress.done()
       return rejection;
     },
 
     'response': function(res) {
-      NProgress.done()
+      // NProgress.done()
       return res;
     },
 
     'responseError': function(res) { //处理HTTP错误
-      NProgress.done()
+      // NProgress.done()
       var status = res.status;
       if (status === 0) {
         alert('网络异常！请检查您的网络连接！');
@@ -748,6 +748,7 @@ angular.module('task.services.notification', [])
     find: function(params, callback) {
       Bmob.Cloud.run('notification', params, {
         success: function(data) {
+          // console.log(data);
           data = JSON.parse(data);
           callback(data);
         },
@@ -799,6 +800,7 @@ angular.module('task.services.task', [])
     find: function(params, callback) {
       Bmob.Cloud.run('taskList', params, {
         success: function(data) {
+          // console.log(data);
           data = JSON.parse(data);
           LocalStorage.setObject('taskList', data);
           callback(data);
@@ -822,7 +824,7 @@ angular.module('task.services.task', [])
     update: function(params, callback) {
       Bmob.Cloud.run('updateTask', params, {
         success: function(data) {
-          console.log(params)
+          console.log(data);
           data = JSON.parse(data);
           callback(data);
         },

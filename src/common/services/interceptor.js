@@ -4,22 +4,22 @@ angular.module('task.services.interceptor', [])
 
   return {
     'request': function(config) {
-      NProgress.start()
+      // NProgress.start()
       return config;
     },
 
     'requestError': function(rejection) {
-      NProgress.done()
+      // NProgress.done()
       return rejection;
     },
 
     'response': function(res) {
-      NProgress.done()
+      // NProgress.done()
       return res;
     },
 
     'responseError': function(res) { //处理HTTP错误
-      NProgress.done()
+      // NProgress.done()
       var status = res.status;
       if (status === 0) {
         alert('网络异常！请检查您的网络连接！');

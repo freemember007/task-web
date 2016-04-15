@@ -16,8 +16,7 @@
         </p>
         <ul class="team_group">
           <li class="team_one" ng-repeat="member in team.members" ng-click="clickSidebar('assignee', member.objectId)"  ng-class="{'active': currentParams.objectId == member.objectId}" ng-if="userInfo.objectId !== member.objectId">
-            <img ng-src="{{member.avatar.url|addHost}}" ng-if="member.avatar.url" />
-            <img ng-src="img/avatar_default.png" ng-if="!member.avatar.url" />
+            <img ng-src="{{member.avatar.url|addHost}}" title="{{member.username}}"/>
             <span class="name">{{member.name}}</span>
             <span class="num">{{member.allNum}}</span>
           </li>
