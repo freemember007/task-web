@@ -12,8 +12,19 @@ angular.module('task.controllers.sidebar', [])
 
     $scope.userInfo = LocalStorage.getObject('userInfo');
 
-    if(!$scope.userInfo.company){
+    var user = LocalStorage.getObject('user');
+    console.log(user)
+
+    if (!$scope.userInfo.company || !user.username) {
       $state.go('login')
+    } else {
+      User.login(LocalStorage.getObject('user'), function(data) { // 每次重新登录下
+        if(!data){
+          $state.go('login');
+          return;
+        }
+        console.log('login ok!')
+      });
     }
 
     // 监听TaskUpdate事件
@@ -55,7 +66,7 @@ angular.module('task.controllers.sidebar', [])
 
     $scope.clickSidebar = function(subject, objectId, status) {
       console.log($rootScope.currentParams)
-      $rootScope.currentParams = { subject: subject, objectId: objectId, status: status||1 };
+      $rootScope.currentParams = { subject: subject, objectId: objectId, status: status || 1 };
       $scope.$emit('NeedShowTaskList', $rootScope.currentParams);
     };
 

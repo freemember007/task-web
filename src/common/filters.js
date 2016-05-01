@@ -13,7 +13,11 @@ angular.module('task.filters', [])
 .filter('addHost', function() {
   return function(input){
     if(input){
-      return 'http://file.bmob.cn/' + input;
+      if(input.indexOf ('http')!== -1){
+        return input
+      }else{
+        return 'http://file.bmob.cn/' + input;
+      }
     }else{
       return ''
     }

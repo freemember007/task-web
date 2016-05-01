@@ -27,6 +27,7 @@ angular.module('task.services.user', [])
     },
     logout: function(){
       LocalStorage.remove('userInfo');
+      LocalStorage.remove('user');
       LocalStorage.clear(); //todo: 貌似不生效
       $state.go('login');
     }

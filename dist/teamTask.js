@@ -73,15 +73,14 @@ angular.module('teamTask', [
           $timeout($('.j_slide_layer').hide(200));
         }
       })
-    })
+    });
 
     // 判断登录状态，跳到不同页面
     if (LocalStorage.getObject('userInfo').objectId) {
       $state.go('main');
     } else {
       $state.go('login');
-    };
-
+    }
   }
 ]);
 angular.module('task.filters', [])
@@ -99,7 +98,11 @@ angular.module('task.filters', [])
 .filter('addHost', function() {
   return function(input){
     if(input){
-      return 'http://file.bmob.cn/' + input;
+      if(input.indexOf ('http')!== -1){
+        return input
+      }else{
+        return 'http://file.bmob.cn/' + input;
+      }
     }else{
       return ''
     }
@@ -235,28 +238,26 @@ angular.module('task.controllers.createTask', [])
 ]);
 angular.module('task.controllers.login', [])
 
-  .controller('LoginController', [
-    '$scope',
-    'User',
-    '$state',
-    function($scope, User, $state) {
+.controller('LoginController', function($scope, User, $state, LocalStorage) {
 
-      $scope.user = {
-        username: '',
-        password: ''
-      }
+    $scope.user = {
+      username: '',
+      password: ''
+    };
 
-      //登录
-      $scope.login = function(e, user){
-        if(e.type == 'click'||e.keyCode == 13){
-          User.login(user, function(data){
-            $state.go('main')
-          });
-        }
+    //登录
+    $scope.login = function(e, user) {
+      if (e.type == 'click' || e.keyCode == 13) {
+        User.login(user, function(data) {
+          LocalStorage.setObject('user', user);
+          $state.go('main')
+        });
       }
     }
+  }
 
-  ]);
+);
+
 angular.module('task.controllers.sidebar', [])
 
 .controller('SidebarController', [
@@ -271,8 +272,19 @@ angular.module('task.controllers.sidebar', [])
 
     $scope.userInfo = LocalStorage.getObject('userInfo');
 
-    if(!$scope.userInfo.company){
+    var user = LocalStorage.getObject('user');
+    console.log(user)
+
+    if (!$scope.userInfo.company || !user.username) {
       $state.go('login')
+    } else {
+      User.login(LocalStorage.getObject('user'), function(data) { // 每次重新登录下
+        if(!data){
+          $state.go('login');
+          return;
+        }
+        console.log('login ok!')
+      });
     }
 
     // 监听TaskUpdate事件
@@ -314,12 +326,13 @@ angular.module('task.controllers.sidebar', [])
 
     $scope.clickSidebar = function(subject, objectId, status) {
       console.log($rootScope.currentParams)
-      $rootScope.currentParams = { subject: subject, objectId: objectId, status: status||1 };
+      $rootScope.currentParams = { subject: subject, objectId: objectId, status: status || 1 };
       $scope.$emit('NeedShowTaskList', $rootScope.currentParams);
     };
 
   }
 ]);
+
 angular.module('task.controllers.taskDetail', [])
 
 .controller('TaskDetailController', [
@@ -876,6 +889,7 @@ angular.module('task.services.user', [])
     },
     logout: function(){
       LocalStorage.remove('userInfo');
+      LocalStorage.remove('user');
       LocalStorage.clear(); //todo: 貌似不生效
       $state.go('login');
     }

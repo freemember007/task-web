@@ -73,14 +73,13 @@ angular.module('teamTask', [
           $timeout($('.j_slide_layer').hide(200));
         }
       })
-    })
+    });
 
     // 判断登录状态，跳到不同页面
     if (LocalStorage.getObject('userInfo').objectId) {
       $state.go('main');
     } else {
       $state.go('login');
-    };
-
+    }
   }
 ]);

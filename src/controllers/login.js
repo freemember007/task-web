@@ -1,24 +1,21 @@
 angular.module('task.controllers.login', [])
 
-  .controller('LoginController', [
-    '$scope',
-    'User',
-    '$state',
-    function($scope, User, $state) {
+.controller('LoginController', function($scope, User, $state, LocalStorage) {
 
-      $scope.user = {
-        username: '',
-        password: ''
-      }
+    $scope.user = {
+      username: '',
+      password: ''
+    };
 
-      //登录
-      $scope.login = function(e, user){
-        if(e.type == 'click'||e.keyCode == 13){
-          User.login(user, function(data){
-            $state.go('main')
-          });
-        }
+    //登录
+    $scope.login = function(e, user) {
+      if (e.type == 'click' || e.keyCode == 13) {
+        User.login(user, function(data) {
+          LocalStorage.setObject('user', user);
+          $state.go('main')
+        });
       }
     }
+  }
 
-  ]);
+);
