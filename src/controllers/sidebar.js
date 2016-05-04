@@ -15,7 +15,7 @@ angular.module('task.controllers.sidebar', [])
     var user = LocalStorage.getObject('user');
     console.log(user)
 
-    if (!$scope.userInfo.company || !user.username) {
+    if (!$scope.userInfo.company  || !user.username) {
       $state.go('login')
     } else {
       User.login(LocalStorage.getObject('user'), function(data) { // 每次重新登录下

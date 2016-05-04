@@ -1,6 +1,6 @@
 angular.module('task.controllers.login', [])
 
-.controller('LoginController', function($scope, User, $state, LocalStorage) {
+  .controller('LoginController', function ($scope, User, $state, LocalStorage) {
 
     $scope.user = {
       username: '',
@@ -8,14 +8,13 @@ angular.module('task.controllers.login', [])
     };
 
     //登录
-    $scope.login = function(e, user) {
+    $scope.login = function (e, user) {
       if (e.type == 'click' || e.keyCode == 13) {
-        User.login(user, function(data) {
+        User.login(user, function (data) {
           LocalStorage.setObject('user', user);
           $state.go('main')
         });
       }
     }
-  }
 
-);
+  });

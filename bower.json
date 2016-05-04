@@ -23,6 +23,7 @@
     "jquery": "^2.2.2",
     "angular": "^1.5.3",
     "angular-file-upload": "^2.2.0",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "Materialize": "materialize#^0.97.6"
   }
 }

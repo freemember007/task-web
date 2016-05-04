@@ -52,7 +52,8 @@ angular.module('task.controllers.createTask', [])
 
     // 上传图片
     $scope.upload = function(that){
-      var file = that.files[0];
+      var file;
+      file = that.files[0];
       var name = that.value;
       var file = new Bmob.File(name, file);     
       file.save().then(function(obj) {

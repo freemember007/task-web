@@ -831,6 +831,7 @@ select:focus {
         border-radius: 5px;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
         background: #fff;
+        z-index: 1;
         >.title_container {
           font-size: 16px;
           border-bottom: 1px solid #ccc;
@@ -864,6 +865,7 @@ select:focus {
           height: 310px;
           >li {
             padding: 10px;
+            min-height: 32px;
             background: #FFFFCC no-repeat;
             border-bottom: 1px #ccc dashed;
             cursor: pointer;
@@ -898,7 +900,8 @@ select:focus {
         }
       }
     }
-    .menu {
+    ul.menu {
+      position: relative;
       height: 50px;
       text-align: center;
       li {
@@ -908,6 +911,28 @@ select:focus {
         padding: 8px 15px;
         cursor: pointer;
         border-bottom: 4px solid white;
+      }
+      .count {
+        position: absolute;
+        top: 0;
+        right: 100px;
+        height: 50px;
+        line-height: 50px;
+        color: #cccccc;
+        font-size: 12px;
+        span {
+          margin-right: 10px;
+          i {
+            color: #30a01f;
+            font-style: normal;
+          }
+          b {
+            font-weight: normal;
+          }
+          .red {
+            color: #ff6600;
+          }
+        }
       }
       .active {
         border-color: $blue_color;

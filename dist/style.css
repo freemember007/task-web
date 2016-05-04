@@ -640,7 +640,8 @@ select:focus {
         font-size: 12px;
         border-radius: 5px;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-        background: #fff; }
+        background: #fff;
+        z-index: 1; }
         .right .right_top > .head .notification_container > .title_container {
           font-size: 16px;
           border-bottom: 1px solid #ccc; }
@@ -670,6 +671,7 @@ select:focus {
           height: 310px; }
           .right .right_top > .head .notification_container > ul > li {
             padding: 10px;
+            min-height: 32px;
             background: #FFFFCC no-repeat;
             border-bottom: 1px #ccc dashed;
             cursor: pointer; }
@@ -694,17 +696,35 @@ select:focus {
         border-radius: 50%; }
         .right .right_top > .head .thumb img {
           width: 100%; }
-    .right .right_top .menu {
+    .right .right_top ul.menu {
+      position: relative;
       height: 50px;
       text-align: center; }
-      .right .right_top .menu li {
+      .right .right_top ul.menu li {
         font: 16px '微软雅黑';
         line-height: 30px;
         display: inline-block;
         padding: 8px 15px;
         cursor: pointer;
         border-bottom: 4px solid white; }
-      .right .right_top .menu .active {
+      .right .right_top ul.menu .count {
+        position: absolute;
+        top: 0;
+        right: 100px;
+        height: 50px;
+        line-height: 50px;
+        color: #cccccc;
+        font-size: 12px; }
+        .right .right_top ul.menu .count span {
+          margin-right: 10px; }
+          .right .right_top ul.menu .count span i {
+            color: #30a01f;
+            font-style: normal; }
+          .right .right_top ul.menu .count span b {
+            font-weight: normal; }
+          .right .right_top ul.menu .count span .red {
+            color: #ff6600; }
+      .right .right_top ul.menu .active {
         border-color: #2196f3; }
   .right .main {
     margin: 110px 0 0 10px;

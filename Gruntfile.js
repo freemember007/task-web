@@ -12,6 +12,7 @@ module.exports = function(grunt) {
           ],
           'dist/style.scss': [
             'src/*/*.scss',
+            //'src/*/*/*.scss'
           ]
         }
       }
