@@ -30,7 +30,7 @@ angular.module('task.services.user', [])
           
         },
         error: function(err) {
-          alert('登录错误，请重试！')
+          alert('登录错误，请重试！');
           location.href = 'login.html'; //todo:为啥？
         }
       })

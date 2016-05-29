@@ -348,13 +348,14 @@ angular.module('task.controllers.taskDetail', [])
     $scope.priorityList = ['不紧急', '一般紧急', '紧急', '非常紧急'];
     $scope.userInfo = LocalStorage.getObject('userInfo');
     $scope.companyInfo = LocalStorage.getObject('companyInfo');
+    $scope.isSubTaskInputFocus = false; //todo:丑陋
 
     $(document).ready(function() {
-      $(".taskNameInput").focus(function() {
-        $(".taskNameInput").css("background-color", "#FFFFCC");
+      $("input").focus(function() {
+        $(this).css("background-color", "#FFFFCC");
       });
-      $(".taskNameInput").blur(function() {
-        $(".taskNameInput").css("background-color", "#FFF");
+      $("input").blur(function() {
+        $(this).css("background-color", "#FFF");
       });
       $('.icon_close').click(function() {
         $rootScope.currentTaskDetailId = '';
@@ -395,11 +396,15 @@ angular.module('task.controllers.taskDetail', [])
       // })
     })
 
+    
+
     $scope.addComment = function(e){
-      if($scope.task.newComment && e.keyCode === 13){
+      var str = $scope.task.newComment;
+      if(str && e.keyCode === 13){
         var comment = {
           'userId': $scope.userInfo.objectId,
           'userMsg': $scope.task.newComment,
+          'atId': $scope.task.newCommentAtId,
           'userName': $scope.userInfo.name,
           'userUrl': $filter('addHost')($scope.userInfo.avatar.url),
           'sendTimg': (new Date()).getTime() //存毫秒数，方便解析，不能用各种toString()
@@ -409,6 +414,26 @@ angular.module('task.controllers.taskDetail', [])
         $scope.updateTask({'comment': comment});
         $scope.task.newComment = '';
       }
+    }
+
+    $scope.showAtlist = function(e){
+      var str = $scope.task.newComment;
+      if(str && /@.*$/.test(str)){
+        $scope.task.atListFilter = str.match(/@([^@]*)$/)[1];
+        console.log($scope.task.atListFilter)
+        // $('#add_comment_at_List').show();
+      }
+    }
+
+    $scope.addAt = function(member){
+      var str = $scope.task.newComment;
+      str = str.replace(/[^@]*$/, member.name + ' ');
+      $scope.task.newComment = str;
+      $scope.task.newCommentAtId = member.objectId;
+      console.log($scope.task.newCommentAtId)
+      $scope.task.atListFilter = '';
+      $('#add_comment_input').focus();
+      // $('#add_comment_at_List').hide();
     }
 
     $scope.addCheck = function(e){

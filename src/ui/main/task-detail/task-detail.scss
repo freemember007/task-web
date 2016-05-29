@@ -1,0 +1,333 @@
+#task_detail_container {
+  display: none;
+  position: fixed;
+  top: 100px;
+  right: 0;
+  bottom: 0px;
+  width: 36%;
+  padding: 10px;
+  background: $right_bk;
+  background-position-y: center;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
+}
+
+#task_detail {
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  top: 0px;
+  ////////// 头部区
+  .head_chunk {
+    height: 40px;
+    line-height: 40px;
+    color: #ccc;
+    font-size: 14px;
+    margin-left: 10px;
+    span {
+      margin-left: 20px;
+    }
+    .icon_close {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      cursor: pointer;
+    }
+  }
+  .title {
+    margin-left: 5px;
+    >.uncomplete {
+      cursor: pointer;
+      background: url("../img/icon_complete.png") no-repeat left 40%;
+      height: 40px;
+      width: 40px;
+      float: left;
+    }
+    >.completed {
+      cursor: pointer;
+      background: url("../img/icon_completed.png") no-repeat left 40%;
+      height: 40px;
+      width: 40px;
+      float: left;
+    }
+    .taskNameInput {
+      font-size: 24px;
+      height: 40px;
+      width: 90%;
+      color: #666;
+      border: none;
+      outline: none;
+    }
+    >.complete {
+      color: #ccc;
+      font-style: italic;
+      text-decoration: line-through;
+    }
+  }
+  ///////// 内容区
+  .content {
+    overflow: auto;
+    position: relative;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-top: 1px solid #ddd;
+    color: #666;
+    // 列表通用属性
+    >li {
+      position: relative;
+      margin: 10px;
+      padding-left: 40px;
+      line-height: 40px;
+      background-position: left center;
+      background-repeat: no-repeat;
+      >.toggle_child {
+        position: relative;
+        cursor: pointer;
+        >ul {
+          display: none;
+          position: absolute;
+          overflow: auto;
+          padding: 5px;
+          left: -5px;
+          height: 300px;
+          width: 80%;
+          border: 1px solid #2196f3;
+          background: white;
+          z-index: 1001;
+          >li {
+            line-height: 40px;
+          }
+        }
+      }
+      input {
+        font-size: 14px;
+        width: 100%;
+        color: #666;
+        border: none;
+        outline: none;
+      }
+    }
+    // 项目
+    .project_container {
+      z-index: 4;
+      background-image: url(../img/icon_project.png);
+      .project {
+        height: 30px;
+        padding: 10px 0px;
+        line-height: 30px;
+        .project_color {
+          width: 30px;
+          height: 30px;
+          float: left;
+          margin-right: 10px;
+          border-radius: 5px;
+        }
+      }
+    }
+    // 责任人
+    .assignee_container {
+      z-index: 3;
+      background-image: url(../img/icon_assign.png);
+      .assignee {
+        height: 30px;
+        padding: 10px 0px;
+        line-height: 30px;
+        >img {
+          width: 30px;
+          height: 30px;
+          float: left;
+          margin-right: 10px;
+          border-radius: 50%;
+        }
+      }
+    }
+    // 截止时间
+    .deadline_container {
+      z-index: 2;
+      background-image: url(../img/icon_date.png);
+      .deadline {
+        // color: #999;
+      }
+    }
+    // 优先级
+    .priority_container {
+      z-index: 1;
+      background-image: url(../img/icon_priority.png);
+      .priority {
+        // color: #999;
+        >img {
+          margin-top: 10px;
+          float: left;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    // 附件
+    .file_container {
+      background-image: url(../img/icon_file.png);
+      img {
+        width: 120px;
+      }
+    }
+    // 子任务
+    .checklist_container {
+      background-image: url(../img/icon_subtask.png);
+      background-position: left 15px;
+      >ul {
+        >li {
+          position: relative;
+          padding: 10px 35px 10px 40px;
+          min-height: 24px;
+          line-height: 24px;
+          border-bottom: 1px solid #eee;
+          .checkbox {
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 10px;
+            left: 0;
+            cursor: pointer;
+          }
+          .complete {
+            color: #ccc;
+            font-style: italic;
+            text-decoration: line-through;
+          }
+          input {
+            min-height: 24px;
+            line-height: 24px;
+            border: 0;
+          }
+          .focus {
+            background: #ffffcc;
+          }
+          .close {
+            position: absolute;
+            right: 0;
+            top: 12px;
+            height: 15px;
+            cursor: pointer;
+          }
+        }
+        >:last-child {
+          padding-left: 0;
+          height: 24px;
+        }
+      }
+    }
+    // 评论
+    .comments {
+      background-image: url(../img/icon_massage.png);
+      background-position: left 10px;
+      font-size: 12px;
+      ul {
+        >li {
+          padding: 5px 0px;
+          border-bottom: 1px solid #eee;
+          .comment_user {
+            height: 24px;
+            line-height: 24px;
+            margin-right: 5px;
+            color: #ccc;
+            float: left;
+            img {
+              width: 24px;
+              height: 24px;
+              float: left;
+              border-radius: 50%;
+            }
+            .comment_name {
+              float: left;
+              padding-left: 5px;
+            }
+            .comment_createdAt {
+              float: right;
+              padding-left: 5px;
+            }
+          }
+          .comment_content {
+            line-height: 24px;
+          }
+          .add_comment {
+            line-height: 35px;
+            margin-right: 5px;
+            >input {
+              height: 24px;
+              font-size: 12px;
+            }
+            >ul {
+              border-bottom: none;
+              margin: 0;
+              padding: 0;
+              line-height: 20px;
+              cursor: pointer;
+              >li {
+                border-bottom: none;
+                margin: 0;
+                padding: 0;
+                line-height: 20px;
+                cursor: pointer;
+                >ul {
+                  border-bottom: none;
+                  margin: 0;
+                  padding: 0;
+                  line-height: 20px;
+                  cursor: pointer;
+                  >li {
+
+                  }
+                }
+              }
+            }
+          }
+        }
+        >:last-child {
+          >input {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  //////// 底部操作区
+  .foot_chunk {
+    margin: 0px 10px;
+    text-align: right;
+    height: 40px;
+    line-height: 40px;
+    >span {
+      cursor: pointer;
+      margin-left: 10px;
+      color: #ccc;
+      font-size: 12px;
+      border-bottom: 1px dotted #ddd;
+    }
+  }
+}
+
+.floating_panel_close {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 51px;
+  color: #464C59;
+  cursor: pointer;
+  overflow: hidden;
+  position: absolute;
+  top: 0px;
+  left: -36px;
+  background: transparent none repeat scroll 0% 0%;
+  .icon_close {
+    width: 30px;
+    height: 47px;
+    display: block;
+    text-align: center;
+    line-height: 47px;
+    margin-left: 6px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    background: #FFF none repeat scroll 0% 0%;
+    box-shadow: -1px 0px 8px 0px rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 4px;
+  }
+}

@@ -1,7 +1,9 @@
 .DS_Store
 .sass-cache/
-node_modules/
 *.zip
-lib/
-!/dist/lib/*.js
-!bmob.js
+.idea/
+/node_modules/
+/bower_components/
+/build/
+/dist/
+/release/

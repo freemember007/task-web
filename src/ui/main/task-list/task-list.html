@@ -1,0 +1,133 @@
+<div class="right">
+
+
+  <!--右上部-->
+  <div class="right_top">
+
+    <!--header-->
+    <div class="head">
+
+      <!--创建任务按钮-->
+      <div class="add_task">
+        新建一个工作
+      </div>
+
+      <!--提醒按钮-->
+      <div class="icon_notification" ng-click="findNotification()">
+        <span class="badge" ng-show="showNotificationNumber">{{unreadNotificationNumber}}</span>
+      </div>
+      <div class="notification_container j_slide_layer">
+        <div class="title_container">
+          <span class='title'>通知</span>
+          <span class="read_all" ng-show="showNotificationNumber" ng-click="readAllNotification()">标记全部已读</span>
+          <span class="close"></span>
+        </div>
+        <ul>
+          <li ng-class="{'is_read': notification.isRead}" ng-repeat="notification in notifications"
+              ng-click="clickNotification({'subject': 'assignee','objectId':notification.assigneeId,'taskId':notification.taskId, 'notificationId': notification.objectId, 'status': notification.taskStatus})">
+            <img ng-src="{{notification.updaterAvatar}}">
+
+            <div class="message">
+              {{notification.message}}
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!--头像-->
+      <img class="thumb" ng-src="{{userInfo.avatar.url|addHost}}" ng-click="logout()">
+
+    </div>
+
+    <!--nav-->
+    <ul class="menu">
+      <li ng-class="{'active': currentParams.status == 0}" ng-click="filterTaskList(0,$event)">
+        待办
+        <span class="number">{{length[0]}}</span>
+      </li>
+      <li id="default" ng-class="{'active': currentParams.status == 1}" ng-click="filterTaskList(1,$event)">
+        进行
+        <span class="number">{{length[1]}}</span>
+      </li>
+      <li ng-class="{'active': currentParams.status == 2}" ng-click="filterTaskList(2,$event)">
+        完成
+        <span class="number">{{length[2]}}</span>
+      </li>
+      <li ng-class="{'active': currentParams.status == 3}" ng-click="filterTaskList(3,$event)">
+        搁置
+        <span class="number">{{length[3]}}</span>
+      </li>
+      <!--工作量统计-->
+      <div class="count">
+        <span>本月统计</span>
+        <span>工作量: <i>{{countObj.costHoursThisMonth}}h</i></span>
+        <span>逾期: <b ng-class="{red: countObj.delayNum}">{{countObj.delayNum}}</b></span>
+      </div>
+    </ul>
+  </div>
+
+
+  <!--主要内容展示区域-->
+  <div class="main">
+    <div class="taskList">
+      <ul class="dates" ng-repeat="x in taskList">
+        <p class="date">
+          <span class="days" ng-class="{'past': x.delay}">{{x.groupName}}</span>
+          <span class="date">{{x.subGroupName}}</span>
+        </p>
+        <li ng-repeat="d in x.tasks track by $index" ng-click="showTaskDetail(d)"
+            ng-class="{'choose': d.objectId === currentTaskDetailId}">
+          <!-- 主任务 -->
+          <div class="task">
+            <div class="avator">
+              <div class="thumb" ng-if="myself&&doing"
+                   ng-click="updateTask({'objectId': d.objectId, 'status': 2});$event.stopPropagation()"><img
+                  ng-src="img/icon_complete.png"/></div>
+              <div class="thumb" ng-if="myself&&done"
+                   ng-click="updateTask({'objectId': d.objectId, 'status': 1});$event.stopPropagation()"><img
+                  ng-src="img/icon_completed.png"/></div>
+              <div class="thumb" ng-if="!myself"><img ng-src="{{d.assignee.avatar.url|addHost}}"
+                                                      ng-click="getTaskList({'subject':'assignee','objectId':d.assignee.objectId,'status':1});$event.stopPropagation()"/>
+              </div>
+              <span ng-style="{'background': 'url(img/icon_priority{{d.priority}}.png) no-repeat center center'}"
+                    class="priority"></span>
+              <span class="taskName" ng-class="{'past': x.delay, 'finished': d.status==2}">{{d.title}}</span>
+              <span class="project"
+                    ng-style="{'background': d.project.color.replace('#99','#')}">{{d.project.name}}</span>
+              <span class="costHours">{{d.costHours}}h</span>
+              <!-- <div class="progress_container toggle_child" ng-click="showProgressList($event)" ng-if="doing">
+                <div class="progress" ng-style="{'border-color': progressList[d.progress||0].style}"></div><span class="percent">{{progressList[d.progress||0].percent}}</span>
+                <ul class="progress_list" style="float:right">
+                  <li class="progress_container" ng-repeat="progress in progressList track by $index" ng-click="d.progress=$index;updateTask({'objectId':d.objectId,'progress': $index});hideProgressList($event);$event.stopPropagation()">
+                    <div class="progress" ng-style="{'border-color': progress.style}"></div><span class="percent">{{progress.percent}}</span>
+                  </li>
+                </ul>
+              </div> -->
+
+            </div>
+            <div class="other">
+              <span ng-class="{'tofollow': !d.followed, 'followed': d.followed}"
+                    ng-click="updateTask({'objectId': d.objectId, follower: {'action': d.followed?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()"
+                    ng-if="!myself&&doing&&userInfo.objectId!==d.assigner.objectId&&userInfo.objectId!==d.team.leader.objectId"></span>
+              <span ng-class="{'tolike': !d.liked, 'liked': d.liked}"
+                    ng-click="updateTask({'objectId': d.objectId, liker: {'action': d.liked?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()"
+                    ng-if="!myself&&done"></span>
+              <span class="comment">{{d.comments.length}}</span>
+            </div>
+          </div>
+          <!-- 子任务 -->
+          <ul class="checklist">
+            <li ng-repeat="check in d.checklist">
+              <img class="checkbox" ng-src="img/icon_completed.png" ng-show="check.complete == '2'"
+                   ng-click="d.checklist[$index].complete='1';updateTask({'objectId': d.objectId,'checklist': d.checklist});$event.stopPropagation()">
+              <img class="checkbox" ng-src="img/icon_complete.png" ng-show="check.complete == '1'"
+                   ng-click="d.checklist[$index].complete='2';updateTask({'objectId': d.objectId,'checklist': d.checklist});$event.stopPropagation()">
+              <span
+                  ng-class="{'complete': check.complete == '2', 'uncomplete': check.complete == '1'}">{{check.item}}</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

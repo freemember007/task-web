@@ -1,0 +1,412 @@
+.right {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0px;
+  left: 250px;
+  overflow: auto;
+  .right_top {
+    position: fixed;
+    right: 0px;
+    left: 250px;
+    height: 100px;
+    background: $right_bk;
+    background: white url(../img/grey_line.png) repeat-x;
+    background-position-y: center;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .3);
+    z-index: 1000;
+    >.head {
+      height: 49px;
+      line-height: 49px;
+      border-bottom: 1px solid #eee;
+      .add_task {
+        float: left;
+        background: transparent url("../img/icon_add_task.png") no-repeat 20px center;
+        padding-left: 50px;
+        cursor: pointer;
+        color: #ccc;
+        &:hover {
+          color: $blue_color;
+        }
+      }
+      /*  通知栏  */
+      .icon_notification {
+        text-align: right;
+        position: absolute;
+        right: 150px;
+        width: 30px;
+        height: 50px;
+        background: url("../img/icon_alert.png") no-repeat left center /20px 22px;
+        cursor: pointer;
+        .badge {
+          position: absolute;
+          background: red;
+          color: #fff;
+          width: 16px;
+          height: 18px;
+          line-height: 18px;
+          text-align: center;
+          border-radius: 5px;
+          top: 5px;
+          right: -5px;
+          font-size: 12px;
+        }
+      }
+      .notification_container {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 150px;
+        width: 300px;
+        font-size: 12px;
+        border-radius: 5px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+        background: #fff;
+        z-index: 1;
+        >.title_container {
+          font-size: 16px;
+          border-bottom: 1px solid #ccc;
+          >.title {
+            font-size: 16px;
+            margin-left: 15px;
+          }
+          >.read_all {
+            margin-left: 100px;
+            font-size: 12px;
+            color: white;
+            background: #2196F3;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+          >.close {
+            position: absolute;
+            right: 10px;
+            top:15px; 
+            text-align: center;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            background: #AAA url("../img/icon_close.png") no-repeat scroll center center / 100% 100%;
+            border-radius: 50%;
+          }
+        }
+        >ul {
+          overflow: auto;
+          height: 310px;
+          >li {
+            padding: 10px;
+            min-height: 32px;
+            background: #FFFFCC no-repeat;
+            border-bottom: 1px #ccc dashed;
+            cursor: pointer;
+            img {
+              float: left;
+              height: 30px;
+              margin: 3px;
+              border-radius: 50%;
+              }
+            .message {
+              padding-left: 45px;
+              line-height: 20px;
+              color: #666
+            }
+          }
+        }
+        
+        .is_read {
+          background-color: #fff
+        }
+      }
+      .thumb {
+        position: absolute;
+        top: 5px;
+        right: 60px;
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        img {
+          width: 100%;
+        }
+      }
+    }
+    ul.menu {
+      position: relative;
+      height: 50px;
+      text-align: center;
+      li {
+        font: 16px '微软雅黑';
+        line-height: 30px;
+        display: inline-block;
+        padding: 8px 15px;
+        cursor: pointer;
+        border-bottom: 4px solid white;
+      }
+      .count {
+        position: absolute;
+        top: 0;
+        right: 100px;
+        height: 50px;
+        line-height: 50px;
+        color: #cccccc;
+        font-size: 12px;
+        span {
+          margin-right: 10px;
+          i {
+            color: #30a01f;
+            font-style: normal;
+          }
+          b {
+            font-weight: normal;
+          }
+          .red {
+            color: #ff6600;
+          }
+        }
+      }
+      .active {
+        border-color: $blue_color;
+      }
+    }
+  }
+  .main {
+    // overflow: hidden;
+    margin: 110px 0 0 10px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+    min-height: 100%;
+    .taskList {
+      overflow: auto;
+      .dates {
+        padding: 15px 20px 0;
+        p {
+          border-bottom: 1px solid #eee;
+          padding: 10px;
+          font-weight: bold;
+          // font-style: italic;
+          .days {
+            display: inline-block;
+            width: 90px;
+            color: $blue_color;
+          }
+          .past {
+            color: $red_color;
+          }
+          .date {
+            color: #ccc;
+          }
+        }
+        .choose {
+          background: #eee;
+        }
+        > li {
+          overflow: hidden;
+          padding: 15px 0px 15px 10px;
+          border-bottom: 1px dashed #eee;
+          cursor: pointer;
+          .task {
+            height: 40px;
+            line-height: 40px;
+            
+            .avator {
+              height: 40px;
+              line-height: 40px;
+              float: left;
+              .thumb {
+                float: left;
+                // overflow: hidden;
+                height: 40px;
+                line-height: 40px;
+                cursor: pointer;
+                img {
+                  margin-top: 5px;
+                  width: 100%;
+                  width: 24px;
+                  height: 24px;
+                  border-radius: 50%;
+                }
+              }
+              .priority {
+                display: inline-block;
+                width: 50px;
+                height: 15px;
+              }
+              .taskName {
+                font-size: 16px;
+                display: inline-block;
+                height: 18px;
+                margin-left: 7px;
+                color: #666;
+              }
+              .project {
+                font-size: 12px;
+                margin-left: 20px;
+                color: #fff;
+                padding: 2px;
+                border-radius: 3px;
+              }
+              .costHours {
+                font-size: 12px;
+                color: #ccc;
+                margin-left: 5px;
+              }
+              >.progress_container {
+                display: inline;
+                font-size: 16px;
+                margin-left: 20px;
+                padding: 2px;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                >.progress {
+                  position: absolute;
+                  display: inline;
+                  font-size: 16px;
+                  margin-left: 20px;
+                  padding: 2px;
+                  width: 30px;
+                  height: 30px;
+                  line-height: 30px;
+                  text-align: center;
+                  border-radius: 50%;
+                  border:1px solid transparent;
+                  transform:rotate(-45deg);
+                }
+                >.percent {
+                  margin-left: 30px;
+                  height: 40px;
+                  line-height: 40px;
+                  color: #ddd;
+                  text-align: center;
+                  font-size: 16px;
+                }
+                >.progress_list {
+                  display: none;
+                  >.progress_container {
+                    margin-left: -50px;
+                    font-size: 16px;
+                    padding: 10px 0;
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    text-align: center;
+                    >.progress {
+                      position: absolute;
+                      font-size: 16px;
+                      margin-left: 20px;
+                      padding: 2px;
+                      width: 30px;
+                      height: 30px;
+                      line-height: 30px;
+                      text-align: center;
+                      border-radius: 50%;
+                      border:1px solid transparent;
+                      transform:rotate(-45deg);
+                      background: #fff;
+                    }
+                    >.percent {
+                      position: absolute;
+                      width: 40px;
+                      height: 40px;
+                      line-height: 40px;
+                      color: #ddd;
+                      text-align: center;
+                      font-size: 16px;
+                    }
+                  }
+                  
+                }
+              }
+              
+              .past {
+                color: $red_color;
+              }
+              .finished {
+                font-style: italic;
+                text-decoration: line-through;
+                color: #999;
+              }
+            }
+            .other {
+              line-height: 40px;
+              position: relative;
+              float: right;
+              margin-right: 50px;
+              .tofollow {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(../img/icon_tofollow.png) no-repeat;
+              }
+              .followed {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(../img/icon_followed.png) no-repeat;
+              }
+              .tolike {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(../img/icon_tolike.png) no-repeat;
+              }
+              .liked {
+                position: absolute;
+                top: 10px;
+                right: 80px;
+                width: 23px;
+                height: 19px;
+                background: url(../img/icon_liked.png) no-repeat;
+              }
+              .comment {
+                position: absolute;
+                top: 0;
+                right: 30px;
+                padding-left: 20px;
+                color: #ccc;
+                background: url(../img/icon_massage.png) no-repeat 0 center;
+              }
+            }
+          }
+          .checklist {
+            padding-left: 84px;
+            >li {
+              height: 40px;
+              line-height: 40px;
+              border-bottom: 1px dashed #eee;
+              vertical-align: middle;
+              .checkbox {
+                width: 24px;
+                height: 24px;
+                float: left;
+                margin-right: 10px;
+                margin-top: 8px;
+              }
+              .complete {
+                color: #ccc;
+                font-style: italic;
+                text-decoration: line-through;
+              }
+            }
+            >:last-child {
+              border-bottom: none;
+            }
+          }
+
+        }
+
+      }
+    }
+
+  }
+
+}

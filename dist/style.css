@@ -488,23 +488,32 @@ select:focus {
       background-image: url(img/icon_subtask.png);
       background-position: left 15px; }
       #task_detail .content .checklist_container > ul > li {
-        height: 24px;
-        padding: 10px 0px;
+        position: relative;
+        padding: 10px 35px 10px 40px;
+        min-height: 24px;
         line-height: 24px;
-        border-bottom: 1px solid #eee;
-        vertical-align: middle; }
+        border-bottom: 1px solid #eee; }
         #task_detail .content .checklist_container > ul > li .checkbox {
           width: 24px;
           height: 24px;
-          float: left;
-          margin-right: 10px;
+          position: absolute;
+          top: 10px;
+          left: 0;
           cursor: pointer; }
         #task_detail .content .checklist_container > ul > li .complete {
           color: #ccc;
           font-style: italic;
           text-decoration: line-through; }
+        #task_detail .content .checklist_container > ul > li input {
+          min-height: 24px;
+          line-height: 24px;
+          border: 0; }
+        #task_detail .content .checklist_container > ul > li .focus {
+          background: #ffffcc; }
         #task_detail .content .checklist_container > ul > li .close {
-          float: right;
+          position: absolute;
+          right: 0;
+          top: 12px;
           height: 15px;
           cursor: pointer; }
       #task_detail .content .checklist_container > ul > :last-child {
@@ -540,8 +549,26 @@ select:focus {
           line-height: 35px;
           margin-right: 5px; }
           #task_detail .content .comments ul > li .add_comment > input {
-            height: 35px;
+            height: 24px;
             font-size: 12px; }
+          #task_detail .content .comments ul > li .add_comment > ul {
+            border-bottom: none;
+            margin: 0;
+            padding: 0;
+            line-height: 20px;
+            cursor: pointer; }
+            #task_detail .content .comments ul > li .add_comment > ul > li {
+              border-bottom: none;
+              margin: 0;
+              padding: 0;
+              line-height: 20px;
+              cursor: pointer; }
+              #task_detail .content .comments ul > li .add_comment > ul > li > ul {
+                border-bottom: none;
+                margin: 0;
+                padding: 0;
+                line-height: 20px;
+                cursor: pointer; }
       #task_detail .content .comments ul > :last-child > input {
         font-size: 12px; }
   #task_detail .foot_chunk {
@@ -788,6 +815,10 @@ select:focus {
                 color: #fff;
                 padding: 2px;
                 border-radius: 3px; }
+              .right .main .taskList .dates > li .task .avator .costHours {
+                font-size: 12px;
+                color: #ccc;
+                margin-left: 5px; }
               .right .main .taskList .dates > li .task .avator > .progress_container {
                 display: inline;
                 font-size: 16px;
@@ -853,7 +884,7 @@ select:focus {
               .right .main .taskList .dates > li .task .avator .finished {
                 font-style: italic;
                 text-decoration: line-through;
-                color: #ccc; }
+                color: #999; }
             .right .main .taskList .dates > li .task .other {
               line-height: 40px;
               position: relative;

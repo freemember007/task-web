@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "团队任务管理",
   "main": "Gruntfile.js",
-  "dependencies": {},
+  "dependencies": {
+    "grunt-common-html2js": "^0.3.5",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-sass": "^1.0.0"
+  },
   "devDependencies": {
     "connect-livereload": "^0.5.4",
     "grunt": "^0.4.5",
