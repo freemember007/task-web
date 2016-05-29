@@ -66,34 +66,83 @@ module.exports = function(grunt) {
       }
     },
 
+    uglify: {
+      release: {
+        options: {
+          // report: 'gzip'
+        },
+        files: [
+          {expand: true, cwd: 'build/js', src: ['*.js'], dest: 'release/js', ext: '.js'}
+        ]
+      }
+    },
+    cssmin: {
+      release: {
+        files: [
+          {expand: true, cwd: 'build/css', src: ['*.css'], dest: 'release/css', ext: '.css'}
+        ]
+      }
+    },
+
+    cacheBust: {
+      options: {
+        baseDir: 'release/',
+        assets: ['*/*.{js,css,png,jpg,gif,ico,eot,svg,ttf,woff}'],
+        queryString: true,
+        length: 8
+      },
+      release: {
+        files: [{
+          cwd: 'release/',
+          src: ['index.html']
+        }]
+      }
+    },
+
     connect: {
       options: {
         port: 9000,
         hostname: '*',
         livereload: 35729
       },
-      server: {
+      build: {
         options: {
           open: true,
           base: [
-            './build'
+            './build' //主目录
+          ]
+        }
+      },
+      release: {
+        options: {
+          open: true,
+          base: [
+            './release' //主目录
           ]
         }
       }
     },
 
     watch: {
-      js: {
-        files: ['src/app.js', 'src/*/*.js', 'src/*/*/*.js', 'src/*/*.scss'], //js&scss
-        tasks: ['concat']
-      },
       sass: {
-        files: ['dist/style.scss'],
+        files: ['src/**/*.scss'],
         tasks: ['sass']
       },
-      html: {
-        files: ['src/*/*.html', '*.html'],
+      concat: {
+        files: ['src/**/*.js', 'build/css/style.css'],
+        tasks: ['concat']
+      },
+      includereplace: {
+        files: ['src/**/*.html'],
         tasks: ['includereplace']
+      },
+      html2js: {
+        files: ['build/html/*.html'],
+        tasks: ['html2js']
+      },
+      copy: {
+        files: ['src/index.html', 'src/{fonts,img}/*.*'],
+        tasks: ['copy']
       },
       livereload: {
         options: {
@@ -103,19 +152,32 @@ module.exports = function(grunt) {
           '{build,release}/**'
         ]
       }
+    },
+
+    // clean
+    clean: {
+      options: {
+        'no-write': false
+      },
+      build: ['build'],
+      release: ['release']
     }
+
   });
 
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-include-replace');
   grunt.loadNpmTasks('grunt-common-html2js');
-  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-cache-bust');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
-
-  // 默认被执行的任务列表。
-  grunt.registerTask('build', ['sass', 'concat', 'includereplace', 'html2js', 'copy:build', 'connect', 'watch']);
+  grunt.registerTask('build', ['copy:build', 'concat', 'sass', 'includereplace', 'html2js', 'connect:build', 'watch']);
+  grunt.registerTask('release', ['copy:release', 'uglify', 'cssmin', 'cacheBust', 'connect:release', 'watch']);
 
 };
