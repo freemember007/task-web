@@ -17,9 +17,9 @@ angular.module('task.services.localStorage',[])
       $window.localStorage[key] = JSON.stringify(value);
     },
     getObject: function(key) {
-      if(!$window.localStorage[key] || $window.localStorage[key] == 'undefined'){
-        $state.go('login');
-      }
+      // if(!$window.localStorage[key] || $window.localStorage[key] == 'undefined'){
+      //   $state.go('login');
+      // }
       return JSON.parse($window.localStorage[key] || '{}');
     },
     clear: function(){

@@ -63,6 +63,7 @@ angular.module('teamTask', [
     $rootScope.currentParams = {};
 
     $rootScope.currentTaskDetailId = ''; //全局当前任务ID
+    $rootScope.currentToggleTeamId = ''; //当前展开的团队
 
     //jquery动画
     $(document).ready(function() {

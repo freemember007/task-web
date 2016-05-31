@@ -24,30 +24,46 @@ angular.module('task.controllers.createTask', [])
       'assignee': $scope.userInfo.objectId,
       'assigneeName': $scope.userInfo.name, //初始值
       'assigneeAvatar': $filter('addHost')($scope.userInfo.avatar.url),
-      'costHours': 2,
-      'costHoursFormat': '2小时',
+      // 'costHours': 2,
+      // 'costHoursFormat': '2小时',
+      'costHours': undefined,
+      'costHoursFormat': '请选择工作量',
       'priority': 0,
       'project': { "name": "其他", "color": "#99999999" },
       'createdAt': $filter('date')(now, 'MM月dd日 HH:mm'),
-      'deadline': $filter('date')(now, 'yyyy-MM-dd 00:00:00'), //初始值
-      'deadlineFormat': $filter('date')(now, '今天M月d日(') + weekFormat[now.getDay()] + ')', //初始值
+      // 'deadline': $filter('date')(now, 'yyyy-MM-dd 00:00:00'), //初始值
+      // 'deadlineFormat': $filter('date')(now, '今天M月d日(') + weekFormat[now.getDay()] + ')', //初始值
+      'deadline': undefined, //初始值
+      'deadlineFormat': '请选择截止日期', //初始值
       'fileUrl': ''
     };
-    $scope.task = {}
+    $scope.task = {};
     for(var k in $scope.taskInit) $scope.task[k] = $scope.taskInit[k];
     $scope.dateList = [];
     // $scope.priorityList = ['不紧急', '一般', '紧急', '非常紧急'];
-    $scope.costHoursObjectList = [
-      {'costHours': 2, 'costHoursFormat': '2小时'},
-      {'costHours': 4, 'costHoursFormat': '0.5天'},
-      {'costHours': 8, 'costHoursFormat': '1天'},
-      {'costHours': 12, 'costHoursFormat': '1.5天'},
-      {'costHours': 16, 'costHoursFormat': '2天'},
-      {'costHours': 20, 'costHoursFormat': '2.5天'},
-      {'costHours': 24, 'costHoursFormat': '3天'},
-      {'costHours': 32, 'costHoursFormat': '4天'},
-      {'costHours': 40, 'costHoursFormat': '5天'}
-    ]
+    // $scope.costHoursObjectList = [
+    //   {'costHours': 2, 'costHoursFormat': '2小时'},
+    //   {'costHours': 4, 'costHoursFormat': '0.5天'},
+    //   {'costHours': 8, 'costHoursFormat': '1天'},
+    //   {'costHours': 12, 'costHoursFormat': '1.5天'},
+    //   {'costHours': 16, 'costHoursFormat': '2天'},
+    //   {'costHours': 20, 'costHoursFormat': '2.5天'},
+    //   {'costHours': 24, 'costHoursFormat': '3天'},
+    //   {'costHours': 32, 'costHoursFormat': '4天'},
+    //   {'costHours': 40, 'costHoursFormat': '5天'}
+    // ];
+    $scope.costHoursObject = {
+      '0': '暂不确定',
+      '2': '2小时',
+      '4': '0.5天',
+      '8': '1天',
+      '12': '1.5天',
+      '16': '2天',
+      '20': '2.5天',
+      '24': '3天',
+      '32': '4天',
+      '40': '5天'
+    };
     
 
     // 上传图片
@@ -86,6 +102,14 @@ angular.module('task.controllers.createTask', [])
 
     //添加任务
     $scope.createTask = function() {
+      if($scope.task.costHours === undefined){
+        alert('请选择工作量!');
+        return;
+      }
+      if($scope.task.deadline === undefined){
+        alert('请选择截止日期!');
+        return;
+      }
       if($scope.task.title != ''){
         var task = {}; //构建post参数临时变量
         for(var k in $scope.task) task[k] = $scope.task[k];
@@ -123,7 +147,7 @@ angular.module('task.controllers.createTask', [])
         $scope.dateList[i].deadlineFormat = monthAndDate + week
       }
     }
-    $scope.dateList.unshift({'deadline':'', deadlineFormat:'无期限'})
+    $scope.dateList.unshift({'deadline':'', deadlineFormat:'暂无期限'})
 
   }
 ]);

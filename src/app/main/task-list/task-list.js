@@ -1,11 +1,10 @@
-angular.module('task.controllers.taskList', [])
+angular.module('task.controllers.taskList',  [])
   .controller('TaskListController', TaskListController);
-
 
 TaskListController.$inject = ['$scope', '$rootScope', '$timeout', 'LocalStorage', 'Task', 'User', 'Notification', '$filter'];
 function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, User, Notification, $filter) {
 
-//变量声明
+  //变量声明
   $scope.myself = false;
   $scope.doing = false;
   $scope.done = false;
@@ -24,8 +23,31 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
     {'percent': '50', 'style': 'transparent #008000 #008000 transparent'},
     {'percent': '75', 'style': 'transparent #008000 #008000 #008000'},
   ];
+  $scope.valueList = ['1', '0', '-1'];
+  $scope.checkNotification = checkNotification;
+  $scope.showProgressList = showProgressList;
+  $scope.hideProgressList = hideProgressList;
+  $scope.readAllNotification = readAllNotification;
+  $scope.findNotification = findNotification;
+  $scope.clickNotification = clickNotification;
+  $scope.getTaskList = getTaskList;
+  $scope.filterTaskList = filterTaskList;
+  $scope.updateTask = updateTask;
+  $scope.showTaskDetail = showTaskDetail;
+  $scope.showValueModal = showValueModal;
+  $scope.logout = logout;
+  
+  //初始化
+  $scope.getTaskList();
+  setTimeout($scope.checkNotification, 300);
+  setInterval($scope.checkNotification, 60000);
 
-//jquery动画
+  // 监听PleaseShowTaskList事件
+  $scope.$on('PleaseShowTaskList', function (event, msg) {
+    $scope.getTaskList(msg);
+  });
+
+  //jquery动画
   $(document).ready(function () {
     $('.add_task').click(function () {
       $('.createTask').show(200);
@@ -36,24 +58,25 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
     })
   });
 
-//极端丑陋...
-  $scope.showProgressList = function (e) {
+
+  function showValueModal(e) {
+    $('.valueModal').show(200);
+    e.stopPropagation();
+  }
+
+  //极端丑陋...
+  function showProgressList(e) {
     $(e.target).parent().children('ul').slideToggle(200);
     e.stopPropagation();
-  };
-  $scope.hideProgressList = function (e) {
+  }
+
+  function hideProgressList(e) {
     $(e.target).parent().parent().hide(200);
     e.stopPropagation();
-  };
+  }
 
-// 监听PleaseShowTaskList事件
-  $scope.$on('PleaseShowTaskList', function (event, msg) {
-    $scope.getTaskList(msg);
-  });
-
-//通知相关
-  $scope.checkNotification = function () {
-    console.log('start check');
+  //通知相关
+  function checkNotification(){
     Notification.check({
       'action': 'check',
       'userId': $scope.userInfo.objectId
@@ -66,13 +89,13 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
         $timeout($scope.unreadNotificationNumber = data.count);
       }
     })
-  };
-  $scope.readAllNotification = function () {
+  }
+
+  function readAllNotification() {
     Notification.read({
       'action': 'readAll',
       'userId': $scope.userInfo.objectId
     }, function (data) {
-      // console.log(data);
       $timeout($scope.unreadNotificationNumber = '');
       $timeout($scope.showNotificationNumber = false);
       for (var i = 0; i < $scope.notifications.length; i++) {
@@ -82,8 +105,9 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
         $('.notification_container').hide()
       }, 500);
     });
-  };
-  $scope.findNotification = function () {
+  }
+
+  function findNotification() {
     $('.notification_container').toggle(200)
     Notification.find({
       'action': 'find',
@@ -92,14 +116,14 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
       $timeout($scope.notifications = data);
       // $timeout($('.notification_container').toggle(200));
     })
-  };
-  $scope.clickNotification = function (params) {
+  }
+
+  function clickNotification(params) {
     $('.notification_container').hide();
     Notification.read({
       'action': 'read',
       'notificationId': params.notificationId
     }, function (data) {
-      console.log(data)
     });
     $scope.getTaskList({
       'subject': params.subject,
@@ -108,10 +132,10 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
       'taskId': params.taskId
     });
     $scope.checkNotification();
-  };
+  }
 
-// 任务列表相关
-  $scope.getTaskList = function (params) {
+  // 任务列表相关
+  function getTaskList(params) {
     if (params) { //如果是主动点击
       $('#task_detail_container').hide(200);
       $rootScope.currentTaskDetailId = '';
@@ -127,12 +151,11 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
         $timeout($rootScope.currentParams = params);
         $scope.myself = !!(params.subject == 'assignee' && params.objectId == $scope.userInfo.objectId);
       });
-    })
+    });
     count(params);
-  };
+  }
 
-  $scope.filterTaskList = function (p, $event, taskId) {
-
+  function filterTaskList(p, $event, taskId) {
     if ($event) { //如果是主动点击
       $('#task_detail_container').hide(200);
       $rootScope.currentTaskDetailId = '';
@@ -152,7 +175,6 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
     $timeout($('.right').scrollTop(0));
     if (taskId) {
       for (var i = 0; i < $scope.taskList.length; i++) {
-        // console.log($scope.taskList[i])
         for (var j = 0; j < $scope.taskList[i].tasks.length; j++) {
           if ($scope.taskList[i].tasks[j].objectId == taskId) {
             $scope.showTaskDetail($scope.taskList[i].tasks[j]);
@@ -160,7 +182,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
         }
       }
     }
-  };
+  }
 
   function setLength() { //太丑陋，回头让服务端支持
     $scope.allTaskList.forEach(function (value, index) {
@@ -172,8 +194,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
     })
   }
 
-// 任务计数
-
+  // 任务计数
   function count(params) {
     $scope.countObj = {
       costHoursThisMonth: 0,
@@ -185,7 +206,6 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
     now.setDate(1);
     var then;
     then = $filter('date')(now, 'yyyy-MM-dd 00:00:00');
-    console.log(then);
     query.select('title', 'costHours', 'isDelay');
     query.equalTo(params.subject, params.objectId);
     query.greaterThanOrEqualTo('createdAt', {'__type': 'Date', 'iso': then});
@@ -196,41 +216,31 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
           $scope.countObj.delayNum++
         }
       }
-      console.log($scope.countObj);
     });
   }
 
-
-// 更新任务
-  console.log($scope.userInfo.objectId);
-  $scope.updateTask = function (params) {
+  // 更新任务
+  function updateTask(params) {
     var postData = angular.extend(params);
     postData.updaterId = $scope.userInfo.objectId;
     Task.update(postData, function (data) {
       $scope.getTaskList();
-      // console.log(data)
     })
-  };
+  }
 
-// 打开任务详情
-  $scope.showTaskDetail = function (task) {
+  // 打开任务详情
+  function showTaskDetail(task) {
     if ($rootScope.currentTaskDetailId === task.objectId) {
       $('#task_detail_container').hide(200);
       $rootScope.currentTaskDetailId = '';
     } else {
       $scope.$broadcast('PleaseShowTaskDetail', {'task': task});
     }
-  };
-
-//退出
-  $scope.logout = function () {
-    User.logout();
   }
 
-//初始化
-  $scope.getTaskList();
-  setTimeout($scope.checkNotification, 300);
-  setInterval($scope.checkNotification, 30000);
-
+  //退出
+  function logout() {
+    User.logout();
+  }
 
 }

@@ -20,8 +20,8 @@ module.exports = function(grunt) {
       build: {
         files: {
           'build/js/app.js': [
-            'src/{ui,common}/*.js',
-            'src/{ui,common}/**/*.js'
+            'src/{app,common}/*.js',
+            'src/{app,common}/**/*.js'
           ],
           'build/js/lib.js': [
             'bower_components/angular/angular.js',
@@ -31,8 +31,8 @@ module.exports = function(grunt) {
             'src/lib/*.js'
           ],
           'build/css/style.css': [
-            'build/css/style.css',
-            'bower_components/nprogress/nprogress.css'
+            'bower_components/nprogress/nprogress.css',
+            'build/css/style.css'
           ]
         }
       }
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
     includereplace: {
       build: {
         files: [
-          {expand: true, flatten: true, cwd: 'src/', src: 'ui/*/*.html', dest: 'build/html/'}
+          {expand: true, flatten: true, cwd: 'src/', src: 'app/*/*.html', dest: 'build/html/'}
         ]
       }
     },
@@ -94,7 +94,7 @@ module.exports = function(grunt) {
       release: {
         files: [{
           cwd: 'release/',
-          src: ['index.html']
+          src: ['index.html', 'css/style.css', 'js/templates.js']
         }]
       }
     },
@@ -129,7 +129,7 @@ module.exports = function(grunt) {
         tasks: ['sass']
       },
       concat: {
-        files: ['src/**/*.js', 'build/css/style.css'],
+        files: ['src/**/*.js', 'src/css/style.css'],
         tasks: ['concat']
       },
       includereplace: {

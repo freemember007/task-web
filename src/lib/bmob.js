@@ -1,7 +1,7 @@
 /*!
  * bmob JavaScript SDK
  * Version: 1.0.0
- * Built:  2014 
+ * Built:  2014
  * http://www.bmob.cn
  *
  * Copyright 2014 Bmob, Inc.
@@ -39,10 +39,10 @@
 
   // Create quick reference variables for speed access to core prototypes.
   var push             = ArrayProto.push,
-      slice            = ArrayProto.slice,
-      concat           = ArrayProto.concat,
-      toString         = ObjProto.toString,
-      hasOwnProperty   = ObjProto.hasOwnProperty;
+    slice            = ArrayProto.slice,
+    concat           = ArrayProto.concat,
+    toString         = ObjProto.toString,
+    hasOwnProperty   = ObjProto.hasOwnProperty;
 
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
@@ -743,11 +743,11 @@
   // Retrieve the names of an object's properties.
   // Delegates to **ECMAScript 5**'s native `Object.keys`
   _.keys = nativeKeys || function(obj) {
-    if (obj !== Object(obj)) throw new TypeError('Invalid object');
-    var keys = [];
-    for (var key in obj) if (_.has(obj, key)) keys[keys.length] = key;
-    return keys;
-  };
+      if (obj !== Object(obj)) throw new TypeError('Invalid object');
+      var keys = [];
+      for (var key in obj) if (_.has(obj, key)) keys[keys.length] = key;
+      return keys;
+    };
 
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
@@ -802,7 +802,7 @@
     return copy;
   };
 
-   // Return a copy of the object without the blacklisted properties.
+  // Return a copy of the object without the blacklisted properties.
   _.omit = function(obj) {
     var copy = {};
     var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
@@ -870,9 +870,9 @@
       // RegExps are compared by their source patterns and flags.
       case '[object RegExp]':
         return a.source == b.source &&
-               a.global == b.global &&
-               a.multiline == b.multiline &&
-               a.ignoreCase == b.ignoreCase;
+          a.global == b.global &&
+          a.multiline == b.multiline &&
+          a.ignoreCase == b.ignoreCase;
     }
     if (typeof a != 'object' || typeof b != 'object') return false;
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
@@ -903,7 +903,7 @@
       // from different frames are.
       var aCtor = a.constructor, bCtor = b.constructor;
       if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
-                               _.isFunction(bCtor) && (bCtor instanceof bCtor))) {
+        _.isFunction(bCtor) && (bCtor instanceof bCtor))) {
         return false;
       }
       // Deep compare objects.
@@ -951,8 +951,8 @@
   // Is a given value an array?
   // Delegates to ECMA5's native Array.isArray
   _.isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) == '[object Array]';
-  };
+      return toString.call(obj) == '[object Array]';
+    };
 
   // Is a given variable an object?
   _.isObject = function(obj) {
@@ -1136,10 +1136,10 @@
 
     // Combine delimiters into one regular expression via alternation.
     var matcher = new RegExp([
-      (settings.escape || noMatch).source,
-      (settings.interpolate || noMatch).source,
-      (settings.evaluate || noMatch).source
-    ].join('|') + '|$', 'g');
+        (settings.escape || noMatch).source,
+        (settings.interpolate || noMatch).source,
+        (settings.evaluate || noMatch).source
+      ].join('|') + '|$', 'g');
 
     // Compile the template source, escaping string literals appropriately.
     var index = 0;
@@ -1243,8 +1243,8 @@
 }).call(this);
 
 /*global _: false, $: false, localStorage: false, process: true,
-  XMLHttpRequest: false, XDomainRequest: false, exports: false,
-  require: false */
+ XMLHttpRequest: false, XDomainRequest: false, exports: false,
+ require: false */
 (function(root) {
   root.Bmob = root.Bmob || {};
   /**
@@ -1259,10 +1259,10 @@
     // We're running in Node.js.  Pull in the dependencies.
     Bmob._ = exports._.noConflict();
     try{
-        Bmob.localStorage = require('localStorage');
-	}catch(error){
-		Bmob.localStorage = require('./localStorage.js').localStorage;
-	}
+      Bmob.localStorage = require('localStorage');
+    }catch(error){
+      Bmob.localStorage = require('./localStorage.js').localStorage;
+    }
     Bmob.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
     exports.Bmob = Bmob;
   } else {
@@ -1336,25 +1336,25 @@
   Bmob.serverURL = "https://api.bmob.cn";
   // Bmob.serverURL = "http://127.0.0.1:8080";
   Bmob.fileURL = "http://file.bmob.cn";
-  
+
   // Check whether we are running in Node.js.
   if (typeof(process) !== "undefined" &&
-      process.versions &&
-      process.versions.node) {
+    process.versions &&
+    process.versions.node) {
     Bmob._isNode = true;
   }
 
   /**
    * 初始化时需要调用这个函数。可以从bmob中获取所需的key
-   * 
+   *
    * @param {String} applicationId 你的 Application ID.
    * @param {String} applicationKey 你的 restful api Key.
-   * @param {String} masterKey (optional) 你的 bmob Master Key. 
+   * @param {String} masterKey (optional) 你的 bmob Master Key.
    */
   Bmob.initialize = function(applicationId, applicationKey, masterKey) {
     if (masterKey) {
       throw "Bmob.initialize() was passed a Master Key, which is only " +
-        "allowed from within Node.js.";
+      "allowed from within Node.js.";
     }
     Bmob._initialize(applicationId, applicationKey,masterKey);
   };
@@ -1366,14 +1366,14 @@
    * @param {String} applicationKey Your Bmob Application Key
 
    */
-   Bmob._initialize = function(applicationId, applicationKey, masterKey) {
+  Bmob._initialize = function(applicationId, applicationKey, masterKey) {
     Bmob.applicationId = applicationId;
     Bmob.applicationKey = applicationKey;
     Bmob.masterKey = masterKey;
     Bmob._useMasterKey = false;
   };
 
-  
+
   if (Bmob._isNode) {
     Bmob.initialize = Bmob._initialize;
 
@@ -1424,11 +1424,11 @@
         return Math.floor((1+Math.random())*0x10000).toString(16).substring(1);
       };
       Bmob._installationId = (
-        hexOctet() + hexOctet() + "-" +
-        hexOctet() + "-" +
-        hexOctet() + "-" +
-        hexOctet() + "-" +
-        hexOctet() + hexOctet() + hexOctet());
+      hexOctet() + hexOctet() + "-" +
+      hexOctet() + "-" +
+      hexOctet() + "-" +
+      hexOctet() + "-" +
+      hexOctet() + hexOctet() + hexOctet());
       Bmob.localStorage.setItem(path, Bmob._installationId);
     }
 
@@ -1504,21 +1504,21 @@
         //当返回的状态码是200，但返回的数据有错误码时，把状态码改为400
         var tempResponse;
         try {
-            tempResponse = JSON.parse(xhr.responseText);
+          tempResponse = JSON.parse(xhr.responseText);
 
         } catch (e) {
-          
+
         }
 
         // alert(tempResponse.length);
 
-        if (xhr.status == 200 && tempResponse && tempResponse['code'] && tempResponse['error']  ) 
-		{
-		
-                 xhr.status=400; 
-                 promise.reject(xhr);
-              
-         } else if (xhr.status >= 200 && xhr.status < 300) {
+        if (xhr.status == 200 && tempResponse && tempResponse['code'] && tempResponse['error']  )
+        {
+
+          xhr.status=400;
+          promise.reject(xhr);
+
+        } else if (xhr.status >= 200 && xhr.status < 300) {
           var response;
           try {
             response = JSON.parse(xhr.responseText);
@@ -1530,18 +1530,18 @@
           }
         }
 
-        
+
       }
     };
     xhr.open(method, url, true);
-	xhr.setRequestHeader("Content-Type", "text/plain");  // avoid pre-flight.
+    xhr.setRequestHeader("Content-Type", "text/plain");  // avoid pre-flight.
     //xhr.setRequestHeader("Content-Type", "text/plain");  // avoid pre-flight.
-	//xhr.setRequestHeader("212312313", "32432342");  // avoid pre-flight.
+    //xhr.setRequestHeader("212312313", "32432342");  // avoid pre-flight.
     if (Bmob._isNode) {
       // Add a special user agent just for request from node.js.
       xhr.setRequestHeader("User-Agent",
-                           "Bmob/" + Bmob.VERSION +
-                           " (NodeJS " + process.versions.node + ")");
+        "Bmob/" + Bmob.VERSION +
+        " (NodeJS " + process.versions.node + ")");
     }
     xhr.send(data);
     return promise._thenRunCallbacks(options);
@@ -1592,15 +1592,15 @@
       method = "POST";
     }
 
-	
+
     dataObject._ApplicationId = Bmob.applicationId;
     dataObject._RestKey = Bmob.applicationKey;
     if(Bmob._useMasterKey)
-        dataObject._MasterKey = Bmob.masterKey;
+      dataObject._MasterKey = Bmob.masterKey;
     dataObject._ClientVersion = Bmob.VERSION;
     dataObject._InstallationId = Bmob._getInstallationId();
-	
-	
+
+
     // Pass the session token on every request.
     var currentUser = Bmob.User.current();
     if (currentUser && currentUser._sessionToken) {
@@ -1659,8 +1659,8 @@
       if (!value.dirty()) {
         seenObjects = seenObjects.concat(value);
         return Bmob._encode(value._toFullJSON(seenObjects),
-                             seenObjects,
-                             disallowObjects);
+          seenObjects,
+          disallowObjects);
       }
       throw "Tried to save an object with a pointer to a new, unsaved object.";
     }
@@ -1739,11 +1739,11 @@
       var className = value.className;
       var pointer = Bmob.Object._create(className);
       if(value.createdAt){
-          delete value.__type;
-          delete value.className;
-          pointer._finishFetch(value, true);
+        delete value.__type;
+        delete value.className;
+        pointer._finishFetch(value, true);
       }else{
-          pointer._finishFetch({ objectId: value.objectId }, false);
+        pointer._finishFetch({ objectId: value.objectId }, false);
       }
       return pointer;
     }
@@ -1782,11 +1782,11 @@
       // file._url = value.url;
       // file.id = value.objectId;
 
-	  if( value.url.indexOf(Bmob.fileURL)>=0 ){
-		var file={"_name":value.filename,"_url":value.url,"_group":value.group};
-	  }else{
-		var file={"_name":value.filename,"_url":Bmob.fileURL+"/"+value.url,"_group":value.group};
-	  }
+      if( value.url.indexOf(Bmob.fileURL)>=0 ){
+        var file={"_name":value.filename,"_url":value.url,"_group":value.group};
+      }else{
+        var file={"_name":value.filename,"_url":Bmob.fileURL+"/"+value.url,"_group":value.group};
+      }
 
       return file;
     }
@@ -1963,7 +1963,7 @@
      * Error code requests must be LIKE OBJECT
      * @constant
      */
-    REQUEST_MUST_OBJECT: 113,    
+    REQUEST_MUST_OBJECT: 113,
 
 
 
@@ -1977,7 +1977,7 @@
      * Error code geo error
      * @constant
      */
-    GEO_ERROR: 117,    
+    GEO_ERROR: 117,
 
     /**
      * Error code Email verify should be opened in your app setup page of bmob
@@ -2482,8 +2482,8 @@
       var sinDeltaLongDiv2 = Math.sin(deltaLong / 2);
       // Square of half the straight line chord distance between both points.
       var a = ((sinDeltaLatDiv2 * sinDeltaLatDiv2) +
-               (Math.cos(lat1rad) * Math.cos(lat2rad) *
-                sinDeltaLongDiv2 * sinDeltaLongDiv2));
+      (Math.cos(lat1rad) * Math.cos(lat2rad) *
+      sinDeltaLongDiv2 * sinDeltaLongDiv2));
       a = Math.min(1.0, a);
       return 2 * Math.asin(Math.sqrt(a));
     },
@@ -2521,7 +2521,7 @@
    * 如果传任何参数，则任何人都没有权限
    * 如果传入的参数是Bmob.User，那个usr会有读写权限。
    * 如果传入的参数是json对象，则会有相应的acl权限。
-   * 
+   *
    * @see Bmob.Object#setACL
    * @class
    *
@@ -2892,49 +2892,49 @@
    * 将字段的值自增或自减
    */
   Bmob.Op.Increment = Bmob.Op._extend(
-      /** @lends Bmob.Op.Increment.prototype */ {
+    /** @lends Bmob.Op.Increment.prototype */ {
 
-    _initialize: function(amount) {
-      this._amount = amount;
-    },
+      _initialize: function(amount) {
+        this._amount = amount;
+      },
 
-    /**
-     * 返回添加的数目。
-     * @return {Number} 增加或减少的数目。
-     */
-    amount: function() {
-      return this._amount;
-    },
+      /**
+       * 返回添加的数目。
+       * @return {Number} 增加或减少的数目。
+       */
+      amount: function() {
+        return this._amount;
+      },
 
-    /**
-     * 返回发送到bmob的json
-     * @return {Object}
-     */
-    toJSON: function() {
-      return { __op: "Increment", amount: this._amount };
-    },
+      /**
+       * 返回发送到bmob的json
+       * @return {Object}
+       */
+      toJSON: function() {
+        return { __op: "Increment", amount: this._amount };
+      },
 
-    _mergeWithPrevious: function(previous) {
-      if (!previous) {
-        return this;
-      } else if (previous instanceof Bmob.Op.Unset) {
-        return new Bmob.Op.Set(this.amount());
-      } else if (previous instanceof Bmob.Op.Set) {
-        return new Bmob.Op.Set(previous.value() + this.amount());
-      } else if (previous instanceof Bmob.Op.Increment) {
-        return new Bmob.Op.Increment(this.amount() + previous.amount());
-      } else {
-        throw "Op is invalid after previous op.";
+      _mergeWithPrevious: function(previous) {
+        if (!previous) {
+          return this;
+        } else if (previous instanceof Bmob.Op.Unset) {
+          return new Bmob.Op.Set(this.amount());
+        } else if (previous instanceof Bmob.Op.Set) {
+          return new Bmob.Op.Set(previous.value() + this.amount());
+        } else if (previous instanceof Bmob.Op.Increment) {
+          return new Bmob.Op.Increment(this.amount() + previous.amount());
+        } else {
+          throw "Op is invalid after previous op.";
+        }
+      },
+
+      _estimate: function(oldValue) {
+        if (!oldValue) {
+          return this.amount();
+        }
+        return oldValue + this.amount();
       }
-    },
-
-    _estimate: function(oldValue) {
-      if (!oldValue) {
-        return this.amount();
-      }
-      return oldValue + this.amount();
-    }
-  });
+    });
 
   Bmob.Op._registerDecoder("Increment", function(json) {
     return new Bmob.Op.Increment(json.amount);
@@ -2997,69 +2997,69 @@
    * 添加一个元素到数组中，当元素已经存在，将不会重复添加。
    */
   Bmob.Op.AddUnique = Bmob.Op._extend(
-      /** @lends Bmob.Op.AddUnique.prototype */ {
+    /** @lends Bmob.Op.AddUnique.prototype */ {
 
-    _initialize: function(objects) {
-      this._objects = _.uniq(objects);
-    },
+      _initialize: function(objects) {
+        this._objects = _.uniq(objects);
+      },
 
-    /**
-     * 返回添加到数组中的对象
-     * @return {Array} 添加到数组中的对象
-     */
-    objects: function() {
-      return this._objects;
-    },
+      /**
+       * 返回添加到数组中的对象
+       * @return {Array} 添加到数组中的对象
+       */
+      objects: function() {
+        return this._objects;
+      },
 
-    /**
-     * 返回发送到bmob的json
-     * @return {Object}
-     */
-    toJSON: function() {
-      return { __op: "AddUnique", objects: Bmob._encode(this.objects()) };
-    },
+      /**
+       * 返回发送到bmob的json
+       * @return {Object}
+       */
+      toJSON: function() {
+        return { __op: "AddUnique", objects: Bmob._encode(this.objects()) };
+      },
 
-    _mergeWithPrevious: function(previous) {
-      if (!previous) {
-        return this;
-      } else if (previous instanceof Bmob.Op.Unset) {
-        return new Bmob.Op.Set(this.objects());
-      } else if (previous instanceof Bmob.Op.Set) {
-        return new Bmob.Op.Set(this._estimate(previous.value()));
-      } else if (previous instanceof Bmob.Op.AddUnique) {
-        return new Bmob.Op.AddUnique(this._estimate(previous.objects()));
-      } else {
-        throw "Op is invalid after previous op.";
-      }
-    },
+      _mergeWithPrevious: function(previous) {
+        if (!previous) {
+          return this;
+        } else if (previous instanceof Bmob.Op.Unset) {
+          return new Bmob.Op.Set(this.objects());
+        } else if (previous instanceof Bmob.Op.Set) {
+          return new Bmob.Op.Set(this._estimate(previous.value()));
+        } else if (previous instanceof Bmob.Op.AddUnique) {
+          return new Bmob.Op.AddUnique(this._estimate(previous.objects()));
+        } else {
+          throw "Op is invalid after previous op.";
+        }
+      },
 
-    _estimate: function(oldValue) {
-      if (!oldValue) {
-        return _.clone(this.objects());
-      } else {
-        // We can't just take the _.uniq(_.union(...)) of oldValue and
-        // this.objects, because the uniqueness may not apply to oldValue
-        // (especially if the oldValue was set via .set())
-        var newValue = _.clone(oldValue);
-        Bmob._arrayEach(this.objects(), function(obj) {
-          if (obj instanceof Bmob.Object && obj.id) {
-            var matchingObj = _.find(newValue, function(anObj) {
-              return (anObj instanceof Bmob.Object) && (anObj.id === obj.id);
-            });
-            if (!matchingObj) {
+      _estimate: function(oldValue) {
+        if (!oldValue) {
+          return _.clone(this.objects());
+        } else {
+          // We can't just take the _.uniq(_.union(...)) of oldValue and
+          // this.objects, because the uniqueness may not apply to oldValue
+          // (especially if the oldValue was set via .set())
+          var newValue = _.clone(oldValue);
+          Bmob._arrayEach(this.objects(), function(obj) {
+            if (obj instanceof Bmob.Object && obj.id) {
+              var matchingObj = _.find(newValue, function(anObj) {
+                return (anObj instanceof Bmob.Object) && (anObj.id === obj.id);
+              });
+              if (!matchingObj) {
+                newValue.push(obj);
+              } else {
+                var index = _.indexOf(newValue, matchingObj);
+                newValue[index] = obj;
+              }
+            } else if (!_.contains(newValue, obj)) {
               newValue.push(obj);
-            } else {
-              var index = _.indexOf(newValue, matchingObj);
-              newValue[index] = obj;
             }
-          } else if (!_.contains(newValue, obj)) {
-            newValue.push(obj);
-          }
-        });
-        return newValue;
+          });
+          return newValue;
+        }
       }
-    }
-  });
+    });
 
   Bmob.Op._registerDecoder("AddUnique", function(json) {
     return new Bmob.Op.AddUnique(Bmob._decode(undefined, json.objects));
@@ -3131,138 +3131,138 @@
    * 关系操作标明这个字段是Bmob.Relation的实体，同时对象可以从关系中添加或移除
    */
   Bmob.Op.Relation = Bmob.Op._extend(
-      /** @lends Bmob.Op.Relation.prototype */ {
+    /** @lends Bmob.Op.Relation.prototype */ {
 
-    _initialize: function(adds, removes) {
-      this._targetClassName = null;
+      _initialize: function(adds, removes) {
+        this._targetClassName = null;
 
-      var self = this;
+        var self = this;
 
-      var pointerToId = function(object) {
-        if (object instanceof Bmob.Object) {
-          if (!object.id) {
-            throw "You can't add an unsaved Bmob.Object to a relation.";
-          }
-          if (!self._targetClassName) {
-            self._targetClassName = object.className;
-          }
-          if (self._targetClassName !== object.className) {
-            throw "Tried to create a Bmob.Relation with 2 different types: " +
-                  self._targetClassName + " and " + object.className + ".";
-          }
-          return object.id;
-        }
-        return object;
-      };
-
-      this.relationsToAdd = _.uniq(_.map(adds, pointerToId));
-      this.relationsToRemove = _.uniq(_.map(removes, pointerToId));
-    },
-
-    /**
-     * 返回添加到关系中的Bmob.Object的数组对象
-     * @return {Array}
-     */
-    added: function() {
-      var self = this;
-      return _.map(this.relationsToAdd, function(objectId) {
-        var object = Bmob.Object._create(self._targetClassName);
-        object.id = objectId;
-        return object;
-      });
-    },
-
-    /**
-     * 返回移除的Bmob.Object的数组对象
-     * @return {Array}
-     */
-    removed: function() {
-      var self = this;
-      return _.map(this.relationsToRemove, function(objectId) {
-        var object = Bmob.Object._create(self._targetClassName);
-        object.id = objectId;
-        return object;
-      });
-    },
-
-    /**
-     * 返回发送到bmob的json
-     * @return {Object}
-     */
-    toJSON: function() {
-      var adds = null;
-      var removes = null;
-      var self = this;
-      var idToPointer = function(id) {
-        return { __type: 'Pointer',
-                 className: self._targetClassName,
-                 objectId: id };
-      };
-      var pointers = null;
-      if (this.relationsToAdd.length > 0) {
-        pointers = _.map(this.relationsToAdd, idToPointer);
-        adds = { "__op": "AddRelation", "objects": pointers };
-      }
-
-      if (this.relationsToRemove.length > 0) {
-        pointers = _.map(this.relationsToRemove, idToPointer);
-        removes = { "__op": "RemoveRelation", "objects": pointers };
-      }
-
-      if (adds && removes) {
-        return { "__op": "Batch", "ops": [adds, removes]};
-      }
-
-      return adds || removes || {};
-    },
-
-    _mergeWithPrevious: function(previous) {
-      if (!previous) {
-        return this;
-      } else if (previous instanceof Bmob.Op.Unset) {
-        throw "You can't modify a relation after deleting it.";
-      } else if (previous instanceof Bmob.Op.Relation) {
-        if (previous._targetClassName &&
-            previous._targetClassName !== this._targetClassName) {
-          throw "Related object must be of class " + previous._targetClassName +
-              ", but " + this._targetClassName + " was passed in.";
-        }
-        var newAdd = _.union(_.difference(previous.relationsToAdd,
-                                          this.relationsToRemove),
-                             this.relationsToAdd);
-        var newRemove = _.union(_.difference(previous.relationsToRemove,
-                                             this.relationsToAdd),
-                                this.relationsToRemove);
-
-        var newRelation = new Bmob.Op.Relation(newAdd, newRemove);
-        newRelation._targetClassName = this._targetClassName;
-        return newRelation;
-      } else {
-        throw "Op is invalid after previous op.";
-      }
-    },
-
-    _estimate: function(oldValue, object, key) {
-      if (!oldValue) {
-        var relation = new Bmob.Relation(object, key);
-        relation.targetClassName = this._targetClassName;
-      } else if (oldValue instanceof Bmob.Relation) {
-        if (this._targetClassName) {
-          if (oldValue.targetClassName) {
-            if (oldValue.targetClassName !== this._targetClassName) {
-              throw "Related object must be a " + oldValue.targetClassName +
-                  ", but a " + this._targetClassName + " was passed in.";
+        var pointerToId = function(object) {
+          if (object instanceof Bmob.Object) {
+            if (!object.id) {
+              throw "You can't add an unsaved Bmob.Object to a relation.";
             }
-          } else {
-            oldValue.targetClassName = this._targetClassName;
+            if (!self._targetClassName) {
+              self._targetClassName = object.className;
+            }
+            if (self._targetClassName !== object.className) {
+              throw "Tried to create a Bmob.Relation with 2 different types: " +
+              self._targetClassName + " and " + object.className + ".";
+            }
+            return object.id;
           }
+          return object;
+        };
+
+        this.relationsToAdd = _.uniq(_.map(adds, pointerToId));
+        this.relationsToRemove = _.uniq(_.map(removes, pointerToId));
+      },
+
+      /**
+       * 返回添加到关系中的Bmob.Object的数组对象
+       * @return {Array}
+       */
+      added: function() {
+        var self = this;
+        return _.map(this.relationsToAdd, function(objectId) {
+          var object = Bmob.Object._create(self._targetClassName);
+          object.id = objectId;
+          return object;
+        });
+      },
+
+      /**
+       * 返回移除的Bmob.Object的数组对象
+       * @return {Array}
+       */
+      removed: function() {
+        var self = this;
+        return _.map(this.relationsToRemove, function(objectId) {
+          var object = Bmob.Object._create(self._targetClassName);
+          object.id = objectId;
+          return object;
+        });
+      },
+
+      /**
+       * 返回发送到bmob的json
+       * @return {Object}
+       */
+      toJSON: function() {
+        var adds = null;
+        var removes = null;
+        var self = this;
+        var idToPointer = function(id) {
+          return { __type: 'Pointer',
+            className: self._targetClassName,
+            objectId: id };
+        };
+        var pointers = null;
+        if (this.relationsToAdd.length > 0) {
+          pointers = _.map(this.relationsToAdd, idToPointer);
+          adds = { "__op": "AddRelation", "objects": pointers };
         }
-        return oldValue;
-      } else {
-        throw "Op is invalid after previous op.";
+
+        if (this.relationsToRemove.length > 0) {
+          pointers = _.map(this.relationsToRemove, idToPointer);
+          removes = { "__op": "RemoveRelation", "objects": pointers };
+        }
+
+        if (adds && removes) {
+          return { "__op": "Batch", "ops": [adds, removes]};
+        }
+
+        return adds || removes || {};
+      },
+
+      _mergeWithPrevious: function(previous) {
+        if (!previous) {
+          return this;
+        } else if (previous instanceof Bmob.Op.Unset) {
+          throw "You can't modify a relation after deleting it.";
+        } else if (previous instanceof Bmob.Op.Relation) {
+          if (previous._targetClassName &&
+            previous._targetClassName !== this._targetClassName) {
+            throw "Related object must be of class " + previous._targetClassName +
+            ", but " + this._targetClassName + " was passed in.";
+          }
+          var newAdd = _.union(_.difference(previous.relationsToAdd,
+            this.relationsToRemove),
+            this.relationsToAdd);
+          var newRemove = _.union(_.difference(previous.relationsToRemove,
+            this.relationsToAdd),
+            this.relationsToRemove);
+
+          var newRelation = new Bmob.Op.Relation(newAdd, newRemove);
+          newRelation._targetClassName = this._targetClassName;
+          return newRelation;
+        } else {
+          throw "Op is invalid after previous op.";
+        }
+      },
+
+      _estimate: function(oldValue, object, key) {
+        if (!oldValue) {
+          var relation = new Bmob.Relation(object, key);
+          relation.targetClassName = this._targetClassName;
+        } else if (oldValue instanceof Bmob.Relation) {
+          if (this._targetClassName) {
+            if (oldValue.targetClassName) {
+              if (oldValue.targetClassName !== this._targetClassName) {
+                throw "Related object must be a " + oldValue.targetClassName +
+                ", but a " + this._targetClassName + " was passed in.";
+              }
+            } else {
+              oldValue.targetClassName = this._targetClassName;
+            }
+          }
+          return oldValue;
+        } else {
+          throw "Op is invalid after previous op.";
+        }
       }
-    }
-  });
+    });
 
   Bmob.Op._registerDecoder("AddRelation", function(json) {
     return new Bmob.Op.Relation(Bmob._decode(undefined, json.objects), []);
@@ -3530,7 +3530,7 @@
     resolve: function(result) {
       if (this._resolved || this._rejected) {
         throw "A promise was resolved even though it had already been " +
-          (this._resolved ? "resolved" : "rejected") + ".";
+        (this._resolved ? "resolved" : "rejected") + ".";
       }
       this._resolved = true;
       this._result = arguments;
@@ -3549,7 +3549,7 @@
     reject: function(error) {
       if (this._resolved || this._rejected) {
         throw "A promise was rejected even though it had already been " +
-          (this._resolved ? "resolved" : "rejected") + ".";
+        (this._resolved ? "resolved" : "rejected") + ".";
       }
       this._rejected = true;
       this._error = error;
@@ -3741,19 +3741,19 @@
       c1 = str.charCodeAt(i++) & 0xff;
       if(i == len)
       {
-          out += base64EncodeChars.charAt(c1 >> 2);
-          out += base64EncodeChars.charAt((c1 & 0x3) << 4);
-          out += "==";
-          break;
+        out += base64EncodeChars.charAt(c1 >> 2);
+        out += base64EncodeChars.charAt((c1 & 0x3) << 4);
+        out += "==";
+        break;
       }
       c2 = str.charCodeAt(i++);
       if(i == len)
       {
-          out += base64EncodeChars.charAt(c1 >> 2);
-          out += base64EncodeChars.charAt(((c1 & 0x3)<< 4) | ((c2 & 0xF0) >> 4));
-          out += base64EncodeChars.charAt((c2 & 0xF) << 2);
-          out += "=";
-          break;
+        out += base64EncodeChars.charAt(c1 >> 2);
+        out += base64EncodeChars.charAt(((c1 & 0x3)<< 4) | ((c2 & 0xF0) >> 4));
+        out += base64EncodeChars.charAt((c2 & 0xF) << 2);
+        out += "=";
+        break;
       }
       c3 = str.charCodeAt(i++);
       out += base64EncodeChars.charAt(c1 >> 2);
@@ -3764,7 +3764,7 @@
     return out;
 
 
-  };  
+  };
 
   var utf16to8 = function(str) {
     var out, i, len, c;
@@ -3822,9 +3822,9 @@
     dms: "application/octet-stream",
     doc: "application/msword",
     docx: "application/vnd.openxmlformats-officedocument.wordprocessingml." +
-          "document",
+    "document",
     dotx: "application/vnd.openxmlformats-officedocument.wordprocessingml." +
-          "template",
+    "template",
     docm: "application/vnd.ms-word.document.macroEnabled.12",
     dotm: "application/vnd.ms-word.template.macroEnabled.12",
     dtd: "application/xml-dtd",
@@ -3904,11 +3904,11 @@
     ppm: "image/x-portable-pixmap",
     ppt: "application/vnd.ms-powerpoint",
     pptx: "application/vnd.openxmlformats-officedocument.presentationml." +
-          "presentation",
+    "presentation",
     potx: "application/vnd.openxmlformats-officedocument.presentationml." +
-          "template",
+    "template",
     ppsx: "application/vnd.openxmlformats-officedocument.presentationml." +
-          "slideshow",
+    "slideshow",
     ppam: "application/vnd.ms-powerpoint.addin.macroEnabled.12",
     pptm: "application/vnd.ms-powerpoint.presentation.macroEnabled.12",
     potm: "application/vnd.ms-powerpoint.template.macroEnabled.12",
@@ -3978,7 +3978,7 @@
     xsl: "application/xml",
     xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     xltx: "application/vnd.openxmlformats-officedocument.spreadsheetml." +
-          "template",
+    "template",
     xlsm: "application/vnd.ms-excel.sheet.macroEnabled.12",
     xltm: "application/vnd.ms-excel.template.macroEnabled.12",
     xlam: "application/vnd.ms-excel.addin.macroEnabled.12",
@@ -4002,7 +4002,7 @@
 
     if (typeof(FileReader) === "undefined") {
       return Bmob.Promise.error(new Bmob.Error(
-          -1, "Attempted to use a FileReader on an unsupported browser."));
+        -1, "Attempted to use a FileReader on an unsupported browser."));
     }
 
     var reader = new FileReader();
@@ -4020,11 +4020,11 @@
    * cloud.
    * @param name {String} 文件名。在服务器中，这会改为唯一的文件名
    * @param data {file} 文件的数据
-   *     
+   *
    *     文件对象是在" file upload control"中被选中，只能在下面的浏览器使用
    *        in Firefox 3.6+, Safari 6.0.2+, Chrome 7+, and IE 10+.
    *        例如:<pre>
-   *     
+   *
    * var fileUploadControl = $("#profilePhotoFileUpload")[0];
    * if (fileUploadControl.files.length > 0) {
    *   var file = fileUploadControl.files[0];
@@ -4044,7 +4044,7 @@
     // this._name = "aGVsbG8udHh0";
     var currentUser = Bmob.User.current();
     this._metaData = {
-       owner: (currentUser !=null ? currentUser.id : 'unknown')
+      owner: (currentUser !=null ? currentUser.id : 'unknown')
     };
 
     // Guess the content type from the extension if we need to.
@@ -4060,7 +4060,7 @@
     } else {
       // throw "Creating a Bmob.File from a String is not yet supported.";
       this._source = Bmob.Promise.as(data, guessedType);
-      this._metaData.size = data.length;      
+      this._metaData.size = data.length;
     }
   };
 
@@ -4083,11 +4083,11 @@
      * @return {String}
      */
     url: function() {
-	  if( this._url.indexOf(Bmob.fileURL)>=0 ){
-		return this._url;
-	  }else{
-		return Bmob.fileURL+"/"+this._url;
-	  }
+      if( this._url.indexOf(Bmob.fileURL)>=0 ){
+        return this._url;
+      }else{
+        return Bmob.fileURL+"/"+this._url;
+      }
     },
 
     /**
@@ -4100,30 +4100,30 @@
     },
 
     /**
-    * <p>Returns the file's metadata JSON object if no arguments is given.Returns the
-    * metadata value if a key is given.Set metadata value if key and value are both given.</p>
-    * <p><pre>
-    *  var metadata = file.metaData(); //Get metadata JSON object.
-    *  var size = file.metaData('size');  // Get the size metadata value.
-    *  file.metaData('format', 'jpeg'); //set metadata attribute and value.
-    *</pre></p>
-    * @return {Object} The file's metadata JSON object.
-    * @param {String} attr an optional metadata key.
-    * @param {Object} value an optional metadata value.
-    **/
+     * <p>Returns the file's metadata JSON object if no arguments is given.Returns the
+     * metadata value if a key is given.Set metadata value if key and value are both given.</p>
+     * <p><pre>
+     *  var metadata = file.metaData(); //Get metadata JSON object.
+     *  var size = file.metaData('size');  // Get the size metadata value.
+     *  file.metaData('format', 'jpeg'); //set metadata attribute and value.
+     *</pre></p>
+     * @return {Object} The file's metadata JSON object.
+     * @param {String} attr an optional metadata key.
+     * @param {Object} value an optional metadata value.
+     **/
     metaData: function(attr, value) {
       if(attr != null && value != null){
-         this._metaData[attr] = value;
-         return this;
+        this._metaData[attr] = value;
+        return this;
       }else if(attr != null){
-         return this._metaData[attr];
+        return this._metaData[attr];
       }else{
         return this._metaData;
       }
     },
 
 
-     /**
+    /**
      * Destroy the file.
      * @return {Bmob.Promise} A promise that is fulfilled when the destroy
      *     completes.
@@ -4131,13 +4131,13 @@
     destroy: function(options){
       if(!this._url && !this._group )
         return Bmob.Promise.error('The file url and group is not eixsts.')._thenRunCallbacks(options);
-      
+
       var data = {
-              group: this._group,
-              _ContentType: "application/json",
-              url: this._url,
-              metaData: self._metaData,
-            };
+        group: this._group,
+        _ContentType: "application/json",
+        url: this._url,
+        metaData: self._metaData,
+      };
       var request = Bmob._request("files", null, null, 'DELETE',data);
       return request._thenRunCallbacks(options);
     },
@@ -4292,400 +4292,400 @@
 
   // Attach all inheritable methods to the Bmob.Object prototype.
   _.extend(Bmob.Object.prototype, Bmob.Events,
-           /** @lends Bmob.Object.prototype */ {
-    _existed: false,
-    _fetchWhenSave: false,
+    /** @lends Bmob.Object.prototype */ {
+      _existed: false,
+      _fetchWhenSave: false,
 
-    /**
-     * Initialize is an empty function by default. Override it with your own
-     * initialization logic.
-     */
-    initialize: function(){},
+      /**
+       * Initialize is an empty function by default. Override it with your own
+       * initialization logic.
+       */
+      initialize: function(){},
 
-   /**
-     * Set whether to enable fetchWhenSave option when updating object.
-     * When set true, SDK would fetch the latest object after saving.
-     * Default is false.
-     * @param {boolean} enable  true to enable fetchWhenSave option.
-     */
-    fetchWhenSave: function(enable){
-      if (typeof enable !== 'boolean'){
-        throw "Expect boolean value for fetchWhenSave";
-      }
-      this._fetchWhenSave = enable;
-    },
-
-    /**
-     * Returns a JSON version of the object suitable for saving to Bmob.
-     * @return {Object}
-     */
-    toJSON: function() {
-      var json = this._toFullJSON();
-      Bmob._arrayEach(["__type", "className"],
-                       function(key) { delete json[key]; });
-      return json;
-    },
-
-    _toFullJSON: function(seenObjects) {
-      var json = _.clone(this.attributes);
-      Bmob._objectEach(json, function(val, key) {
-        json[key] = Bmob._encode(val, seenObjects);
-      });
-      Bmob._objectEach(this._operations, function(val, key) {
-        json[key] = val;
-      });
-
-      if (_.has(this, "id")) {
-        json.objectId = this.id;
-      }
-      if (_.has(this, "createdAt")) {
-        if (_.isDate(this.createdAt)) {
-          json.createdAt = this.createdAt.toJSON();
-        } else {
-          json.createdAt = this.createdAt;
+      /**
+       * Set whether to enable fetchWhenSave option when updating object.
+       * When set true, SDK would fetch the latest object after saving.
+       * Default is false.
+       * @param {boolean} enable  true to enable fetchWhenSave option.
+       */
+      fetchWhenSave: function(enable){
+        if (typeof enable !== 'boolean'){
+          throw "Expect boolean value for fetchWhenSave";
         }
-      }
+        this._fetchWhenSave = enable;
+      },
 
-      if (_.has(this, "updatedAt")) {
-        if (_.isDate(this.updatedAt)) {
-          json.updatedAt = this.updatedAt.toJSON();
-        } else {
-          json.updatedAt = this.updatedAt;
+      /**
+       * Returns a JSON version of the object suitable for saving to Bmob.
+       * @return {Object}
+       */
+      toJSON: function() {
+        var json = this._toFullJSON();
+        Bmob._arrayEach(["__type", "className"],
+          function(key) { delete json[key]; });
+        return json;
+      },
+
+      _toFullJSON: function(seenObjects) {
+        var json = _.clone(this.attributes);
+        Bmob._objectEach(json, function(val, key) {
+          json[key] = Bmob._encode(val, seenObjects);
+        });
+        Bmob._objectEach(this._operations, function(val, key) {
+          json[key] = val;
+        });
+
+        if (_.has(this, "id")) {
+          json.objectId = this.id;
         }
-      }
-      json.__type = "Object";
-      json.className = this.className;
-      return json;
-    },
-
-    /**
-     * Updates _hashedJSON to reflect the current state of this object.
-     * Adds any changed hash values to the set of pending changes.
-     */
-    _refreshCache: function() {
-      var self = this;
-      if (self._refreshingCache) {
-        return;
-      }
-      self._refreshingCache = true;
-      Bmob._objectEach(this.attributes, function(value, key) {
-        if (value instanceof Bmob.Object) {
-          value._refreshCache();
-        } else if (_.isObject(value)) {
-          if (self._resetCacheForKey(key)) {
-            self.set(key, new Bmob.Op.Set(value), { silent: true });
-          }
-        }
-      });
-      delete self._refreshingCache;
-    },
-
-    /**
-     * Returns true if this object has been modified since its last
-     * save/refresh.  If an attribute is specified, it returns true only if that
-     * particular attribute has been modified since the last save/refresh.
-     * @param {String} attr An attribute name (optional).
-     * @return {Boolean}
-     */
-    dirty: function(attr) {
-      this._refreshCache();
-
-      var currentChanges = _.last(this._opSetQueue);
-
-      if (attr) {
-        return (currentChanges[attr] ? true : false);
-      }
-      if (!this.id) {
-        return true;
-      }
-      if (_.keys(currentChanges).length > 0) {
-        return true;
-      }
-      return false;
-    },
-
-    /**
-     * Gets a Pointer referencing this Object.
-     */
-    _toPointer: function() {
-      // if (!this.id) {
-      //   throw new Error("Can't serialize an unsaved Bmob.Object");
-      // }
-      return { __type: "Pointer",
-               className: this.className,
-               objectId: this.id };
-    },
-
-    /**
-     * Gets the value of an attribute.
-     * @param {String} attr The string name of an attribute.
-     */
-    get: function(attr) {
-      return this.attributes[attr];
-    },
-
-    /**
-     * Gets a relation on the given class for the attribute.
-     * @param String attr The attribute to get the relation for.
-     */
-    relation: function(attr) {
-      var value = this.get(attr);
-      if (value) {
-        if (!(value instanceof Bmob.Relation)) {
-          throw "Called relation() on non-relation field " + attr;
-        }
-        value._ensureParentAndKey(this, attr);
-        return value;
-      } else {
-        return new Bmob.Relation(this, attr);
-      }
-    },
-
-    /**
-     * Gets the HTML-escaped value of an attribute.
-     */
-    escape: function(attr) {
-      var html = this._escapedAttributes[attr];
-      if (html) {
-        return html;
-      }
-      var val = this.attributes[attr];
-      var escaped;
-      if (Bmob._isNullOrUndefined(val)) {
-        escaped = '';
-      } else {
-        escaped = _.escape(val.toString());
-      }
-      this._escapedAttributes[attr] = escaped;
-      return escaped;
-    },
-
-    /**
-     * Returns <code>true</code> if the attribute contains a value that is not
-     * null or undefined.
-     * @param {String} attr The string name of the attribute.
-     * @return {Boolean}
-     */
-    has: function(attr) {
-      return !Bmob._isNullOrUndefined(this.attributes[attr]);
-    },
-
-    /**
-     * Pulls "special" fields like objectId, createdAt, etc. out of attrs
-     * and puts them on "this" directly.  Removes them from attrs.
-     * @param attrs - A dictionary with the data for this Bmob.Object.
-     */
-    _mergeMagicFields: function(attrs) {
-      // Check for changes of magic fields.
-      var model = this;
-      var specialFields = ["id", "objectId", "createdAt", "updatedAt"];
-      Bmob._arrayEach(specialFields, function(attr) {
-        if (attrs[attr]) {
-          if (attr === "objectId") {
-            model.id = attrs[attr];
+        if (_.has(this, "createdAt")) {
+          if (_.isDate(this.createdAt)) {
+            json.createdAt = this.createdAt.toJSON();
           } else {
-            model[attr] = attrs[attr];
+            json.createdAt = this.createdAt;
           }
-          delete attrs[attr];
         }
-      });
-    },
 
-    /**
-     * Returns the json to be sent to the server.
-     */
-    _startSave: function() {
-      this._opSetQueue.push({});
-    },
-
-    /**
-     * Called when a save fails because of an error. Any changes that were part
-     * of the save need to be merged with changes made after the save. This
-     * might throw an exception is you do conflicting operations. For example,
-     * if you do:
-     *   object.set("foo", "bar");
-     *   object.set("invalid field name", "baz");
-     *   object.save();
-     *   object.increment("foo");
-     * then this will throw when the save fails and the client tries to merge
-     * "bar" with the +1.
-     */
-    _cancelSave: function() {
-      var self = this;
-      var failedChanges = _.first(this._opSetQueue);
-      this._opSetQueue = _.rest(this._opSetQueue);
-      var nextChanges = _.first(this._opSetQueue);
-      Bmob._objectEach(failedChanges, function(op, key) {
-        var op1 = failedChanges[key];
-        var op2 = nextChanges[key];
-        if (op1 && op2) {
-          nextChanges[key] = op2._mergeWithPrevious(op1);
-        } else if (op1) {
-          nextChanges[key] = op1;
+        if (_.has(this, "updatedAt")) {
+          if (_.isDate(this.updatedAt)) {
+            json.updatedAt = this.updatedAt.toJSON();
+          } else {
+            json.updatedAt = this.updatedAt;
+          }
         }
-      });
-      this._saving = this._saving - 1;
-    },
+        json.__type = "Object";
+        json.className = this.className;
+        return json;
+      },
 
-    /**
-     * Called when a save completes successfully. This merges the changes that
-     * were saved into the known server data, and overrides it with any data
-     * sent directly from the server.
-     */
-    _finishSave: function(serverData) {
-      // Grab a copy of any object referenced by this object. These instances
-      // may have already been fetched, and we don't want to lose their data.
-      // Note that doing it like this means we will unify separate copies of the
-      // same object, but that's a risk we have to take.
-      var fetchedObjects = {};
-      Bmob._traverse(this.attributes, function(object) {
-        if (object instanceof Bmob.Object && object.id && object._hasData) {
-          fetchedObjects[object.id] = object;
+      /**
+       * Updates _hashedJSON to reflect the current state of this object.
+       * Adds any changed hash values to the set of pending changes.
+       */
+      _refreshCache: function() {
+        var self = this;
+        if (self._refreshingCache) {
+          return;
         }
-      });
-
-      var savedChanges = _.first(this._opSetQueue);
-      this._opSetQueue = _.rest(this._opSetQueue);
-      this._applyOpSet(savedChanges, this._serverData);
-      this._mergeMagicFields(serverData);
-      var self = this;
-      Bmob._objectEach(serverData, function(value, key) {
-        self._serverData[key] = Bmob._decode(key, value);
-
-        // Look for any objects that might have become unfetched and fix them
-        // by replacing their values with the previously observed values.
-        var fetched = Bmob._traverse(self._serverData[key], function(object) {
-          if (object instanceof Bmob.Object && fetchedObjects[object.id]) {
-            return fetchedObjects[object.id];
+        self._refreshingCache = true;
+        Bmob._objectEach(this.attributes, function(value, key) {
+          if (value instanceof Bmob.Object) {
+            value._refreshCache();
+          } else if (_.isObject(value)) {
+            if (self._resetCacheForKey(key)) {
+              self.set(key, new Bmob.Op.Set(value), { silent: true });
+            }
           }
         });
-        if (fetched) {
-          self._serverData[key] = fetched;
+        delete self._refreshingCache;
+      },
+
+      /**
+       * Returns true if this object has been modified since its last
+       * save/refresh.  If an attribute is specified, it returns true only if that
+       * particular attribute has been modified since the last save/refresh.
+       * @param {String} attr An attribute name (optional).
+       * @return {Boolean}
+       */
+      dirty: function(attr) {
+        this._refreshCache();
+
+        var currentChanges = _.last(this._opSetQueue);
+
+        if (attr) {
+          return (currentChanges[attr] ? true : false);
         }
-      });
-      this._rebuildAllEstimatedData();
-      this._saving = this._saving - 1;
-    },
-
-    /**
-     * Called when a fetch or login is complete to set the known server data to
-     * the given object.
-     */
-    _finishFetch: function(serverData, hasData) {
-      // Clear out any changes the user might have made previously.
-      this._opSetQueue = [{}];
-
-      // Bring in all the new server data.
-      this._mergeMagicFields(serverData);
-      var self = this;
-      Bmob._objectEach(serverData, function(value, key) {
-        self._serverData[key] = Bmob._decode(key, value);
-      });
-
-      // Refresh the attributes.
-      this._rebuildAllEstimatedData();
-
-      // Clear out the cache of mutable containers.
-      this._refreshCache();
-      this._opSetQueue = [{}];
-
-      this._hasData = hasData;
-    },
-
-    /**
-     * Applies the set of Bmob.Op in opSet to the object target.
-     */
-    _applyOpSet: function(opSet, target) {
-      var self = this;
-      Bmob._objectEach(opSet, function(change, key) {
-        target[key] = change._estimate(target[key], self, key);
-        if (target[key] === Bmob.Op._UNSET) {
-          delete target[key];
-        }
-      });
-    },
-
-    /**
-     * Replaces the cached value for key with the current value.
-     * Returns true if the new value is different than the old value.
-     */
-    _resetCacheForKey: function(key) {
-      var value = this.attributes[key];
-      if (_.isObject(value) &&
-          !(value instanceof Bmob.Object) &&
-          !(value instanceof Bmob.File)) {
-        value = value.toJSON ? value.toJSON() : value;
-        var json = JSON.stringify(value);
-        if (this._hashedJSON[key] !== json) {
-          this._hashedJSON[key] = json;
+        if (!this.id) {
           return true;
         }
-      }
-      return false;
-    },
+        if (_.keys(currentChanges).length > 0) {
+          return true;
+        }
+        return false;
+      },
 
-    /**
-     * Populates attributes[key] by starting with the last known data from the
-     * server, and applying all of the local changes that have been made to that
-     * key since then.
-     */
-    _rebuildEstimatedDataForKey: function(key) {
-      var self = this;
-      delete this.attributes[key];
-      if (this._serverData[key]) {
-        this.attributes[key] = this._serverData[key];
-      }
-      Bmob._arrayEach(this._opSetQueue, function(opSet) {
-        var op = opSet[key];
-        if (op) {
-          self.attributes[key] = op._estimate(self.attributes[key], self, key);
-          if (self.attributes[key] === Bmob.Op._UNSET) {
-            delete self.attributes[key];
-          } else {
-            self._resetCacheForKey(key);
+      /**
+       * Gets a Pointer referencing this Object.
+       */
+      _toPointer: function() {
+        // if (!this.id) {
+        //   throw new Error("Can't serialize an unsaved Bmob.Object");
+        // }
+        return { __type: "Pointer",
+          className: this.className,
+          objectId: this.id };
+      },
+
+      /**
+       * Gets the value of an attribute.
+       * @param {String} attr The string name of an attribute.
+       */
+      get: function(attr) {
+        return this.attributes[attr];
+      },
+
+      /**
+       * Gets a relation on the given class for the attribute.
+       * @param String attr The attribute to get the relation for.
+       */
+      relation: function(attr) {
+        var value = this.get(attr);
+        if (value) {
+          if (!(value instanceof Bmob.Relation)) {
+            throw "Called relation() on non-relation field " + attr;
+          }
+          value._ensureParentAndKey(this, attr);
+          return value;
+        } else {
+          return new Bmob.Relation(this, attr);
+        }
+      },
+
+      /**
+       * Gets the HTML-escaped value of an attribute.
+       */
+      escape: function(attr) {
+        var html = this._escapedAttributes[attr];
+        if (html) {
+          return html;
+        }
+        var val = this.attributes[attr];
+        var escaped;
+        if (Bmob._isNullOrUndefined(val)) {
+          escaped = '';
+        } else {
+          escaped = _.escape(val.toString());
+        }
+        this._escapedAttributes[attr] = escaped;
+        return escaped;
+      },
+
+      /**
+       * Returns <code>true</code> if the attribute contains a value that is not
+       * null or undefined.
+       * @param {String} attr The string name of the attribute.
+       * @return {Boolean}
+       */
+      has: function(attr) {
+        return !Bmob._isNullOrUndefined(this.attributes[attr]);
+      },
+
+      /**
+       * Pulls "special" fields like objectId, createdAt, etc. out of attrs
+       * and puts them on "this" directly.  Removes them from attrs.
+       * @param attrs - A dictionary with the data for this Bmob.Object.
+       */
+      _mergeMagicFields: function(attrs) {
+        // Check for changes of magic fields.
+        var model = this;
+        var specialFields = ["id", "objectId", "createdAt", "updatedAt"];
+        Bmob._arrayEach(specialFields, function(attr) {
+          if (attrs[attr]) {
+            if (attr === "objectId") {
+              model.id = attrs[attr];
+            } else {
+              model[attr] = attrs[attr];
+            }
+            delete attrs[attr];
+          }
+        });
+      },
+
+      /**
+       * Returns the json to be sent to the server.
+       */
+      _startSave: function() {
+        this._opSetQueue.push({});
+      },
+
+      /**
+       * Called when a save fails because of an error. Any changes that were part
+       * of the save need to be merged with changes made after the save. This
+       * might throw an exception is you do conflicting operations. For example,
+       * if you do:
+       *   object.set("foo", "bar");
+       *   object.set("invalid field name", "baz");
+       *   object.save();
+       *   object.increment("foo");
+       * then this will throw when the save fails and the client tries to merge
+       * "bar" with the +1.
+       */
+      _cancelSave: function() {
+        var self = this;
+        var failedChanges = _.first(this._opSetQueue);
+        this._opSetQueue = _.rest(this._opSetQueue);
+        var nextChanges = _.first(this._opSetQueue);
+        Bmob._objectEach(failedChanges, function(op, key) {
+          var op1 = failedChanges[key];
+          var op2 = nextChanges[key];
+          if (op1 && op2) {
+            nextChanges[key] = op2._mergeWithPrevious(op1);
+          } else if (op1) {
+            nextChanges[key] = op1;
+          }
+        });
+        this._saving = this._saving - 1;
+      },
+
+      /**
+       * Called when a save completes successfully. This merges the changes that
+       * were saved into the known server data, and overrides it with any data
+       * sent directly from the server.
+       */
+      _finishSave: function(serverData) {
+        // Grab a copy of any object referenced by this object. These instances
+        // may have already been fetched, and we don't want to lose their data.
+        // Note that doing it like this means we will unify separate copies of the
+        // same object, but that's a risk we have to take.
+        var fetchedObjects = {};
+        Bmob._traverse(this.attributes, function(object) {
+          if (object instanceof Bmob.Object && object.id && object._hasData) {
+            fetchedObjects[object.id] = object;
+          }
+        });
+
+        var savedChanges = _.first(this._opSetQueue);
+        this._opSetQueue = _.rest(this._opSetQueue);
+        this._applyOpSet(savedChanges, this._serverData);
+        this._mergeMagicFields(serverData);
+        var self = this;
+        Bmob._objectEach(serverData, function(value, key) {
+          self._serverData[key] = Bmob._decode(key, value);
+
+          // Look for any objects that might have become unfetched and fix them
+          // by replacing their values with the previously observed values.
+          var fetched = Bmob._traverse(self._serverData[key], function(object) {
+            if (object instanceof Bmob.Object && fetchedObjects[object.id]) {
+              return fetchedObjects[object.id];
+            }
+          });
+          if (fetched) {
+            self._serverData[key] = fetched;
+          }
+        });
+        this._rebuildAllEstimatedData();
+        this._saving = this._saving - 1;
+      },
+
+      /**
+       * Called when a fetch or login is complete to set the known server data to
+       * the given object.
+       */
+      _finishFetch: function(serverData, hasData) {
+        // Clear out any changes the user might have made previously.
+        this._opSetQueue = [{}];
+
+        // Bring in all the new server data.
+        this._mergeMagicFields(serverData);
+        var self = this;
+        Bmob._objectEach(serverData, function(value, key) {
+          self._serverData[key] = Bmob._decode(key, value);
+        });
+
+        // Refresh the attributes.
+        this._rebuildAllEstimatedData();
+
+        // Clear out the cache of mutable containers.
+        this._refreshCache();
+        this._opSetQueue = [{}];
+
+        this._hasData = hasData;
+      },
+
+      /**
+       * Applies the set of Bmob.Op in opSet to the object target.
+       */
+      _applyOpSet: function(opSet, target) {
+        var self = this;
+        Bmob._objectEach(opSet, function(change, key) {
+          target[key] = change._estimate(target[key], self, key);
+          if (target[key] === Bmob.Op._UNSET) {
+            delete target[key];
+          }
+        });
+      },
+
+      /**
+       * Replaces the cached value for key with the current value.
+       * Returns true if the new value is different than the old value.
+       */
+      _resetCacheForKey: function(key) {
+        var value = this.attributes[key];
+        if (_.isObject(value) &&
+          !(value instanceof Bmob.Object) &&
+          !(value instanceof Bmob.File)) {
+          value = value.toJSON ? value.toJSON() : value;
+          var json = JSON.stringify(value);
+          if (this._hashedJSON[key] !== json) {
+            this._hashedJSON[key] = json;
+            return true;
           }
         }
-      });
-    },
+        return false;
+      },
 
-    /**
-     * Populates attributes by starting with the last known data from the
-     * server, and applying all of the local changes that have been made since
-     * then.
-     */
-    _rebuildAllEstimatedData: function() {
-      var self = this;
-
-      var previousAttributes = _.clone(this.attributes);
-
-      this.attributes = _.clone(this._serverData);
-      Bmob._arrayEach(this._opSetQueue, function(opSet) {
-        self._applyOpSet(opSet, self.attributes);
-        Bmob._objectEach(opSet, function(op, key) {
-          self._resetCacheForKey(key);
+      /**
+       * Populates attributes[key] by starting with the last known data from the
+       * server, and applying all of the local changes that have been made to that
+       * key since then.
+       */
+      _rebuildEstimatedDataForKey: function(key) {
+        var self = this;
+        delete this.attributes[key];
+        if (this._serverData[key]) {
+          this.attributes[key] = this._serverData[key];
+        }
+        Bmob._arrayEach(this._opSetQueue, function(opSet) {
+          var op = opSet[key];
+          if (op) {
+            self.attributes[key] = op._estimate(self.attributes[key], self, key);
+            if (self.attributes[key] === Bmob.Op._UNSET) {
+              delete self.attributes[key];
+            } else {
+              self._resetCacheForKey(key);
+            }
+          }
         });
-      });
+      },
 
-      // Trigger change events for anything that changed because of the fetch.
-      Bmob._objectEach(previousAttributes, function(oldValue, key) {
-        if (self.attributes[key] !== oldValue) {
-          self.trigger('change:' + key, self, self.attributes[key], {});
-        }
-      });
-      Bmob._objectEach(this.attributes, function(newValue, key) {
-        if (!_.has(previousAttributes, key)) {
-          self.trigger('change:' + key, self, newValue, {});
-        }
-      });
-    },
+      /**
+       * Populates attributes by starting with the last known data from the
+       * server, and applying all of the local changes that have been made since
+       * then.
+       */
+      _rebuildAllEstimatedData: function() {
+        var self = this;
 
-    /**
-     * Sets a hash of model attributes on the object, firing
-     * <code>"change"</code> unless you choose to silence it.
-     *
-     * <p>You can call it with an object containing keys and values, or with one
-     * key and value.  For example:<pre>
-     *   gameTurn.set({
+        var previousAttributes = _.clone(this.attributes);
+
+        this.attributes = _.clone(this._serverData);
+        Bmob._arrayEach(this._opSetQueue, function(opSet) {
+          self._applyOpSet(opSet, self.attributes);
+          Bmob._objectEach(opSet, function(op, key) {
+            self._resetCacheForKey(key);
+          });
+        });
+
+        // Trigger change events for anything that changed because of the fetch.
+        Bmob._objectEach(previousAttributes, function(oldValue, key) {
+          if (self.attributes[key] !== oldValue) {
+            self.trigger('change:' + key, self, self.attributes[key], {});
+          }
+        });
+        Bmob._objectEach(this.attributes, function(newValue, key) {
+          if (!_.has(previousAttributes, key)) {
+            self.trigger('change:' + key, self, newValue, {});
+          }
+        });
+      },
+
+      /**
+       * Sets a hash of model attributes on the object, firing
+       * <code>"change"</code> unless you choose to silence it.
+       *
+       * <p>You can call it with an object containing keys and values, or with one
+       * key and value.  For example:<pre>
+       *   gameTurn.set({
      *     player: player1,
      *     diceRoll: 2
      *   }, {
@@ -4693,260 +4693,260 @@
      *       // The set failed validation.
      *     }
      *   });
-     *
-     *   game.set("currentPlayer", player2, {
+       *
+       *   game.set("currentPlayer", player2, {
      *     error: function(gameTurnAgain, error) {
      *       // The set failed validation.
      *     }
      *   });
-     *
-     *   game.set("finished", true);</pre></p>
-     *
-     * @param {String} key The key to set.
-     * @param {} value The value to give it.
-     * @param {Object} options A set of Backbone-like options for the set.
-     *     The only supported options are <code>silent</code>,
-     *     <code>error</code>, and <code>promise</code>.
-     * @return {Boolean} true if the set succeeded.
-     * @see Bmob.Object#validate
-     * @see Bmob.Error
-     */
-    set: function(key, value, options) {
-      var attrs, attr;
-      if (_.isObject(key) || Bmob._isNullOrUndefined(key)) {
-        attrs = key;
-        Bmob._objectEach(attrs, function(v, k) {
-          attrs[k] = Bmob._decode(k, v);
-        });
-        options = value;
-      } else {
-        attrs = {};
-        attrs[key] = Bmob._decode(key, value);
-      }
-
-      // Extract attributes and options.
-      options = options || {};
-      if (!attrs) {
-        return this;
-      }
-      if (attrs instanceof Bmob.Object) {
-        attrs = attrs.attributes;
-      }
-
-      // If the unset option is used, every attribute should be a Unset.
-      if (options.unset) {
-        Bmob._objectEach(attrs, function(unused_value, key) {
-          attrs[key] = new Bmob.Op.Unset();
-        });
-      }
-
-      // Apply all the attributes to get the estimated values.
-      var dataToValidate = _.clone(attrs);
-      var self = this;
-      Bmob._objectEach(dataToValidate, function(value, key) {
-        if (value instanceof Bmob.Op) {
-          dataToValidate[key] = value._estimate(self.attributes[key],
-                                                self, key);
-          if (dataToValidate[key] === Bmob.Op._UNSET) {
-            delete dataToValidate[key];
-          }
-        }
-      });
-
-      // Run validation.
-      if (!this._validate(attrs, options)) {
-        return false;
-      }
-
-      this._mergeMagicFields(attrs);
-
-      options.changes = {};
-      var escaped = this._escapedAttributes;
-      var prev = this._previousAttributes || {};
-
-      // Update attributes.
-      Bmob._arrayEach(_.keys(attrs), function(attr) {
-        var val = attrs[attr];
-
-        // If this is a relation object we need to set the parent correctly,
-        // since the location where it was parsed does not have access to
-        // this object.
-        if (val instanceof Bmob.Relation) {
-          val.parent = self;
-        }
-
-        if (!(val instanceof Bmob.Op)) {
-          val = new Bmob.Op.Set(val);
-        }
-
-        // See if this change will actually have any effect.
-        var isRealChange = true;
-        if (val instanceof Bmob.Op.Set &&
-            _.isEqual(self.attributes[attr], val.value)) {
-          isRealChange = false;
-        }
-
-        if (isRealChange) {
-          delete escaped[attr];
-          if (options.silent) {
-            self._silent[attr] = true;
-          } else {
-            options.changes[attr] = true;
-          }
-        }
-
-        var currentChanges = _.last(self._opSetQueue);
-        currentChanges[attr] = val._mergeWithPrevious(currentChanges[attr]);
-        self._rebuildEstimatedDataForKey(attr);
-
-        if (isRealChange) {
-          self.changed[attr] = self.attributes[attr];
-          if (!options.silent) {
-            self._pending[attr] = true;
-          }
+       *
+       *   game.set("finished", true);</pre></p>
+       *
+       * @param {String} key The key to set.
+       * @param {} value The value to give it.
+       * @param {Object} options A set of Backbone-like options for the set.
+       *     The only supported options are <code>silent</code>,
+       *     <code>error</code>, and <code>promise</code>.
+       * @return {Boolean} true if the set succeeded.
+       * @see Bmob.Object#validate
+       * @see Bmob.Error
+       */
+      set: function(key, value, options) {
+        var attrs, attr;
+        if (_.isObject(key) || Bmob._isNullOrUndefined(key)) {
+          attrs = key;
+          Bmob._objectEach(attrs, function(v, k) {
+            attrs[k] = Bmob._decode(k, v);
+          });
+          options = value;
         } else {
-          delete self.changed[attr];
-          delete self._pending[attr];
+          attrs = {};
+          attrs[key] = Bmob._decode(key, value);
         }
-      });
 
-      if (!options.silent) {
-        this.change(options);
-      }
-      return this;
-    },
+        // Extract attributes and options.
+        options = options || {};
+        if (!attrs) {
+          return this;
+        }
+        if (attrs instanceof Bmob.Object) {
+          attrs = attrs.attributes;
+        }
 
-    /**
-     * Remove an attribute from the model, firing <code>"change"</code> unless
-     * you choose to silence it. This is a noop if the attribute doesn't
-     * exist.
-     */
-    unset: function(attr, options) {
-      options = options || {};
-      options.unset = true;
-      return this.set(attr, null, options);
-    },
+        // If the unset option is used, every attribute should be a Unset.
+        if (options.unset) {
+          Bmob._objectEach(attrs, function(unused_value, key) {
+            attrs[key] = new Bmob.Op.Unset();
+          });
+        }
 
-    /**
-     * Atomically increments the value of the given attribute the next time the
-     * object is saved. If no amount is specified, 1 is used by default.
-     *
-     * @param attr {String} The key.
-     * @param amount {Number} The amount to increment by.
-     */
-    increment: function(attr, amount) {
-      if (_.isUndefined(amount) || _.isNull(amount)) {
-        amount = 1;
-      }
-      return this.set(attr, new Bmob.Op.Increment(amount));
-    },
+        // Apply all the attributes to get the estimated values.
+        var dataToValidate = _.clone(attrs);
+        var self = this;
+        Bmob._objectEach(dataToValidate, function(value, key) {
+          if (value instanceof Bmob.Op) {
+            dataToValidate[key] = value._estimate(self.attributes[key],
+              self, key);
+            if (dataToValidate[key] === Bmob.Op._UNSET) {
+              delete dataToValidate[key];
+            }
+          }
+        });
 
-    /**
-     * Atomically add an object to the end of the array associated with a given
-     * key.
-     * @param attr {String} The key.
-     * @param item {} The item to add.
-     */
-    add: function(attr, item) {
-      return this.set(attr, new Bmob.Op.Add([item]));
-    },
+        // Run validation.
+        if (!this._validate(attrs, options)) {
+          return false;
+        }
 
-    /**
-     * Atomically add an object to the array associated with a given key, only
-     * if it is not already present in the array. The position of the insert is
-     * not guaranteed.
-     *
-     * @param attr {String} The key.
-     * @param item {} The object to add.
-     */
-    addUnique: function(attr, item) {
-      return this.set(attr, new Bmob.Op.AddUnique([item]));
-    },
+        this._mergeMagicFields(attrs);
 
-    /**
-     * Atomically remove all instances of an object from the array associated
-     * with a given key.
-     *
-     * @param attr {String} The key.
-     * @param item {} The object to remove.
-     */
-    remove: function(attr, item) {
-      return this.set(attr, new Bmob.Op.Remove([item]));
-    },
+        options.changes = {};
+        var escaped = this._escapedAttributes;
+        var prev = this._previousAttributes || {};
 
-    /**
-     * Returns an instance of a subclass of Bmob.Op describing what kind of
-     * modification has been performed on this field since the last time it was
-     * saved. For example, after calling object.increment("x"), calling
-     * object.op("x") would return an instance of Bmob.Op.Increment.
-     *
-     * @param attr {String} The key.
-     * @returns {Bmob.Op} The operation, or undefined if none.
-     */
-    op: function(attr) {
-      return _.last(this._opSetQueue)[attr];
-    },
+        // Update attributes.
+        Bmob._arrayEach(_.keys(attrs), function(attr) {
+          var val = attrs[attr];
 
-    /**
-     * Clear all attributes on the model, firing <code>"change"</code> unless
-     * you choose to silence it.
-     */
-    clear: function(options) {
-      options = options || {};
-      options.unset = true;
-      var keysToClear = _.extend(this.attributes, this._operations);
-      return this.set(keysToClear, options);
-    },
+          // If this is a relation object we need to set the parent correctly,
+          // since the location where it was parsed does not have access to
+          // this object.
+          if (val instanceof Bmob.Relation) {
+            val.parent = self;
+          }
 
-    /**
-     * Returns a JSON-encoded set of operations to be sent with the next save
-     * request.
-     */
-    _getSaveJSON: function() {
-      var json = _.clone(_.first(this._opSetQueue));
-      Bmob._objectEach(json, function(op, key) {
-        json[key] = op.toJSON();
-      });
-      return json;
-    },
+          if (!(val instanceof Bmob.Op)) {
+            val = new Bmob.Op.Set(val);
+          }
 
-    /**
-     * Returns true if this object can be serialized for saving.
-     */
-    _canBeSerialized: function() {
-      return Bmob.Object._canBeSerializedAsValue(this.attributes);
-    },
+          // See if this change will actually have any effect.
+          var isRealChange = true;
+          if (val instanceof Bmob.Op.Set &&
+            _.isEqual(self.attributes[attr], val.value)) {
+            isRealChange = false;
+          }
 
-    /**
-     * Fetch the model from the server. If the server's representation of the
-     * model differs from its current attributes, they will be overriden,
-     * triggering a <code>"change"</code> event.
-     * @return {Bmob.Promise} A promise that is fulfilled when the fetch
-     *     completes.
-     */
-    fetch: function(options) {
-      var self = this;
-      var request = Bmob._request("classes", this.className, this.id, 'GET');
-      return request.then(function(response, status, xhr) {
-        self._finishFetch(self.parse(response, status, xhr), true);
-        return self;
-      })._thenRunCallbacks(options, this);
-    },
+          if (isRealChange) {
+            delete escaped[attr];
+            if (options.silent) {
+              self._silent[attr] = true;
+            } else {
+              options.changes[attr] = true;
+            }
+          }
 
-    /**
-     * Set a hash of model attributes, and save the model to the server.
-     * updatedAt will be updated when the request returns.
-     * You can either call it as:<pre>
-     *   object.save();</pre>
-     * or<pre>
-     *   object.save(null, options);</pre>
-     * or<pre>
-     *   object.save(attrs, options);</pre>
-     * or<pre>
-     *   object.save(key, value, options);</pre>
-     *
-     * For example, <pre>
-     *   gameTurn.save({
+          var currentChanges = _.last(self._opSetQueue);
+          currentChanges[attr] = val._mergeWithPrevious(currentChanges[attr]);
+          self._rebuildEstimatedDataForKey(attr);
+
+          if (isRealChange) {
+            self.changed[attr] = self.attributes[attr];
+            if (!options.silent) {
+              self._pending[attr] = true;
+            }
+          } else {
+            delete self.changed[attr];
+            delete self._pending[attr];
+          }
+        });
+
+        if (!options.silent) {
+          this.change(options);
+        }
+        return this;
+      },
+
+      /**
+       * Remove an attribute from the model, firing <code>"change"</code> unless
+       * you choose to silence it. This is a noop if the attribute doesn't
+       * exist.
+       */
+      unset: function(attr, options) {
+        options = options || {};
+        options.unset = true;
+        return this.set(attr, null, options);
+      },
+
+      /**
+       * Atomically increments the value of the given attribute the next time the
+       * object is saved. If no amount is specified, 1 is used by default.
+       *
+       * @param attr {String} The key.
+       * @param amount {Number} The amount to increment by.
+       */
+      increment: function(attr, amount) {
+        if (_.isUndefined(amount) || _.isNull(amount)) {
+          amount = 1;
+        }
+        return this.set(attr, new Bmob.Op.Increment(amount));
+      },
+
+      /**
+       * Atomically add an object to the end of the array associated with a given
+       * key.
+       * @param attr {String} The key.
+       * @param item {} The item to add.
+       */
+      add: function(attr, item) {
+        return this.set(attr, new Bmob.Op.Add([item]));
+      },
+
+      /**
+       * Atomically add an object to the array associated with a given key, only
+       * if it is not already present in the array. The position of the insert is
+       * not guaranteed.
+       *
+       * @param attr {String} The key.
+       * @param item {} The object to add.
+       */
+      addUnique: function(attr, item) {
+        return this.set(attr, new Bmob.Op.AddUnique([item]));
+      },
+
+      /**
+       * Atomically remove all instances of an object from the array associated
+       * with a given key.
+       *
+       * @param attr {String} The key.
+       * @param item {} The object to remove.
+       */
+      remove: function(attr, item) {
+        return this.set(attr, new Bmob.Op.Remove([item]));
+      },
+
+      /**
+       * Returns an instance of a subclass of Bmob.Op describing what kind of
+       * modification has been performed on this field since the last time it was
+       * saved. For example, after calling object.increment("x"), calling
+       * object.op("x") would return an instance of Bmob.Op.Increment.
+       *
+       * @param attr {String} The key.
+       * @returns {Bmob.Op} The operation, or undefined if none.
+       */
+      op: function(attr) {
+        return _.last(this._opSetQueue)[attr];
+      },
+
+      /**
+       * Clear all attributes on the model, firing <code>"change"</code> unless
+       * you choose to silence it.
+       */
+      clear: function(options) {
+        options = options || {};
+        options.unset = true;
+        var keysToClear = _.extend(this.attributes, this._operations);
+        return this.set(keysToClear, options);
+      },
+
+      /**
+       * Returns a JSON-encoded set of operations to be sent with the next save
+       * request.
+       */
+      _getSaveJSON: function() {
+        var json = _.clone(_.first(this._opSetQueue));
+        Bmob._objectEach(json, function(op, key) {
+          json[key] = op.toJSON();
+        });
+        return json;
+      },
+
+      /**
+       * Returns true if this object can be serialized for saving.
+       */
+      _canBeSerialized: function() {
+        return Bmob.Object._canBeSerializedAsValue(this.attributes);
+      },
+
+      /**
+       * Fetch the model from the server. If the server's representation of the
+       * model differs from its current attributes, they will be overriden,
+       * triggering a <code>"change"</code> event.
+       * @return {Bmob.Promise} A promise that is fulfilled when the fetch
+       *     completes.
+       */
+      fetch: function(options) {
+        var self = this;
+        var request = Bmob._request("classes", this.className, this.id, 'GET');
+        return request.then(function(response, status, xhr) {
+          self._finishFetch(self.parse(response, status, xhr), true);
+          return self;
+        })._thenRunCallbacks(options, this);
+      },
+
+      /**
+       * Set a hash of model attributes, and save the model to the server.
+       * updatedAt will be updated when the request returns.
+       * You can either call it as:<pre>
+       *   object.save();</pre>
+       * or<pre>
+       *   object.save(null, options);</pre>
+       * or<pre>
+       *   object.save(attrs, options);</pre>
+       * or<pre>
+       *   object.save(key, value, options);</pre>
+       *
+       * For example, <pre>
+       *   gameTurn.save({
      *     player: "Jake Cutter",
      *     diceRoll: 2
      *   }, {
@@ -4957,8 +4957,8 @@
      *       // The save failed.  Error is an instance of Bmob.Error.
      *     }
      *   });</pre>
-     * or with promises:<pre>
-     *   gameTurn.save({
+       * or with promises:<pre>
+       *   gameTurn.save({
      *     player: "Jake Cutter",
      *     diceRoll: 2
      *   }).then(function(gameTurnAgain) {
@@ -4966,425 +4966,425 @@
      *   }, function(error) {
      *     // The save failed.  Error is an instance of Bmob.Error.
      *   });</pre>
-     *
-     * @return {Bmob.Promise} A promise that is fulfilled when the save
-     *     completes.
-     * @see Bmob.Error
-     */
-    save: function(arg1, arg2, arg3) {
-      var i, attrs, current, options, saved;
-      if (_.isObject(arg1) || Bmob._isNullOrUndefined(arg1)) {
-        attrs = arg1;
-        options = arg2;
-      } else {
-        attrs = {};
-        attrs[arg1] = arg2;
-        options = arg3;
-      }
-
-      // Make save({ success: function() {} }) work.
-      if (!options && attrs) {
-        var extra_keys = _.reject(attrs, function(value, key) {
-          return _.include(["success", "error", "wait"], key);
-        });
-        if (extra_keys.length === 0) {
-          var all_functions = true;
-          if (_.has(attrs, "success") && !_.isFunction(attrs.success)) {
-            all_functions = false;
-          }
-          if (_.has(attrs, "error") && !_.isFunction(attrs.error)) {
-            all_functions = false;
-          }
-          if (all_functions) {
-            // This attrs object looks like it's really an options object,
-            // and there's no other options object, so let's just use it.
-            return this.save(null, attrs);
-          }
-        }
-      }
-
-      options = _.clone(options) || {};
-      if (options.wait) {
-        current = _.clone(this.attributes);
-      }
-
-      var setOptions = _.clone(options) || {};
-      if (setOptions.wait) {
-        setOptions.silent = true;
-      }
-      var setError;
-      setOptions.error = function(model, error) {
-        setError = error;
-      };
-      if (attrs && !this.set(attrs, setOptions)) {
-        return Bmob.Promise.error(setError)._thenRunCallbacks(options, this);
-      }
-
-      var model = this;
-
-      // If there is any unsaved child, save it first.
-      model._refreshCache();
-
-
-
-      var unsavedChildren = [];
-      var unsavedFiles = [];
-      Bmob.Object._findUnsavedChildren(model.attributes,
-                                        unsavedChildren,
-                                        unsavedFiles);
-      if (unsavedChildren.length + unsavedFiles.length > 0) {
-        return Bmob.Object._deepSaveAsync(this.attributes).then(function() {
-          return model.save(null, options);
-        }, function(error) {
-          return Bmob.Promise.error(error)._thenRunCallbacks(options, model);
-        });
-      }
-
-      this._startSave();
-      this._saving = (this._saving || 0) + 1;
-
-      this._allPreviousSaves = this._allPreviousSaves || Bmob.Promise.as();
-      this._allPreviousSaves = this._allPreviousSaves._continueWith(function() {
-        var method = model.id ? 'PUT' : 'POST';
-
-        var json = model._getSaveJSON();
-
-        if(method === 'PUT' && model._fetchWhenSave){
-          //Sepcial-case fetchWhenSave when updating object.
-          json._fetchWhenSave = true;
+       *
+       * @return {Bmob.Promise} A promise that is fulfilled when the save
+       *     completes.
+       * @see Bmob.Error
+       */
+      save: function(arg1, arg2, arg3) {
+        var i, attrs, current, options, saved;
+        if (_.isObject(arg1) || Bmob._isNullOrUndefined(arg1)) {
+          attrs = arg1;
+          options = arg2;
+        } else {
+          attrs = {};
+          attrs[arg1] = arg2;
+          options = arg3;
         }
 
-        var route = "classes";
-        var className = model.className;
-        if (model.className === "_User" && !model.id) {
-          // Special-case user sign-up.
-          route = "users";
-          className = null;
+        // Make save({ success: function() {} }) work.
+        if (!options && attrs) {
+          var extra_keys = _.reject(attrs, function(value, key) {
+            return _.include(["success", "error", "wait"], key);
+          });
+          if (extra_keys.length === 0) {
+            var all_functions = true;
+            if (_.has(attrs, "success") && !_.isFunction(attrs.success)) {
+              all_functions = false;
+            }
+            if (_.has(attrs, "error") && !_.isFunction(attrs.error)) {
+              all_functions = false;
+            }
+            if (all_functions) {
+              // This attrs object looks like it's really an options object,
+              // and there's no other options object, so let's just use it.
+              return this.save(null, attrs);
+            }
+          }
         }
-        var request = Bmob._request(route, className, model.id, method, json);
 
-        request = request.then(function(resp, status, xhr) {
-          var serverAttrs = model.parse(resp, status, xhr);
-          if (options.wait) {
-            serverAttrs = _.extend(attrs || {}, serverAttrs);
-          }
-          model._finishSave(serverAttrs);
-          if (options.wait) {
-            model.set(current, setOptions);
-          }
-          return model;
-
-        }, function(error) {
-          model._cancelSave();
-          return Bmob.Promise.error(error);
-
-        })._thenRunCallbacks(options, model);
-
-        return request;
-      });
-      return this._allPreviousSaves;
-    },
-
-    /**
-     * Destroy this model on the server if it was already persisted.
-     * Optimistically removes the model from its collection, if it has one.
-     * If `wait: true` is passed, waits for the server to respond
-     * before removal.
-     *
-     * @return {Bmob.Promise} A promise that is fulfilled when the destroy
-     *     completes.
-     */
-    destroy: function(options) {
-      options = options || {};
-      var model = this;
-
-      var triggerDestroy = function() {
-        model.trigger('destroy', model, model.collection, options);
-      };
-
-      if (!this.id) {
-        return triggerDestroy();
-      }
-
-      if (!options.wait) {
-        triggerDestroy();
-      }
-
-      var request =
-          Bmob._request("classes", this.className, this.id, 'DELETE');
-      return request.then(function() {
+        options = _.clone(options) || {};
         if (options.wait) {
+          current = _.clone(this.attributes);
+        }
+
+        var setOptions = _.clone(options) || {};
+        if (setOptions.wait) {
+          setOptions.silent = true;
+        }
+        var setError;
+        setOptions.error = function(model, error) {
+          setError = error;
+        };
+        if (attrs && !this.set(attrs, setOptions)) {
+          return Bmob.Promise.error(setError)._thenRunCallbacks(options, this);
+        }
+
+        var model = this;
+
+        // If there is any unsaved child, save it first.
+        model._refreshCache();
+
+
+
+        var unsavedChildren = [];
+        var unsavedFiles = [];
+        Bmob.Object._findUnsavedChildren(model.attributes,
+          unsavedChildren,
+          unsavedFiles);
+        if (unsavedChildren.length + unsavedFiles.length > 0) {
+          return Bmob.Object._deepSaveAsync(this.attributes).then(function() {
+            return model.save(null, options);
+          }, function(error) {
+            return Bmob.Promise.error(error)._thenRunCallbacks(options, model);
+          });
+        }
+
+        this._startSave();
+        this._saving = (this._saving || 0) + 1;
+
+        this._allPreviousSaves = this._allPreviousSaves || Bmob.Promise.as();
+        this._allPreviousSaves = this._allPreviousSaves._continueWith(function() {
+          var method = model.id ? 'PUT' : 'POST';
+
+          var json = model._getSaveJSON();
+
+          if(method === 'PUT' && model._fetchWhenSave){
+            //Sepcial-case fetchWhenSave when updating object.
+            json._fetchWhenSave = true;
+          }
+
+          var route = "classes";
+          var className = model.className;
+          if (model.className === "_User" && !model.id) {
+            // Special-case user sign-up.
+            route = "users";
+            className = null;
+          }
+          var request = Bmob._request(route, className, model.id, method, json);
+
+          request = request.then(function(resp, status, xhr) {
+            var serverAttrs = model.parse(resp, status, xhr);
+            if (options.wait) {
+              serverAttrs = _.extend(attrs || {}, serverAttrs);
+            }
+            model._finishSave(serverAttrs);
+            if (options.wait) {
+              model.set(current, setOptions);
+            }
+            return model;
+
+          }, function(error) {
+            model._cancelSave();
+            return Bmob.Promise.error(error);
+
+          })._thenRunCallbacks(options, model);
+
+          return request;
+        });
+        return this._allPreviousSaves;
+      },
+
+      /**
+       * Destroy this model on the server if it was already persisted.
+       * Optimistically removes the model from its collection, if it has one.
+       * If `wait: true` is passed, waits for the server to respond
+       * before removal.
+       *
+       * @return {Bmob.Promise} A promise that is fulfilled when the destroy
+       *     completes.
+       */
+      destroy: function(options) {
+        options = options || {};
+        var model = this;
+
+        var triggerDestroy = function() {
+          model.trigger('destroy', model, model.collection, options);
+        };
+
+        if (!this.id) {
+          return triggerDestroy();
+        }
+
+        if (!options.wait) {
           triggerDestroy();
         }
-        return model;
-      })._thenRunCallbacks(options, this);
-    },
 
-    /**
-     * Converts a response into the hash of attributes to be set on the model.
-     * @ignore
-     */
-    parse: function(resp, status, xhr) {
-      var output = _.clone(resp);
-      _(["createdAt", "updatedAt"]).each(function(key) {
-        if (output[key]) {
-          output[key] = output[key];
-        }
-      });
-      if (!output.updatedAt) {
-        output.updatedAt = output.createdAt;
-      }
-      if (status) {
-        this._existed = (status !== 201);
-      }
-      return output;
-    },
-
-    /**
-     * Creates a new model with identical attributes to this one.
-     * @return {Bmob.Object}
-     */
-    clone: function() {
-      return new this.constructor(this.attributes);
-    },
-
-    /**
-     * Returns true if this object has never been saved to Bmob.
-     * @return {Boolean}
-     */
-    isNew: function() {
-      return !this.id;
-    },
-
-    /**
-     * Call this method to manually fire a `"change"` event for this model and
-     * a `"change:attribute"` event for each changed attribute.
-     * Calling this will cause all objects observing the model to update.
-     */
-    change: function(options) {
-      options = options || {};
-      var changing = this._changing;
-      this._changing = true;
-
-      // Silent changes become pending changes.
-      var self = this;
-      Bmob._objectEach(this._silent, function(attr) {
-        self._pending[attr] = true;
-      });
-
-      // Silent changes are triggered.
-      var changes = _.extend({}, options.changes, this._silent);
-      this._silent = {};
-      Bmob._objectEach(changes, function(unused_value, attr) {
-        self.trigger('change:' + attr, self, self.get(attr), options);
-      });
-      if (changing) {
-        return this;
-      }
-
-      // This is to get around lint not letting us make a function in a loop.
-      var deleteChanged = function(value, attr) {
-        if (!self._pending[attr] && !self._silent[attr]) {
-          delete self.changed[attr];
-        }
-      };
-
-      // Continue firing `"change"` events while there are pending changes.
-      while (!_.isEmpty(this._pending)) {
-        this._pending = {};
-        this.trigger('change', this, options);
-        // Pending and silent changes still remain.
-        Bmob._objectEach(this.changed, deleteChanged);
-        self._previousAttributes = _.clone(this.attributes);
-      }
-
-      this._changing = false;
-      return this;
-    },
-
-    /**
-     * Returns true if this object was created by the Bmob server when the
-     * object might have already been there (e.g. in the case of a Facebook
-     * login)
-     */
-    existed: function() {
-      return this._existed;
-    },
-
-    /**
-     * Determine if the model has changed since the last <code>"change"</code>
-     * event.  If you specify an attribute name, determine if that attribute
-     * has changed.
-     * @param {String} attr Optional attribute name
-     * @return {Boolean}
-     */
-    hasChanged: function(attr) {
-      if (!arguments.length) {
-        return !_.isEmpty(this.changed);
-      }
-      return this.changed && _.has(this.changed, attr);
-    },
-
-    /**
-     * Returns an object containing all the attributes that have changed, or
-     * false if there are no changed attributes. Useful for determining what
-     * parts of a view need to be updated and/or what attributes need to be
-     * persisted to the server. Unset attributes will be set to undefined.
-     * You can also pass an attributes object to diff against the model,
-     * determining if there *would be* a change.
-     */
-    changedAttributes: function(diff) {
-      if (!diff) {
-        return this.hasChanged() ? _.clone(this.changed) : false;
-      }
-      var changed = {};
-      var old = this._previousAttributes;
-      Bmob._objectEach(diff, function(diffVal, attr) {
-        if (!_.isEqual(old[attr], diffVal)) {
-          changed[attr] = diffVal;
-        }
-      });
-      return changed;
-    },
-
-    /**
-     * Gets the previous value of an attribute, recorded at the time the last
-     * <code>"change"</code> event was fired.
-     * @param {String} attr Name of the attribute to get.
-     */
-    previous: function(attr) {
-      if (!arguments.length || !this._previousAttributes) {
-        return null;
-      }
-      return this._previousAttributes[attr];
-    },
-
-    /**
-     * Gets all of the attributes of the model at the time of the previous
-     * <code>"change"</code> event.
-     * @return {Object}
-     */
-    previousAttributes: function() {
-      return _.clone(this._previousAttributes);
-    },
-
-    /**
-     * Checks if the model is currently in a valid state. It's only possible to
-     * get into an *invalid* state if you're using silent changes.
-     * @return {Boolean}
-     */
-    isValid: function() {
-      return !this.validate(this.attributes);
-    },
-
-    /**
-     * You should not call this function directly unless you subclass
-     * <code>Bmob.Object</code>, in which case you can override this method
-     * to provide additional validation on <code>set</code> and
-     * <code>save</code>.  Your implementation should return
-     *
-     * @param {Object} attrs The current data to validate.
-     * @param {Object} options A Backbone-like options object.
-     * @return {} False if the data is valid.  An error object otherwise.
-     * @see Bmob.Object#set
-     */
-    validate: function(attrs, options) {
-      if (_.has(attrs, "ACL") && !(attrs.ACL instanceof Bmob.ACL)) {
-        return new Bmob.Error(Bmob.Error.OTHER_CAUSE,
-                               "ACL must be a Bmob.ACL.");
-      }
-      return false;
-    },
-
-    /**
-     * Run validation against a set of incoming attributes, returning `true`
-     * if all is well. If a specific `error` callback has been passed,
-     * call that instead of firing the general `"error"` event.
-     */
-    _validate: function(attrs, options) {
-      if (options.silent || !this.validate) {
-        return true;
-      }
-      attrs = _.extend({}, this.attributes, attrs);
-      var error = this.validate(attrs, options);
-      if (!error) {
-        return true;
-      }
-      if (options && options.error) {
-        options.error(this, error, options);
-      } else {
-        this.trigger('error', this, error, options);
-      }
-      return false;
-    },
-
-    /**
-     * Returns the ACL for this object.
-     * @returns {Bmob.ACL} An instance of Bmob.ACL.
-     * @see Bmob.Object#get
-     */
-    getACL: function() {
-      return this.get("ACL");
-    },
-
-    /**
-     * Sets the ACL to be used for this object.
-     * @param {Bmob.ACL} acl An instance of Bmob.ACL.
-     * @param {Object} options Optional Backbone-like options object to be
-     *     passed in to set.
-     * @return {Boolean} Whether the set passed validation.
-     * @see Bmob.Object#set
-     */
-    setACL: function(acl, options) {
-      return this.set("ACL", acl, options);
-    }
-
-  });
-
-   /**
-    * Creates an instance of a subclass of Bmob.Object for the give classname
-    * and id.
-    * @param  {String} className The name of the Bmob class backing this model.
-    * @param {String} id The object id of this model.
-    * @return {Bmob.Object} A new subclass instance of Bmob.Object.
-    */
-   Bmob.Object.createWithoutData = function(className, id, hasData){
-     var result = new Bmob.Object(className);
-     result.id = id
-     result._hasData = hasData;
-     return result;
-   };
-   /**
-    * Delete objects in batch.The objects className must be the same.
-    * @param {Array} The ParseObject array to be deleted.
-    * @param {Object} options Standard options object with success and error
-    *     callbacks.
-    * @return {Bmob.Promise} A promise that is fulfilled when the save
-    *     completes.
-    */
-   Bmob.Object.destroyAll = function(objects, options){
-      if(objects == null || objects.length == 0){
-		  return Bmob.Promise.as()._thenRunCallbacks(options);
-      }
-      var className = objects[0].className;
-      var id = "";
-      var wasFirst = true;
-      objects.forEach(function(obj){
-        if(obj.className != className)
-			  throw "Bmob.Object.destroyAll requires the argument object array's classNames must be the same";
-          if(!obj.id)
-              throw "Could not delete unsaved object";
-          if(wasFirst){
-              id = obj.id;
-              wasFirst = false;
-          }else{
-              id = id + ',' + obj.id;
+        var request =
+          Bmob._request("classes", this.className, this.id, 'DELETE');
+        return request.then(function() {
+          if (options.wait) {
+            triggerDestroy();
           }
-      });
-      var request =
-          Bmob._request("classes", className, id, 'DELETE');
-      return request._thenRunCallbacks(options);
-   };
+          return model;
+        })._thenRunCallbacks(options, this);
+      },
+
+      /**
+       * Converts a response into the hash of attributes to be set on the model.
+       * @ignore
+       */
+      parse: function(resp, status, xhr) {
+        var output = _.clone(resp);
+        _(["createdAt", "updatedAt"]).each(function(key) {
+          if (output[key]) {
+            output[key] = output[key];
+          }
+        });
+        if (!output.updatedAt) {
+          output.updatedAt = output.createdAt;
+        }
+        if (status) {
+          this._existed = (status !== 201);
+        }
+        return output;
+      },
+
+      /**
+       * Creates a new model with identical attributes to this one.
+       * @return {Bmob.Object}
+       */
+      clone: function() {
+        return new this.constructor(this.attributes);
+      },
+
+      /**
+       * Returns true if this object has never been saved to Bmob.
+       * @return {Boolean}
+       */
+      isNew: function() {
+        return !this.id;
+      },
+
+      /**
+       * Call this method to manually fire a `"change"` event for this model and
+       * a `"change:attribute"` event for each changed attribute.
+       * Calling this will cause all objects observing the model to update.
+       */
+      change: function(options) {
+        options = options || {};
+        var changing = this._changing;
+        this._changing = true;
+
+        // Silent changes become pending changes.
+        var self = this;
+        Bmob._objectEach(this._silent, function(attr) {
+          self._pending[attr] = true;
+        });
+
+        // Silent changes are triggered.
+        var changes = _.extend({}, options.changes, this._silent);
+        this._silent = {};
+        Bmob._objectEach(changes, function(unused_value, attr) {
+          self.trigger('change:' + attr, self, self.get(attr), options);
+        });
+        if (changing) {
+          return this;
+        }
+
+        // This is to get around lint not letting us make a function in a loop.
+        var deleteChanged = function(value, attr) {
+          if (!self._pending[attr] && !self._silent[attr]) {
+            delete self.changed[attr];
+          }
+        };
+
+        // Continue firing `"change"` events while there are pending changes.
+        while (!_.isEmpty(this._pending)) {
+          this._pending = {};
+          this.trigger('change', this, options);
+          // Pending and silent changes still remain.
+          Bmob._objectEach(this.changed, deleteChanged);
+          self._previousAttributes = _.clone(this.attributes);
+        }
+
+        this._changing = false;
+        return this;
+      },
+
+      /**
+       * Returns true if this object was created by the Bmob server when the
+       * object might have already been there (e.g. in the case of a Facebook
+       * login)
+       */
+      existed: function() {
+        return this._existed;
+      },
+
+      /**
+       * Determine if the model has changed since the last <code>"change"</code>
+       * event.  If you specify an attribute name, determine if that attribute
+       * has changed.
+       * @param {String} attr Optional attribute name
+       * @return {Boolean}
+       */
+      hasChanged: function(attr) {
+        if (!arguments.length) {
+          return !_.isEmpty(this.changed);
+        }
+        return this.changed && _.has(this.changed, attr);
+      },
+
+      /**
+       * Returns an object containing all the attributes that have changed, or
+       * false if there are no changed attributes. Useful for determining what
+       * parts of a view need to be updated and/or what attributes need to be
+       * persisted to the server. Unset attributes will be set to undefined.
+       * You can also pass an attributes object to diff against the model,
+       * determining if there *would be* a change.
+       */
+      changedAttributes: function(diff) {
+        if (!diff) {
+          return this.hasChanged() ? _.clone(this.changed) : false;
+        }
+        var changed = {};
+        var old = this._previousAttributes;
+        Bmob._objectEach(diff, function(diffVal, attr) {
+          if (!_.isEqual(old[attr], diffVal)) {
+            changed[attr] = diffVal;
+          }
+        });
+        return changed;
+      },
+
+      /**
+       * Gets the previous value of an attribute, recorded at the time the last
+       * <code>"change"</code> event was fired.
+       * @param {String} attr Name of the attribute to get.
+       */
+      previous: function(attr) {
+        if (!arguments.length || !this._previousAttributes) {
+          return null;
+        }
+        return this._previousAttributes[attr];
+      },
+
+      /**
+       * Gets all of the attributes of the model at the time of the previous
+       * <code>"change"</code> event.
+       * @return {Object}
+       */
+      previousAttributes: function() {
+        return _.clone(this._previousAttributes);
+      },
+
+      /**
+       * Checks if the model is currently in a valid state. It's only possible to
+       * get into an *invalid* state if you're using silent changes.
+       * @return {Boolean}
+       */
+      isValid: function() {
+        return !this.validate(this.attributes);
+      },
+
+      /**
+       * You should not call this function directly unless you subclass
+       * <code>Bmob.Object</code>, in which case you can override this method
+       * to provide additional validation on <code>set</code> and
+       * <code>save</code>.  Your implementation should return
+       *
+       * @param {Object} attrs The current data to validate.
+       * @param {Object} options A Backbone-like options object.
+       * @return {} False if the data is valid.  An error object otherwise.
+       * @see Bmob.Object#set
+       */
+      validate: function(attrs, options) {
+        if (_.has(attrs, "ACL") && !(attrs.ACL instanceof Bmob.ACL)) {
+          return new Bmob.Error(Bmob.Error.OTHER_CAUSE,
+            "ACL must be a Bmob.ACL.");
+        }
+        return false;
+      },
+
+      /**
+       * Run validation against a set of incoming attributes, returning `true`
+       * if all is well. If a specific `error` callback has been passed,
+       * call that instead of firing the general `"error"` event.
+       */
+      _validate: function(attrs, options) {
+        if (options.silent || !this.validate) {
+          return true;
+        }
+        attrs = _.extend({}, this.attributes, attrs);
+        var error = this.validate(attrs, options);
+        if (!error) {
+          return true;
+        }
+        if (options && options.error) {
+          options.error(this, error, options);
+        } else {
+          this.trigger('error', this, error, options);
+        }
+        return false;
+      },
+
+      /**
+       * Returns the ACL for this object.
+       * @returns {Bmob.ACL} An instance of Bmob.ACL.
+       * @see Bmob.Object#get
+       */
+      getACL: function() {
+        return this.get("ACL");
+      },
+
+      /**
+       * Sets the ACL to be used for this object.
+       * @param {Bmob.ACL} acl An instance of Bmob.ACL.
+       * @param {Object} options Optional Backbone-like options object to be
+       *     passed in to set.
+       * @return {Boolean} Whether the set passed validation.
+       * @see Bmob.Object#set
+       */
+      setACL: function(acl, options) {
+        return this.set("ACL", acl, options);
+      }
+
+    });
+
+  /**
+   * Creates an instance of a subclass of Bmob.Object for the give classname
+   * and id.
+   * @param  {String} className The name of the Bmob class backing this model.
+   * @param {String} id The object id of this model.
+   * @return {Bmob.Object} A new subclass instance of Bmob.Object.
+   */
+  Bmob.Object.createWithoutData = function(className, id, hasData){
+    var result = new Bmob.Object(className);
+    result.id = id
+    result._hasData = hasData;
+    return result;
+  };
+  /**
+   * Delete objects in batch.The objects className must be the same.
+   * @param {Array} The ParseObject array to be deleted.
+   * @param {Object} options Standard options object with success and error
+   *     callbacks.
+   * @return {Bmob.Promise} A promise that is fulfilled when the save
+   *     completes.
+   */
+  Bmob.Object.destroyAll = function(objects, options){
+    if(objects == null || objects.length == 0){
+      return Bmob.Promise.as()._thenRunCallbacks(options);
+    }
+    var className = objects[0].className;
+    var id = "";
+    var wasFirst = true;
+    objects.forEach(function(obj){
+      if(obj.className != className)
+        throw "Bmob.Object.destroyAll requires the argument object array's classNames must be the same";
+      if(!obj.id)
+        throw "Could not delete unsaved object";
+      if(wasFirst){
+        id = obj.id;
+        wasFirst = false;
+      }else{
+        id = id + ',' + obj.id;
+      }
+    });
+    var request =
+      Bmob._request("classes", className, id, 'DELETE');
+    return request._thenRunCallbacks(options);
+  };
 
   /**
    * Returns the appropriate subclass for making new instances of the given
@@ -5452,7 +5452,7 @@
         return Bmob.Object.extend(className.className, className, protoProps);
       } else {
         throw new Error(
-            "Bmob.Object.extend's first argument should be the className.");
+          "Bmob.Object.extend's first argument should be the className.");
       }
     }
 
@@ -5570,7 +5570,7 @@
         if (batch.length === 0) {
           return Bmob.Promise.error(
             new Bmob.Error(Bmob.Error.OTHER_CAUSE,
-                            "Tried to save a batch with a cycle."));
+              "Tried to save a batch with a cycle."));
         }
 
         // Reserve a spot in every object's save queue.
@@ -5723,16 +5723,16 @@
           // This happens during a fetch -- the id is set before calling fetch.
           // Let the name be set in this case.
           return new Bmob.Error(Bmob.Error.OTHER_CAUSE,
-              "A role's name can only be set before it has been saved.");
+            "A role's name can only be set before it has been saved.");
         }
         if (!_.isString(newName)) {
           return new Bmob.Error(Bmob.Error.OTHER_CAUSE,
-              "A role's name must be a String.");
+            "A role's name must be a String.");
         }
         if (!(/^[0-9a-zA-Z\-_ ]+$/).test(newName)) {
           return new Bmob.Error(Bmob.Error.OTHER_CAUSE,
-              "A role's name can only contain alphanumeric characters, _," +
-              " -, and spaces.");
+            "A role's name can only contain alphanumeric characters, _," +
+            " -, and spaces.");
         }
       }
       if (Bmob.Object.prototype.validate) {
@@ -5756,7 +5756,7 @@
    *
    * @param {Object} options  Backbone-style options 的可选options object.
    * 有效的 options<ul>
-   *   <li>model: Bmob.Object 
+   *   <li>model: Bmob.Object
    *   <li>query: Bmob.Query
    *   <li>comparator: 属性名称或排序函数
    * </ul>
@@ -5788,310 +5788,310 @@
 
   // Define the Collection's inheritable methods.
   _.extend(Bmob.Collection.prototype, Bmob.Events,
-      /** @lends Bmob.Collection.prototype */ {
+    /** @lends Bmob.Collection.prototype */ {
 
-    // The default model for a collection is just a Bmob.Object.
-    // This should be overridden in most cases.
+      // The default model for a collection is just a Bmob.Object.
+      // This should be overridden in most cases.
 
-    model: Bmob.Object,
+      model: Bmob.Object,
 
-    /**
-     * Initialize 默认是空函数. 请根据自身的逻辑重写这个方法
-     */
-    initialize: function(){},
+      /**
+       * Initialize 默认是空函数. 请根据自身的逻辑重写这个方法
+       */
+      initialize: function(){},
 
-    /**
-     * 
-     * json 格式的models'属性数组
-     */
-    toJSON: function() {
-      return this.map(function(model){ return model.toJSON(); });
-    },
+      /**
+       *
+       * json 格式的models'属性数组
+       */
+      toJSON: function() {
+        return this.map(function(model){ return model.toJSON(); });
+      },
 
-    /**
-     * 添加model，或者一系列的对象集合。传入**silent**避免触发`add`事件。
-     */
-    add: function(models, options) {
-      var i, index, length, model, cid, id, cids = {}, ids = {};
-      options = options || {};
-      models = _.isArray(models) ? models.slice() : [models];
+      /**
+       * 添加model，或者一系列的对象集合。传入**silent**避免触发`add`事件。
+       */
+      add: function(models, options) {
+        var i, index, length, model, cid, id, cids = {}, ids = {};
+        options = options || {};
+        models = _.isArray(models) ? models.slice() : [models];
 
-      // Begin by turning bare objects into model references, and preventing
-      // invalid models or duplicate models from being added.
-      for (i = 0, length = models.length; i < length; i++) {
-        models[i] = this._prepareModel(models[i], options);
-        model = models[i];
+        // Begin by turning bare objects into model references, and preventing
+        // invalid models or duplicate models from being added.
+        for (i = 0, length = models.length; i < length; i++) {
+          models[i] = this._prepareModel(models[i], options);
+          model = models[i];
+          if (!model) {
+            throw new Error("Can't add an invalid model to a collection");
+          }
+          cid = model.cid;
+          if (cids[cid] || this._byCid[cid]) {
+            throw new Error("Duplicate cid: can't add the same model " +
+              "to a collection twice");
+          }
+          id = model.id;
+          if (!Bmob._isNullOrUndefined(id) && (ids[id] || this._byId[id])) {
+            throw new Error("Duplicate id: can't add the same model " +
+              "to a collection twice");
+          }
+          ids[id] = model;
+          cids[cid] = model;
+        }
+
+        // Listen to added models' events, and index models for lookup by
+        // `id` and by `cid`.
+        for (i = 0; i < length; i++) {
+          (model = models[i]).on('all', this._onModelEvent, this);
+          this._byCid[model.cid] = model;
+          if (model.id) {
+            this._byId[model.id] = model;
+          }
+        }
+
+        // Insert models into the collection, re-sorting if needed, and triggering
+        // `add` events unless silenced.
+        this.length += length;
+        index = Bmob._isNullOrUndefined(options.at) ?
+          this.models.length : options.at;
+        this.models.splice.apply(this.models, [index, 0].concat(models));
+        if (this.comparator) {
+          this.sort({silent: true});
+        }
+        if (options.silent) {
+          return this;
+        }
+        for (i = 0, length = this.models.length; i < length; i++) {
+          model = this.models[i];
+          if (cids[model.cid]) {
+            options.index = i;
+            model.trigger('add', model, this, options);
+          }
+        }
+        return this;
+      },
+
+      /**
+       * 移除一个model，或者从集合中移除一系列models。当移除对象时，传入silent避免触发<code>remove</code>事件。
+       */
+      remove: function(models, options) {
+        var i, l, index, model;
+        options = options || {};
+        models = _.isArray(models) ? models.slice() : [models];
+        for (i = 0, l = models.length; i < l; i++) {
+          model = this.getByCid(models[i]) || this.get(models[i]);
+          if (!model) {
+            continue;
+          }
+          delete this._byId[model.id];
+          delete this._byCid[model.cid];
+          index = this.indexOf(model);
+          this.models.splice(index, 1);
+          this.length--;
+          if (!options.silent) {
+            options.index = index;
+            model.trigger('remove', model, this, options);
+          }
+          this._removeReference(model);
+        }
+        return this;
+      },
+
+      /**
+       * 通过id获取一个model
+       */
+      get: function(id) {
+        return id && this._byId[id.id || id];
+      },
+
+      /**
+       * 通过client id获取一个model
+       */
+      getByCid: function(cid) {
+        return cid && this._byCid[cid.cid || cid];
+      },
+
+      /**
+       * 通过下标获取一个model
+       */
+      at: function(index) {
+        return this.models[index];
+      },
+
+      /**
+       * 强制collection对自身的元素进行重新排序。一般情况下你不需要调用这个函数，因为当添加对象时这个函数会自动调用
+       */
+      sort: function(options) {
+        options = options || {};
+        if (!this.comparator) {
+          throw new Error('Cannot sort a set without a comparator');
+        }
+        var boundComparator = _.bind(this.comparator, this);
+        if (this.comparator.length === 1) {
+          this.models = this.sortBy(boundComparator);
+        } else {
+          this.models.sort(boundComparator);
+        }
+        if (!options.silent) {
+          this.trigger('reset', this, options);
+        }
+        return this;
+      },
+
+      /**
+       * 采集集合中每个对象的属性
+       */
+      pluck: function(attr) {
+        return _.map(this.models, function(model){ return model.get(attr); });
+      },
+
+      /**
+       * When you have more items than you want to add or remove individually,
+       * you can reset the entire set with a new list of models, without firing
+       * any `add` or `remove` events. Fires `reset` when finished.
+       */
+      reset: function(models, options) {
+        var self = this;
+        models = models || [];
+        options = options || {};
+        Bmob._arrayEach(this.models, function(model) {
+          self._removeReference(model);
+        });
+        this._reset();
+        this.add(models, {silent: true, parse: options.parse});
+        if (!options.silent) {
+          this.trigger('reset', this, options);
+        }
+        return this;
+      },
+
+      /**
+       * Fetches the default set of models for this collection, resetting the
+       * collection when they arrive. If `add: true` is passed, appends the
+       * models to the collection instead of resetting.
+       */
+      fetch: function(options) {
+        options = _.clone(options) || {};
+        if (options.parse === undefined) {
+          options.parse = true;
+        }
+        var collection = this;
+        var query = this.query || new Bmob.Query(this.model);
+        return query.find().then(function(results) {
+          if (options.add) {
+            collection.add(results, options);
+          } else {
+            collection.reset(results, options);
+          }
+          return collection;
+        })._thenRunCallbacks(options, this);
+      },
+
+      /**
+       * Creates a new instance of a model in this collection. Add the model to
+       * the collection immediately, unless `wait: true` is passed, in which case
+       * we wait for the server to agree.
+       */
+      create: function(model, options) {
+        var coll = this;
+        options = options ? _.clone(options) : {};
+        model = this._prepareModel(model, options);
         if (!model) {
-          throw new Error("Can't add an invalid model to a collection");
+          return false;
         }
-        cid = model.cid;
-        if (cids[cid] || this._byCid[cid]) {
-          throw new Error("Duplicate cid: can't add the same model " +
-                          "to a collection twice");
+        if (!options.wait) {
+          coll.add(model, options);
         }
-        id = model.id;
-        if (!Bmob._isNullOrUndefined(id) && (ids[id] || this._byId[id])) {
-          throw new Error("Duplicate id: can't add the same model " +
-                          "to a collection twice");
-        }
-        ids[id] = model;
-        cids[cid] = model;
-      }
+        var success = options.success;
+        options.success = function(nextModel, resp, xhr) {
+          if (options.wait) {
+            coll.add(nextModel, options);
+          }
+          if (success) {
+            success(nextModel, resp);
+          } else {
+            nextModel.trigger('sync', model, resp, options);
+          }
+        };
+        model.save(null, options);
+        return model;
+      },
 
-      // Listen to added models' events, and index models for lookup by
-      // `id` and by `cid`.
-      for (i = 0; i < length; i++) {
-        (model = models[i]).on('all', this._onModelEvent, this);
-        this._byCid[model.cid] = model;
-        if (model.id) {
+      /**
+       * Converts a response into a list of models to be added to the collection.
+       * The default implementation is just to pass it through.
+       * @ignore
+       */
+      parse: function(resp, xhr) {
+        return resp;
+      },
+
+      /**
+       * Proxy to _'s chain. Can't be proxied the same way the rest of the
+       * underscore methods are proxied because it relies on the underscore
+       * constructor.
+       */
+      chain: function() {
+        return _(this.models).chain();
+      },
+
+      /**
+       * Reset all internal state. Called when the collection is reset.
+       */
+      _reset: function(options) {
+        this.length = 0;
+        this.models = [];
+        this._byId  = {};
+        this._byCid = {};
+      },
+
+      /**
+       * Prepare a model or hash of attributes to be added to this collection.
+       */
+      _prepareModel: function(model, options) {
+        if (!(model instanceof Bmob.Object)) {
+          var attrs = model;
+          options.collection = this;
+          model = new this.model(attrs, options);
+          if (!model._validate(model.attributes, options)) {
+            model = false;
+          }
+        } else if (!model.collection) {
+          model.collection = this;
+        }
+        return model;
+      },
+
+      /**
+       * Internal method to remove a model's ties to a collection.
+       */
+      _removeReference: function(model) {
+        if (this === model.collection) {
+          delete model.collection;
+        }
+        model.off('all', this._onModelEvent, this);
+      },
+
+      /**
+       * Internal method called every time a model in the set fires an event.
+       * Sets need to update their indexes when models change ids. All other
+       * events simply proxy through. "add" and "remove" events that originate
+       * in other collections are ignored.
+       */
+      _onModelEvent: function(ev, model, collection, options) {
+        if ((ev === 'add' || ev === 'remove') && collection !== this) {
+          return;
+        }
+        if (ev === 'destroy') {
+          this.remove(model, options);
+        }
+        if (model && ev === 'change:objectId') {
+          delete this._byId[model.previous("objectId")];
           this._byId[model.id] = model;
         }
+        this.trigger.apply(this, arguments);
       }
 
-      // Insert models into the collection, re-sorting if needed, and triggering
-      // `add` events unless silenced.
-      this.length += length;
-      index = Bmob._isNullOrUndefined(options.at) ?
-          this.models.length : options.at;
-      this.models.splice.apply(this.models, [index, 0].concat(models));
-      if (this.comparator) {
-        this.sort({silent: true});
-      }
-      if (options.silent) {
-        return this;
-      }
-      for (i = 0, length = this.models.length; i < length; i++) {
-        model = this.models[i];
-        if (cids[model.cid]) {
-          options.index = i;
-          model.trigger('add', model, this, options);
-        }
-      }
-      return this;
-    },
-
-    /**
-     * 移除一个model，或者从集合中移除一系列models。当移除对象时，传入silent避免触发<code>remove</code>事件。  
-     */
-    remove: function(models, options) {
-      var i, l, index, model;
-      options = options || {};
-      models = _.isArray(models) ? models.slice() : [models];
-      for (i = 0, l = models.length; i < l; i++) {
-        model = this.getByCid(models[i]) || this.get(models[i]);
-        if (!model) {
-          continue;
-        }
-        delete this._byId[model.id];
-        delete this._byCid[model.cid];
-        index = this.indexOf(model);
-        this.models.splice(index, 1);
-        this.length--;
-        if (!options.silent) {
-          options.index = index;
-          model.trigger('remove', model, this, options);
-        }
-        this._removeReference(model);
-      }
-      return this;
-    },
-
-    /**
-     * 通过id获取一个model
-     */
-    get: function(id) {
-      return id && this._byId[id.id || id];
-    },
-
-    /**
-     * 通过client id获取一个model
-     */
-    getByCid: function(cid) {
-      return cid && this._byCid[cid.cid || cid];
-    },
-
-    /**
-     * 通过下标获取一个model
-     */
-    at: function(index) {
-      return this.models[index];
-    },
-
-    /**
-     * 强制collection对自身的元素进行重新排序。一般情况下你不需要调用这个函数，因为当添加对象时这个函数会自动调用
-     */
-    sort: function(options) {
-      options = options || {};
-      if (!this.comparator) {
-        throw new Error('Cannot sort a set without a comparator');
-      }
-      var boundComparator = _.bind(this.comparator, this);
-      if (this.comparator.length === 1) {
-        this.models = this.sortBy(boundComparator);
-      } else {
-        this.models.sort(boundComparator);
-      }
-      if (!options.silent) {
-        this.trigger('reset', this, options);
-      }
-      return this;
-    },
-
-    /**
-     * 采集集合中每个对象的属性
-     */
-    pluck: function(attr) {
-      return _.map(this.models, function(model){ return model.get(attr); });
-    },
-
-    /**
-     * When you have more items than you want to add or remove individually,
-     * you can reset the entire set with a new list of models, without firing
-     * any `add` or `remove` events. Fires `reset` when finished.
-     */
-    reset: function(models, options) {
-      var self = this;
-      models = models || [];
-      options = options || {};
-      Bmob._arrayEach(this.models, function(model) {
-        self._removeReference(model);
-      });
-      this._reset();
-      this.add(models, {silent: true, parse: options.parse});
-      if (!options.silent) {
-        this.trigger('reset', this, options);
-      }
-      return this;
-    },
-
-    /**
-     * Fetches the default set of models for this collection, resetting the
-     * collection when they arrive. If `add: true` is passed, appends the
-     * models to the collection instead of resetting.
-     */
-    fetch: function(options) {
-      options = _.clone(options) || {};
-      if (options.parse === undefined) {
-        options.parse = true;
-      }
-      var collection = this;
-      var query = this.query || new Bmob.Query(this.model);
-      return query.find().then(function(results) {
-        if (options.add) {
-          collection.add(results, options);
-        } else {
-          collection.reset(results, options);
-        }
-        return collection;
-      })._thenRunCallbacks(options, this);
-    },
-
-    /**
-     * Creates a new instance of a model in this collection. Add the model to
-     * the collection immediately, unless `wait: true` is passed, in which case
-     * we wait for the server to agree.
-     */
-    create: function(model, options) {
-      var coll = this;
-      options = options ? _.clone(options) : {};
-      model = this._prepareModel(model, options);
-      if (!model) {
-        return false;
-      }
-      if (!options.wait) {
-        coll.add(model, options);
-      }
-      var success = options.success;
-      options.success = function(nextModel, resp, xhr) {
-        if (options.wait) {
-          coll.add(nextModel, options);
-        }
-        if (success) {
-          success(nextModel, resp);
-        } else {
-          nextModel.trigger('sync', model, resp, options);
-        }
-      };
-      model.save(null, options);
-      return model;
-    },
-
-    /**
-     * Converts a response into a list of models to be added to the collection.
-     * The default implementation is just to pass it through.
-     * @ignore
-     */
-    parse: function(resp, xhr) {
-      return resp;
-    },
-
-    /**
-     * Proxy to _'s chain. Can't be proxied the same way the rest of the
-     * underscore methods are proxied because it relies on the underscore
-     * constructor.
-     */
-    chain: function() {
-      return _(this.models).chain();
-    },
-
-    /**
-     * Reset all internal state. Called when the collection is reset.
-     */
-    _reset: function(options) {
-      this.length = 0;
-      this.models = [];
-      this._byId  = {};
-      this._byCid = {};
-    },
-
-    /**
-     * Prepare a model or hash of attributes to be added to this collection.
-     */
-    _prepareModel: function(model, options) {
-      if (!(model instanceof Bmob.Object)) {
-        var attrs = model;
-        options.collection = this;
-        model = new this.model(attrs, options);
-        if (!model._validate(model.attributes, options)) {
-          model = false;
-        }
-      } else if (!model.collection) {
-        model.collection = this;
-      }
-      return model;
-    },
-
-    /**
-     * Internal method to remove a model's ties to a collection.
-     */
-    _removeReference: function(model) {
-      if (this === model.collection) {
-        delete model.collection;
-      }
-      model.off('all', this._onModelEvent, this);
-    },
-
-    /**
-     * Internal method called every time a model in the set fires an event.
-     * Sets need to update their indexes when models change ids. All other
-     * events simply proxy through. "add" and "remove" events that originate
-     * in other collections are ignored.
-     */
-    _onModelEvent: function(ev, model, collection, options) {
-      if ((ev === 'add' || ev === 'remove') && collection !== this) {
-        return;
-      }
-      if (ev === 'destroy') {
-        this.remove(model, options);
-      }
-      if (model && ev === 'change:objectId') {
-        delete this._byId[model.previous("objectId")];
-        this._byId[model.id] = model;
-      }
-      this.trigger.apply(this, arguments);
-    }
-
-  });
+    });
 
   // Underscore methods that we want to implement on the Collection.
   var methods = ['forEach', 'each', 'map', 'reduce', 'reduceRight', 'find',
@@ -6169,170 +6169,170 @@
   // List of view options to be merged as properties.
 
   var viewOptions = ['model', 'collection', 'el', 'id', 'attributes',
-                     'className', 'tagName'];
+    'className', 'tagName'];
 
   // Set up all inheritable **Bmob.View** properties and methods.
   _.extend(Bmob.View.prototype, Bmob.Events,
-           /** @lends Bmob.View.prototype */ {
+    /** @lends Bmob.View.prototype */ {
 
-    // The default `tagName` of a View's element is `"div"`.
-    tagName: 'div',
+      // The default `tagName` of a View's element is `"div"`.
+      tagName: 'div',
 
-    /**
-     * jQuery delegate for element lookup, scoped to DOM elements within the
-     * current view. This should be prefered to global lookups where possible.
-     */
-    $: function(selector) {
-      return this.$el.find(selector);
-    },
+      /**
+       * jQuery delegate for element lookup, scoped to DOM elements within the
+       * current view. This should be prefered to global lookups where possible.
+       */
+      $: function(selector) {
+        return this.$el.find(selector);
+      },
 
-    /**
-     * Initialize is an empty function by default. Override it with your own
-     * initialization logic.
-     */
-    initialize: function(){},
+      /**
+       * Initialize is an empty function by default. Override it with your own
+       * initialization logic.
+       */
+      initialize: function(){},
 
-    /**
-     * The core function that your view should override, in order
-     * to populate its element (`this.el`), with the appropriate HTML. The
-     * convention is for **render** to always return `this`.
-     */
-    render: function() {
-      return this;
-    },
+      /**
+       * The core function that your view should override, in order
+       * to populate its element (`this.el`), with the appropriate HTML. The
+       * convention is for **render** to always return `this`.
+       */
+      render: function() {
+        return this;
+      },
 
-    /**
-     * Remove this view from the DOM. Note that the view isn't present in the
-     * DOM by default, so calling this method may be a no-op.
-     */
-    remove: function() {
-      this.$el.remove();
-      return this;
-    },
+      /**
+       * Remove this view from the DOM. Note that the view isn't present in the
+       * DOM by default, so calling this method may be a no-op.
+       */
+      remove: function() {
+        this.$el.remove();
+        return this;
+      },
 
-    /**
-     * For small amounts of DOM Elements, where a full-blown template isn't
-     * needed, use **make** to manufacture elements, one at a time.
-     * <pre>
-     *     var el = this.make('li', {'class': 'row'},
-     *                        this.model.escape('title'));</pre>
-     */
-    make: function(tagName, attributes, content) {
-      var el = document.createElement(tagName);
-      if (attributes) {
-        Bmob.$(el).attr(attributes);
-      }
-      if (content) {
-        Bmob.$(el).html(content);
-      }
-      return el;
-    },
+      /**
+       * For small amounts of DOM Elements, where a full-blown template isn't
+       * needed, use **make** to manufacture elements, one at a time.
+       * <pre>
+       *     var el = this.make('li', {'class': 'row'},
+       *                        this.model.escape('title'));</pre>
+       */
+      make: function(tagName, attributes, content) {
+        var el = document.createElement(tagName);
+        if (attributes) {
+          Bmob.$(el).attr(attributes);
+        }
+        if (content) {
+          Bmob.$(el).html(content);
+        }
+        return el;
+      },
 
-    /**
-     * Changes the view's element (`this.el` property), including event
-     * re-delegation.
-     */
-    setElement: function(element, delegate) {
-      this.$el = Bmob.$(element);
-      this.el = this.$el[0];
-      if (delegate !== false) {
-        this.delegateEvents();
-      }
-      return this;
-    },
+      /**
+       * Changes the view's element (`this.el` property), including event
+       * re-delegation.
+       */
+      setElement: function(element, delegate) {
+        this.$el = Bmob.$(element);
+        this.el = this.$el[0];
+        if (delegate !== false) {
+          this.delegateEvents();
+        }
+        return this;
+      },
 
-    /**
-     * Set callbacks.  <code>this.events</code> is a hash of
-     * <pre>
-     * *{"event selector": "callback"}*
-     *
-     *     {
+      /**
+       * Set callbacks.  <code>this.events</code> is a hash of
+       * <pre>
+       * *{"event selector": "callback"}*
+       *
+       *     {
      *       'mousedown .title':  'edit',
      *       'click .button':     'save'
      *       'click .open':       function(e) { ... }
      *     }
-     * </pre>
-     * pairs. Callbacks will be bound to the view, with `this` set properly.
-     * Uses event delegation for efficiency.
-     * Omitting the selector binds the event to `this.el`.
-     * This only works for delegate-able events: not `focus`, `blur`, and
-     * not `change`, `submit`, and `reset` in Internet Explorer.
-     */
-    delegateEvents: function(events) {
-      events = events || Bmob._getValue(this, 'events');
-      if (!events) {
-        return;
-      }
-      this.undelegateEvents();
-      var self = this;
-      Bmob._objectEach(events, function(method, key) {
-        if (!_.isFunction(method)) {
-          method = self[events[key]];
+       * </pre>
+       * pairs. Callbacks will be bound to the view, with `this` set properly.
+       * Uses event delegation for efficiency.
+       * Omitting the selector binds the event to `this.el`.
+       * This only works for delegate-able events: not `focus`, `blur`, and
+       * not `change`, `submit`, and `reset` in Internet Explorer.
+       */
+      delegateEvents: function(events) {
+        events = events || Bmob._getValue(this, 'events');
+        if (!events) {
+          return;
         }
-        if (!method) {
-          throw new Error('Event "' + events[key] + '" does not exist');
+        this.undelegateEvents();
+        var self = this;
+        Bmob._objectEach(events, function(method, key) {
+          if (!_.isFunction(method)) {
+            method = self[events[key]];
+          }
+          if (!method) {
+            throw new Error('Event "' + events[key] + '" does not exist');
+          }
+          var match = key.match(eventSplitter);
+          var eventName = match[1], selector = match[2];
+          method = _.bind(method, self);
+          eventName += '.delegateEvents' + self.cid;
+          if (selector === '') {
+            self.$el.bind(eventName, method);
+          } else {
+            self.$el.delegate(selector, eventName, method);
+          }
+        });
+      },
+
+      /**
+       * Clears all callbacks previously bound to the view with `delegateEvents`.
+       * You usually don't need to use this, but may wish to if you have multiple
+       * Backbone views attached to the same DOM element.
+       */
+      undelegateEvents: function() {
+        this.$el.unbind('.delegateEvents' + this.cid);
+      },
+
+      /**
+       * Performs the initial configuration of a View with a set of options.
+       * Keys with special meaning *(model, collection, id, className)*, are
+       * attached directly to the view.
+       */
+      _configure: function(options) {
+        if (this.options) {
+          options = _.extend({}, this.options, options);
         }
-        var match = key.match(eventSplitter);
-        var eventName = match[1], selector = match[2];
-        method = _.bind(method, self);
-        eventName += '.delegateEvents' + self.cid;
-        if (selector === '') {
-          self.$el.bind(eventName, method);
+        var self = this;
+        _.each(viewOptions, function(attr) {
+          if (options[attr]) {
+            self[attr] = options[attr];
+          }
+        });
+        this.options = options;
+      },
+
+      /**
+       * Ensure that the View has a DOM element to render into.
+       * If `this.el` is a string, pass it through `$()`, take the first
+       * matching element, and re-assign it to `el`. Otherwise, create
+       * an element from the `id`, `className` and `tagName` properties.
+       */
+      _ensureElement: function() {
+        if (!this.el) {
+          var attrs = Bmob._getValue(this, 'attributes') || {};
+          if (this.id) {
+            attrs.id = this.id;
+          }
+          if (this.className) {
+            attrs['class'] = this.className;
+          }
+          this.setElement(this.make(this.tagName, attrs), false);
         } else {
-          self.$el.delegate(selector, eventName, method);
+          this.setElement(this.el, false);
         }
-      });
-    },
-
-    /**
-     * Clears all callbacks previously bound to the view with `delegateEvents`.
-     * You usually don't need to use this, but may wish to if you have multiple
-     * Backbone views attached to the same DOM element.
-     */
-    undelegateEvents: function() {
-      this.$el.unbind('.delegateEvents' + this.cid);
-    },
-
-    /**
-     * Performs the initial configuration of a View with a set of options.
-     * Keys with special meaning *(model, collection, id, className)*, are
-     * attached directly to the view.
-     */
-    _configure: function(options) {
-      if (this.options) {
-        options = _.extend({}, this.options, options);
       }
-      var self = this;
-      _.each(viewOptions, function(attr) {
-        if (options[attr]) {
-          self[attr] = options[attr];
-        }
-      });
-      this.options = options;
-    },
 
-    /**
-     * Ensure that the View has a DOM element to render into.
-     * If `this.el` is a string, pass it through `$()`, take the first
-     * matching element, and re-assign it to `el`. Otherwise, create
-     * an element from the `id`, `className` and `tagName` properties.
-     */
-    _ensureElement: function() {
-      if (!this.el) {
-        var attrs = Bmob._getValue(this, 'attributes') || {};
-        if (this.id) {
-          attrs.id = this.id;
-        }
-        if (this.className) {
-          attrs['class'] = this.className;
-        }
-        this.setElement(this.make(this.tagName, attrs), false);
-      } else {
-        this.setElement(this.el, false);
-      }
-    }
-
-  });
+    });
 
   /**
    * @function
@@ -6352,7 +6352,7 @@
   /**
    * @class
    *
-   * <p>这个类是Bmob.Object的子类，同时拥有Bmob.Object的所有函数，但是扩展了用户的特殊函数，例如验证，登录等</p>   
+   * <p>这个类是Bmob.Object的子类，同时拥有Bmob.Object的所有函数，但是扩展了用户的特殊函数，例如验证，登录等</p>
    */
   Bmob.User = Bmob.Object.extend("_User", /** @lends Bmob.User.prototype */ {
     // Instance Variables
@@ -6582,8 +6582,8 @@
       var username = (attrs && attrs.username) || this.get("username");
       if (!username || (username === "")) {
         error = new Bmob.Error(
-            Bmob.Error.OTHER_CAUSE,
-            "Cannot sign up user with an empty name.");
+          Bmob.Error.OTHER_CAUSE,
+          "Cannot sign up user with an empty name.");
         if (options && options.error) {
           options.error(this, error);
         }
@@ -6593,8 +6593,8 @@
       var password = (attrs && attrs.password) || this.get("password");
       if (!password || (password === "")) {
         error = new Bmob.Error(
-            Bmob.Error.OTHER_CAUSE,
-            "Cannot sign up user with an empty password.");
+          Bmob.Error.OTHER_CAUSE,
+          "Cannot sign up user with an empty password.");
         if (options && options.error) {
           options.error(this, error);
         }
@@ -6633,7 +6633,7 @@
     },
 
     /**
-	 * 保存对象
+     * 保存对象
      * @see Bmob.Object#save
      */
     save: function(arg1, arg2, arg3) {
@@ -6660,7 +6660,7 @@
 
 
     /**
-     * 获取一个对象	   
+     * 获取一个对象
      * @see Bmob.Object#fetch
      */
     fetch: function(options) {
@@ -6703,7 +6703,7 @@
     },
 
     /**
-	 * 调用 set("password", password, options) 同时返回结果
+     * 调用 set("password", password, options) 同时返回结果
      * @param {String} password
      * @param {Object} options Backbone-style options 对象。
      * @return {Boolean}
@@ -6739,7 +6739,7 @@
      */
     authenticated: function() {
       return !!this._sessionToken &&
-          (Bmob.User.current() && Bmob.User.current().id === this.id);
+        (Bmob.User.current() && Bmob.User.current().id === this.id);
     }
 
   }, /** @lends Bmob.User */ {
@@ -6812,7 +6812,7 @@
       Bmob.User._currentUserMatchesDisk = true;
       Bmob.User._currentUser = null;
       Bmob.localStorage.removeItem(
-          Bmob._getBmobPath(Bmob.User._CURRENT_USER_KEY));
+        Bmob._getBmobPath(Bmob.User._CURRENT_USER_KEY));
     },
 
 
@@ -6827,7 +6827,7 @@
     requestPasswordReset: function(email, options) {
       var json = { email: email };
       var request = Bmob._request("requestPasswordReset", null, null, "POST",
-                                   json);
+        json);
       return request._thenRunCallbacks(options);
     },
 
@@ -6841,7 +6841,7 @@
     requestEmailVerify: function(email, options) {
       var json = { email: email };
       var request = Bmob._request("requestEmailVerify", null, null, "POST",
-                                   json);
+        json);
       return request._thenRunCallbacks(options);
     },
 
@@ -6863,7 +6863,7 @@
       Bmob.User._currentUserMatchesDisk = true;
 
       var userData = Bmob.localStorage.getItem(Bmob._getBmobPath(
-          Bmob.User._CURRENT_USER_KEY));
+        Bmob.User._CURRENT_USER_KEY));
       if (!userData) {
 
         return null;
@@ -6899,8 +6899,8 @@
       json._id = user.id;
       json._sessionToken = user._sessionToken;
       Bmob.localStorage.setItem(
-          Bmob._getBmobPath(Bmob.User._CURRENT_USER_KEY),
-          JSON.stringify(json));
+        Bmob._getBmobPath(Bmob.User._CURRENT_USER_KEY),
+        JSON.stringify(json));
     },
 
     _registerAuthenticationProvider: function(provider) {
@@ -6930,11 +6930,11 @@
    * 为Bmob.Object类创建一个新的bmob Bmob.Query 。
    * @param objectClass -
    *   Bmob.Object的实例，或者Bmob类名
-   * 
+   *
    *
    * <p>Bmob.Query 为Bmob.Objects定义了query操作。最常用的操作就是用query<code>find</code>
    * 操作去获取所有的对象。例如，下面简单的操作是获取所有的<code>MyClass</code>。根据操作的成功或失败，
-   * 会回调不同的函数。      
+   * 会回调不同的函数。
    * <pre>
    * var query = new Bmob.Query(MyClass);
    * query.find({
@@ -6948,7 +6948,7 @@
    * });</pre></p>
    *
    * <p>Bmob.Query也可以用来获取一个id已知的对象。例如，下面的例子获取了<code>MyClass</code> 和 id <code>myId</code>
-   * 根据操作的成功或失败，会回调不同的函数。  
+   * 根据操作的成功或失败，会回调不同的函数。
    * <pre>
    * var query = new Bmob.Query(MyClass);
    * query.get(myId, {
@@ -6961,7 +6961,7 @@
    *   }
    * });</pre></p>
    *
-   * <p>Bmob.Query 同时也能获取查询结果的数目。例如，下面的例子获取了<code>MyClass</code>的数目<pre>   
+   * <p>Bmob.Query 同时也能获取查询结果的数目。例如，下面的例子获取了<code>MyClass</code>的数目<pre>
    * var query = new Bmob.Query(MyClass);
    * query.count({
    *   success: function(number) {
@@ -6972,7 +6972,7 @@
    *     // error is an instance of Bmob.Error.
    *   }
    * });</pre></p>
-   
+
    * @class Bmob.Query 为Bmob.Objects定义了query操作
    */
   Bmob.Query = function(objectClass) {
@@ -7019,12 +7019,12 @@
   Bmob.Query._extend = Bmob._extend;
 
   Bmob.Query.prototype = {
-     //hook to iterate result. Added by dennis<xzhuang@bmob.cn>.
-     _processResult: function(obj){
-        return obj;
+    //hook to iterate result. Added by dennis<xzhuang@bmob.cn>.
+    _processResult: function(obj){
+      return obj;
     },
 
-    /**	   
+    /**
      * 获取Bmob.Object，适用于id已经知道的情况。当查询完成会调用options.success 或 options.error。
      * @param {} objectId 要获取的对象id
      * @param {Object} options  Backbone-style options 对象.
@@ -7039,7 +7039,7 @@
         }
 
         var errorObject = new Bmob.Error(Bmob.Error.OBJECT_NOT_FOUND,
-                                          "Object not found.");
+          "Object not found.");
         return Bmob.Promise.error(errorObject);
 
       })._thenRunCallbacks(options, null);
@@ -7087,7 +7087,7 @@
     },
     _createRequest: function(params){
       return Bmob._request("classes", this.className, null, "GET",
-                                   params || this.toJSON());
+        params || this.toJSON());
     },
 
     /**
@@ -7109,17 +7109,17 @@
       })._thenRunCallbacks(options);
     },
 
-   /**
-    * 	把查询到的所有对象删除。
-    * @param {Object} options 标准的带 success and error回调的options对象。
-    * @return {Bmob.Promise}  当完成后，结果的 promise 会被调用。
-    */
-     destroyAll: function(options){
-       var self = this;
-       return self.find().then(function(objects){
-           return Bmob.Object.destroyAll(objects);
-       })._thenRunCallbacks(options);
-     },
+    /**
+     * 	把查询到的所有对象删除。
+     * @param {Object} options 标准的带 success and error回调的options对象。
+     * @return {Bmob.Promise}  当完成后，结果的 promise 会被调用。
+     */
+    destroyAll: function(options){
+      var self = this;
+      return self.find().then(function(objects){
+        return Bmob.Object.destroyAll(objects);
+      })._thenRunCallbacks(options);
+    },
 
     /**
      * 查询结果的数目。
@@ -7361,7 +7361,7 @@
       return this;
     },
 
-   /**
+    /**
      * 添加一个Bmob.Query的不匹配查询。
      * @param {String} key 需要检查的key。
      * @param {Bmob.Query} 不需要匹配的query
@@ -7378,7 +7378,7 @@
     /**
      * 添加查询： key's value 匹配一个对象，这个对象通过不同的Bmob.Query返回。
      * @param {String} key 需要匹配的key值
-     * @param {String} queryKey 返回通过匹配的查询的对象的键 
+     * @param {String} queryKey 返回通过匹配的查询的对象的键
      * @param {Bmob.Query} query 需要运行的查询
      * @return {Bmob.Query} 返回查询对象，因此可以使用链式调用。
      */
@@ -7386,7 +7386,7 @@
       var queryJSON = query.toJSON();
       queryJSON.className = query.className;
       this._addCondition(key, "$select",
-                         { key: queryKey, query: queryJSON });
+        { key: queryKey, query: queryJSON });
       return this;
     },
 
@@ -7394,7 +7394,7 @@
      * 添加查询： key's value 不匹配一个对象，这个对象通过不同的Bmob.Query返回。
      * @param {String} key 需要匹配的key值
      *                     excluded.
-     * @param {String} queryKey 返回通过不匹配的查询的对象的键 
+     * @param {String} queryKey 返回通过不匹配的查询的对象的键
      * @param {Bmob.Query} query 需要运行的查询
      * @return {Bmob.Query} 返回查询对象，因此可以使用链式调用。
      */
@@ -7402,7 +7402,7 @@
       var queryJSON = query.toJSON();
       queryJSON.className = query.className;
       this._addCondition(key, "$dontSelect",
-                         { key: queryKey, query: queryJSON });
+        { key: queryKey, query: queryJSON });
       return this;
     },
 
@@ -7469,8 +7469,8 @@
      * @return {Bmob.Query} 返回查询对象，因此可以使用链式调用。
      */
     ascending: function(key) {
-      
-    if( Bmob._isNullOrUndefined(this._order) ){
+
+      if( Bmob._isNullOrUndefined(this._order) ){
         this._order = key;
       } else {
         this._order = this._order + ","+ key;
@@ -7490,19 +7490,19 @@
      * @return {Bmob.Query} 返回查询对象，因此可以使用链式调用。
      */
     descending: function(key) {
-    if( Bmob._isNullOrUndefined(this._order) ){
+      if( Bmob._isNullOrUndefined(this._order) ){
         this._order = "-" + key;
       } else {
         this._order = this._order + ",-"+ key;
-      }      
-      
+      }
+
       return this;
     },
 
     /**
      * 查找一个geo point 附近的坐标。
      * @param {String} key Bmob.GeoPoint的key
-     * @param {Bmob.GeoPoint} point 指向一个 Bmob.GeoPoint 
+     * @param {Bmob.GeoPoint} point 指向一个 Bmob.GeoPoint
      * @return {Bmob.Query} 返回查询对象，因此可以使用链式调用。
      */
     near: function(key, point) {
@@ -7517,7 +7517,7 @@
     /**
      * 添加用于查找附近的对象，并基于弧度给出最大距离内的点。
      * @param {String} key Bmob.GeoPoint的key
-     * @param {Bmob.GeoPoint} point 指向一个 Bmob.GeoPoint 
+     * @param {Bmob.GeoPoint} point 指向一个 Bmob.GeoPoint
      * @param maxDistance 返回的最大距离，基于弧度.
      * @return {Bmob.Query} 返回查询对象，因此可以使用链式调用。
      */
@@ -7530,7 +7530,7 @@
     /**
      * 添加用于查找附近的对象，并基于米给出最大距离内的点。
      * @param {String} key Bmob.GeoPoint的key
-     * @param {Bmob.GeoPoint} point 指向一个 Bmob.GeoPoint 
+     * @param {Bmob.GeoPoint} point 指向一个 Bmob.GeoPoint
      * @param maxDistance 返回的最大距离，基于弧度.
      * @return {Bmob.Query} 返回查询对象，因此可以使用链式调用。
      */
@@ -7541,7 +7541,7 @@
     /**
      * 添加用于查找附近的对象，并基于千米给出最大距离内的点。
      * @param {String} key Bmob.GeoPoint的key
-     * @param {Bmob.GeoPoint} point 指向一个 Bmob.GeoPoint 
+     * @param {Bmob.GeoPoint} point 指向一个 Bmob.GeoPoint
      * @param maxDistance 返回的最大距离，基于弧度.
      * @return {Bmob.Query} 返回查询对象，因此可以使用链式调用。
      */
@@ -7553,7 +7553,7 @@
      * 在一个四边形范围内，查找某个点附近的对象
      * @param {String} key The key to be constrained.
      * @param {Bmob.GeoPoint} southwest 这个四边形的南西方向
-     * @param {Bmob.GeoPoint} northeast 这个四边形的东北方向 
+     * @param {Bmob.GeoPoint} northeast 这个四边形的东北方向
      * @return {Bmob.Query} 返回查询对象，因此可以使用链式调用。
      */
     withinGeoBox: function(key, southwest, northeast) {
@@ -7657,12 +7657,12 @@
     }
   };
 
-   Bmob.FriendShipQuery = Bmob.Query._extend({
-     _objectClass: Bmob.User,
-     _newObject: function(){
+  Bmob.FriendShipQuery = Bmob.Query._extend({
+    _objectClass: Bmob.User,
+    _newObject: function(){
       return new Bmob.User();
     },
-     _processResult: function(json){
+    _processResult: function(json){
       var user = json[this._friendshipTag];
       if(user.__type === 'Pointer' && user.className === '_User'){
         delete user.__type;
@@ -7670,7 +7670,7 @@
       }
       return user;
     },
-   });
+  });
 }(this));
 
 
@@ -7711,228 +7711,228 @@
 
   // Set up all inheritable **Bmob.History** properties and methods.
   _.extend(Bmob.History.prototype, Bmob.Events,
-           /** @lends Bmob.History.prototype */ {
+    /** @lends Bmob.History.prototype */ {
 
-    // The default interval to poll for hash changes, if necessary, is
-    // twenty times a second.
-    interval: 50,
+      // The default interval to poll for hash changes, if necessary, is
+      // twenty times a second.
+      interval: 50,
 
-    // Gets the true hash value. Cannot use location.hash directly due to bug
-    // in Firefox where location.hash will always be decoded.
-    getHash: function(windowOverride) {
-      var loc = windowOverride ? windowOverride.location : window.location;
-      var match = loc.href.match(/#(.*)$/);
-      return match ? match[1] : '';
-    },
+      // Gets the true hash value. Cannot use location.hash directly due to bug
+      // in Firefox where location.hash will always be decoded.
+      getHash: function(windowOverride) {
+        var loc = windowOverride ? windowOverride.location : window.location;
+        var match = loc.href.match(/#(.*)$/);
+        return match ? match[1] : '';
+      },
 
-    // Get the cross-browser normalized URL fragment, either from the URL,
-    // the hash, or the override.
-    getFragment: function(fragment, forcePushState) {
-      if (Bmob._isNullOrUndefined(fragment)) {
-        if (this._hasPushState || forcePushState) {
-          fragment = window.location.pathname;
-          var search = window.location.search;
-          if (search) {
-            fragment += search;
+      // Get the cross-browser normalized URL fragment, either from the URL,
+      // the hash, or the override.
+      getFragment: function(fragment, forcePushState) {
+        if (Bmob._isNullOrUndefined(fragment)) {
+          if (this._hasPushState || forcePushState) {
+            fragment = window.location.pathname;
+            var search = window.location.search;
+            if (search) {
+              fragment += search;
+            }
+          } else {
+            fragment = this.getHash();
           }
-        } else {
-          fragment = this.getHash();
         }
-      }
-      if (!fragment.indexOf(this.options.root)) {
-        fragment = fragment.substr(this.options.root.length);
-      }
-      return fragment.replace(routeStripper, '');
-    },
+        if (!fragment.indexOf(this.options.root)) {
+          fragment = fragment.substr(this.options.root.length);
+        }
+        return fragment.replace(routeStripper, '');
+      },
 
-    /**
-     * Start the hash change handling, returning `true` if the current
-     * URL matches an existing route, and `false` otherwise.
-     */
-    start: function(options) {
-      if (Bmob.History.started) {
-        throw new Error("Bmob.history has already been started");
-      }
-      Bmob.History.started = true;
+      /**
+       * Start the hash change handling, returning `true` if the current
+       * URL matches an existing route, and `false` otherwise.
+       */
+      start: function(options) {
+        if (Bmob.History.started) {
+          throw new Error("Bmob.history has already been started");
+        }
+        Bmob.History.started = true;
 
-      // Figure out the initial configuration. Do we need an iframe?
-      // Is pushState desired ... is it available?
-      this.options = _.extend({}, {root: '/'}, this.options, options);
-      this._wantsHashChange = this.options.hashChange !== false;
-      this._wantsPushState = !!this.options.pushState;
-      this._hasPushState = !!(this.options.pushState &&
-                              window.history &&
-                              window.history.pushState);
-      var fragment = this.getFragment();
-      var docMode = document.documentMode;
-      var oldIE = (isExplorer.exec(navigator.userAgent.toLowerCase()) &&
-                   (!docMode || docMode <= 7));
+        // Figure out the initial configuration. Do we need an iframe?
+        // Is pushState desired ... is it available?
+        this.options = _.extend({}, {root: '/'}, this.options, options);
+        this._wantsHashChange = this.options.hashChange !== false;
+        this._wantsPushState = !!this.options.pushState;
+        this._hasPushState = !!(this.options.pushState &&
+        window.history &&
+        window.history.pushState);
+        var fragment = this.getFragment();
+        var docMode = document.documentMode;
+        var oldIE = (isExplorer.exec(navigator.userAgent.toLowerCase()) &&
+        (!docMode || docMode <= 7));
 
-      if (oldIE) {
-        this.iframe = Bmob.$('<iframe src="javascript:0" tabindex="-1" />')
-                      .hide().appendTo('body')[0].contentWindow;
-        this.navigate(fragment);
-      }
+        if (oldIE) {
+          this.iframe = Bmob.$('<iframe src="javascript:0" tabindex="-1" />')
+            .hide().appendTo('body')[0].contentWindow;
+          this.navigate(fragment);
+        }
 
-      // Depending on whether we're using pushState or hashes, and whether
-      // 'onhashchange' is supported, determine how we check the URL state.
-      if (this._hasPushState) {
-        Bmob.$(window).bind('popstate', this.checkUrl);
-      } else if (this._wantsHashChange &&
-                 ('onhashchange' in window) &&
-                 !oldIE) {
-        Bmob.$(window).bind('hashchange', this.checkUrl);
-      } else if (this._wantsHashChange) {
-        this._checkUrlInterval = window.setInterval(this.checkUrl,
-                                                    this.interval);
-      }
+        // Depending on whether we're using pushState or hashes, and whether
+        // 'onhashchange' is supported, determine how we check the URL state.
+        if (this._hasPushState) {
+          Bmob.$(window).bind('popstate', this.checkUrl);
+        } else if (this._wantsHashChange &&
+          ('onhashchange' in window) &&
+          !oldIE) {
+          Bmob.$(window).bind('hashchange', this.checkUrl);
+        } else if (this._wantsHashChange) {
+          this._checkUrlInterval = window.setInterval(this.checkUrl,
+            this.interval);
+        }
 
-      // Determine if we need to change the base url, for a pushState link
-      // opened by a non-pushState browser.
-      this.fragment = fragment;
-      var loc = window.location;
-      var atRoot  = loc.pathname === this.options.root;
+        // Determine if we need to change the base url, for a pushState link
+        // opened by a non-pushState browser.
+        this.fragment = fragment;
+        var loc = window.location;
+        var atRoot  = loc.pathname === this.options.root;
 
-      // If we've started off with a route from a `pushState`-enabled browser,
-      // but we're currently in a browser that doesn't support it...
-      if (this._wantsHashChange &&
+        // If we've started off with a route from a `pushState`-enabled browser,
+        // but we're currently in a browser that doesn't support it...
+        if (this._wantsHashChange &&
           this._wantsPushState &&
           !this._hasPushState &&
           !atRoot) {
-        this.fragment = this.getFragment(null, true);
-        window.location.replace(this.options.root + '#' + this.fragment);
-        // Return immediately as browser will do redirect to new url
-        return true;
-
-      // Or if we've started out with a hash-based route, but we're currently
-      // in a browser where it could be `pushState`-based instead...
-      } else if (this._wantsPushState &&
-                 this._hasPushState &&
-                 atRoot &&
-                 loc.hash) {
-        this.fragment = this.getHash().replace(routeStripper, '');
-        window.history.replaceState({}, document.title,
-            loc.protocol + '//' + loc.host + this.options.root + this.fragment);
-      }
-
-      if (!this.options.silent) {
-        return this.loadUrl();
-      }
-    },
-
-    // Disable Bmob.history, perhaps temporarily. Not useful in a real app,
-    // but possibly useful for unit testing Routers.
-    stop: function() {
-      Bmob.$(window).unbind('popstate', this.checkUrl)
-                     .unbind('hashchange', this.checkUrl);
-      window.clearInterval(this._checkUrlInterval);
-      Bmob.History.started = false;
-    },
-
-    // Add a route to be tested when the fragment changes. Routes added later
-    // may override previous routes.
-    route: function(route, callback) {
-      this.handlers.unshift({route: route, callback: callback});
-    },
-
-    // Checks the current URL to see if it has changed, and if it has,
-    // calls `loadUrl`, normalizing across the hidden iframe.
-    checkUrl: function(e) {
-      var current = this.getFragment();
-      if (current === this.fragment && this.iframe) {
-        current = this.getFragment(this.getHash(this.iframe));
-      }
-      if (current === this.fragment) {
-        return false;
-      }
-      if (this.iframe) {
-        this.navigate(current);
-      }
-      if (!this.loadUrl()) {
-        this.loadUrl(this.getHash());
-      }
-    },
-
-    // Attempt to load the current URL fragment. If a route succeeds with a
-    // match, returns `true`. If no defined routes matches the fragment,
-    // returns `false`.
-    loadUrl: function(fragmentOverride) {
-      var fragment = this.fragment = this.getFragment(fragmentOverride);
-      var matched = _.any(this.handlers, function(handler) {
-        if (handler.route.test(fragment)) {
-          handler.callback(fragment);
+          this.fragment = this.getFragment(null, true);
+          window.location.replace(this.options.root + '#' + this.fragment);
+          // Return immediately as browser will do redirect to new url
           return true;
+
+          // Or if we've started out with a hash-based route, but we're currently
+          // in a browser where it could be `pushState`-based instead...
+        } else if (this._wantsPushState &&
+          this._hasPushState &&
+          atRoot &&
+          loc.hash) {
+          this.fragment = this.getHash().replace(routeStripper, '');
+          window.history.replaceState({}, document.title,
+            loc.protocol + '//' + loc.host + this.options.root + this.fragment);
         }
-      });
-      return matched;
-    },
 
-    // Save a fragment into the hash history, or replace the URL state if the
-    // 'replace' option is passed. You are responsible for properly URL-encoding
-    // the fragment in advance.
-    //
-    // The options object can contain `trigger: true` if you wish to have the
-    // route callback be fired (not usually desirable), or `replace: true`, if
-    // you wish to modify the current URL without adding an entry to the
-    // history.
-    navigate: function(fragment, options) {
-      if (!Bmob.History.started) {
-        return false;
-      }
-      if (!options || options === true) {
-        options = {trigger: options};
-      }
-      var frag = (fragment || '').replace(routeStripper, '');
-      if (this.fragment === frag) {
-        return;
-      }
-
-      // If pushState is available, we use it to set the fragment as a real URL.
-      if (this._hasPushState) {
-        if (frag.indexOf(this.options.root) !== 0) {
-          frag = this.options.root + frag;
+        if (!this.options.silent) {
+          return this.loadUrl();
         }
-        this.fragment = frag;
-        var replaceOrPush = options.replace ? 'replaceState' : 'pushState';
-        window.history[replaceOrPush]({}, document.title, frag);
+      },
 
-      // If hash changes haven't been explicitly disabled, update the hash
-      // fragment to store history.
-      } else if (this._wantsHashChange) {
-        this.fragment = frag;
-        this._updateHash(window.location, frag, options.replace);
-        if (this.iframe &&
-            (frag !== this.getFragment(this.getHash(this.iframe)))) {
-          // Opening and closing the iframe tricks IE7 and earlier
-          // to push a history entry on hash-tag change.
-          // When replace is true, we don't want this.
-          if (!options.replace) {
-            this.iframe.document.open().close();
+      // Disable Bmob.history, perhaps temporarily. Not useful in a real app,
+      // but possibly useful for unit testing Routers.
+      stop: function() {
+        Bmob.$(window).unbind('popstate', this.checkUrl)
+          .unbind('hashchange', this.checkUrl);
+        window.clearInterval(this._checkUrlInterval);
+        Bmob.History.started = false;
+      },
+
+      // Add a route to be tested when the fragment changes. Routes added later
+      // may override previous routes.
+      route: function(route, callback) {
+        this.handlers.unshift({route: route, callback: callback});
+      },
+
+      // Checks the current URL to see if it has changed, and if it has,
+      // calls `loadUrl`, normalizing across the hidden iframe.
+      checkUrl: function(e) {
+        var current = this.getFragment();
+        if (current === this.fragment && this.iframe) {
+          current = this.getFragment(this.getHash(this.iframe));
+        }
+        if (current === this.fragment) {
+          return false;
+        }
+        if (this.iframe) {
+          this.navigate(current);
+        }
+        if (!this.loadUrl()) {
+          this.loadUrl(this.getHash());
+        }
+      },
+
+      // Attempt to load the current URL fragment. If a route succeeds with a
+      // match, returns `true`. If no defined routes matches the fragment,
+      // returns `false`.
+      loadUrl: function(fragmentOverride) {
+        var fragment = this.fragment = this.getFragment(fragmentOverride);
+        var matched = _.any(this.handlers, function(handler) {
+          if (handler.route.test(fragment)) {
+            handler.callback(fragment);
+            return true;
           }
-          this._updateHash(this.iframe.location, frag, options.replace);
+        });
+        return matched;
+      },
+
+      // Save a fragment into the hash history, or replace the URL state if the
+      // 'replace' option is passed. You are responsible for properly URL-encoding
+      // the fragment in advance.
+      //
+      // The options object can contain `trigger: true` if you wish to have the
+      // route callback be fired (not usually desirable), or `replace: true`, if
+      // you wish to modify the current URL without adding an entry to the
+      // history.
+      navigate: function(fragment, options) {
+        if (!Bmob.History.started) {
+          return false;
+        }
+        if (!options || options === true) {
+          options = {trigger: options};
+        }
+        var frag = (fragment || '').replace(routeStripper, '');
+        if (this.fragment === frag) {
+          return;
         }
 
-      // If you've told us that you explicitly don't want fallback hashchange-
-      // based history, then `navigate` becomes a page refresh.
-      } else {
-        window.location.assign(this.options.root + fragment);
-      }
-      if (options.trigger) {
-        this.loadUrl(fragment);
-      }
-    },
+        // If pushState is available, we use it to set the fragment as a real URL.
+        if (this._hasPushState) {
+          if (frag.indexOf(this.options.root) !== 0) {
+            frag = this.options.root + frag;
+          }
+          this.fragment = frag;
+          var replaceOrPush = options.replace ? 'replaceState' : 'pushState';
+          window.history[replaceOrPush]({}, document.title, frag);
 
-    // Update the hash location, either replacing the current entry, or adding
-    // a new one to the browser history.
-    _updateHash: function(location, fragment, replace) {
-      if (replace) {
-        var s = location.toString().replace(/(javascript:|#).*$/, '');
-        location.replace(s + '#' + fragment);
-      } else {
-        location.hash = fragment;
+          // If hash changes haven't been explicitly disabled, update the hash
+          // fragment to store history.
+        } else if (this._wantsHashChange) {
+          this.fragment = frag;
+          this._updateHash(window.location, frag, options.replace);
+          if (this.iframe &&
+            (frag !== this.getFragment(this.getHash(this.iframe)))) {
+            // Opening and closing the iframe tricks IE7 and earlier
+            // to push a history entry on hash-tag change.
+            // When replace is true, we don't want this.
+            if (!options.replace) {
+              this.iframe.document.open().close();
+            }
+            this._updateHash(this.iframe.location, frag, options.replace);
+          }
+
+          // If you've told us that you explicitly don't want fallback hashchange-
+          // based history, then `navigate` becomes a page refresh.
+        } else {
+          window.location.assign(this.options.root + fragment);
+        }
+        if (options.trigger) {
+          this.loadUrl(fragment);
+        }
+      },
+
+      // Update the hash location, either replacing the current entry, or adding
+      // a new one to the browser history.
+      _updateHash: function(location, fragment, replace) {
+        if (replace) {
+          var s = location.toString().replace(/(javascript:|#).*$/, '');
+          location.replace(s + '#' + fragment);
+        } else {
+          location.hash = fragment;
+        }
       }
-    }
-  });
+    });
 }(this));
 
 /*global _: false*/
@@ -7968,85 +7968,85 @@
 
   // Set up all inheritable **Bmob.Router** properties and methods.
   _.extend(Bmob.Router.prototype, Bmob.Events,
-           /** @lends Bmob.Router.prototype */ {
+    /** @lends Bmob.Router.prototype */ {
 
-    /**
-     * Initialize is an empty function by default. Override it with your own
-     * initialization logic.
-     */
-    initialize: function(){},
+      /**
+       * Initialize is an empty function by default. Override it with your own
+       * initialization logic.
+       */
+      initialize: function(){},
 
-    /**
-     * Manually bind a single named route to a callback. For example:
-     *
-     * <pre>this.route('search/:query/p:num', 'search', function(query, num) {
+      /**
+       * Manually bind a single named route to a callback. For example:
+       *
+       * <pre>this.route('search/:query/p:num', 'search', function(query, num) {
      *       ...
      *     });</pre>
-     */
-    route: function(route, name, callback) {
-      Bmob.history = Bmob.history || new Bmob.History();
-      if (!_.isRegExp(route)) {
-        route = this._routeToRegExp(route);
-      }
-      if (!callback) {
-        callback = this[name];
-      }
-      Bmob.history.route(route, _.bind(function(fragment) {
-        var args = this._extractParameters(route, fragment);
-        if (callback) {
-          callback.apply(this, args);
+       */
+      route: function(route, name, callback) {
+        Bmob.history = Bmob.history || new Bmob.History();
+        if (!_.isRegExp(route)) {
+          route = this._routeToRegExp(route);
         }
-        this.trigger.apply(this, ['route:' + name].concat(args));
-        Bmob.history.trigger('route', this, name, args);
-      }, this));
-      return this;
-    },
-
-    /**
-     * Whenever you reach a point in your application that you'd
-     * like to save as a URL, call navigate in order to update the
-     * URL. If you wish to also call the route function, set the
-     * trigger option to true. To update the URL without creating
-     * an entry in the browser's history, set the replace option
-     * to true.
-     */
-    navigate: function(fragment, options) {
-      Bmob.history.navigate(fragment, options);
-    },
-
-    // Bind all defined routes to `Bmob.history`. We have to reverse the
-    // order of the routes here to support behavior where the most general
-    // routes can be defined at the bottom of the route map.
-    _bindRoutes: function() {
-      if (!this.routes) {
-        return;
-      }
-      var routes = [];
-      for (var route in this.routes) {
-        if (this.routes.hasOwnProperty(route)) {
-          routes.unshift([route, this.routes[route]]);
+        if (!callback) {
+          callback = this[name];
         }
-      }
-      for (var i = 0, l = routes.length; i < l; i++) {
-        this.route(routes[i][0], routes[i][1], this[routes[i][1]]);
-      }
-    },
+        Bmob.history.route(route, _.bind(function(fragment) {
+          var args = this._extractParameters(route, fragment);
+          if (callback) {
+            callback.apply(this, args);
+          }
+          this.trigger.apply(this, ['route:' + name].concat(args));
+          Bmob.history.trigger('route', this, name, args);
+        }, this));
+        return this;
+      },
 
-    // Convert a route string into a regular expression, suitable for matching
-    // against the current location hash.
-    _routeToRegExp: function(route) {
-      route = route.replace(escapeRegExp, '\\$&')
-                   .replace(namedParam, '([^\/]+)')
-                   .replace(splatParam, '(.*?)');
-      return new RegExp('^' + route + '$');
-    },
+      /**
+       * Whenever you reach a point in your application that you'd
+       * like to save as a URL, call navigate in order to update the
+       * URL. If you wish to also call the route function, set the
+       * trigger option to true. To update the URL without creating
+       * an entry in the browser's history, set the replace option
+       * to true.
+       */
+      navigate: function(fragment, options) {
+        Bmob.history.navigate(fragment, options);
+      },
 
-    // Given a route, and a URL fragment that it matches, return the array of
-    // extracted parameters.
-    _extractParameters: function(route, fragment) {
-      return route.exec(fragment).slice(1);
-    }
-  });
+      // Bind all defined routes to `Bmob.history`. We have to reverse the
+      // order of the routes here to support behavior where the most general
+      // routes can be defined at the bottom of the route map.
+      _bindRoutes: function() {
+        if (!this.routes) {
+          return;
+        }
+        var routes = [];
+        for (var route in this.routes) {
+          if (this.routes.hasOwnProperty(route)) {
+            routes.unshift([route, this.routes[route]]);
+          }
+        }
+        for (var i = 0, l = routes.length; i < l; i++) {
+          this.route(routes[i][0], routes[i][1], this[routes[i][1]]);
+        }
+      },
+
+      // Convert a route string into a regular expression, suitable for matching
+      // against the current location hash.
+      _routeToRegExp: function(route) {
+        route = route.replace(escapeRegExp, '\\$&')
+          .replace(namedParam, '([^\/]+)')
+          .replace(splatParam, '(.*?)');
+        return new RegExp('^' + route + '$');
+      },
+
+      // Given a route, and a URL fragment that it matches, return the array of
+      // extracted parameters.
+      _extractParameters: function(route, fragment) {
+        return route.exec(fragment).slice(1);
+      }
+    });
 
 
   /**
@@ -8074,11 +8074,11 @@
      * 调用生成缩略图的函数。
      * @param {Object} 相应的参数
      * @param {Object} Backbone-style options 对象。 options.success, 如果设置了，将会处理云端代码调用成功的情况。 options.error 如果设置了，将会处理云端代码调用失败的情况。 两个函数都是可选的。两个函数都只有一个参数。
-     * @return {Bmob.Promise} 
+     * @return {Bmob.Promise}
      */
     thumbnail: function(data, options) {
       var request = Bmob._request("images/thumbnail", null, null, 'POST',
-                                   Bmob._encode(data, null, true));
+        Bmob._encode(data, null, true));
 
       return request.then(function(resp) {
         return resp;
@@ -8090,17 +8090,17 @@
      * 调用生成水印的函数。
      * @param {Object} 相应的参数
      * @param {Object} Backbone-style options 对象。 options.success, 如果设置了，将会处理云端代码调用成功的情况。 options.error 如果设置了，将会处理云端代码调用失败的情况。 两个函数都是可选的。两个函数都只有一个参数。
-     * @return {Bmob.Promise} 
+     * @return {Bmob.Promise}
      */
     watermark: function(data, options) {
       var request = Bmob._request("images/watermark", null, null, 'POST',
-                                   Bmob._encode(data, null, true));
+        Bmob._encode(data, null, true));
 
       return request.then(function(resp) {
         return resp;
       });
 
-    }    
+    }
   });
 
 
@@ -8123,11 +8123,11 @@
      * 请求发送短信内容
      * @param {Object} 相应的参数
      * @param {Object} Backbone-style options 对象。 options.success, 如果设置了，将会处理云端代码调用成功的情况。 options.error 如果设置了，将会处理云端代码调用失败的情况。 两个函数都是可选的。两个函数都只有一个参数。
-     * @return {Bmob.Promise} 
+     * @return {Bmob.Promise}
      */
     requestSms: function(data, options) {
       var request = Bmob._request("requestSms", null, null, 'POST',
-                                   Bmob._encode(data, null, true));
+        Bmob._encode(data, null, true));
       return request.then(function(resp) {
         return Bmob._decode(null, resp);
       })._thenRunCallbacks(options);
@@ -8142,7 +8142,7 @@
      */
     requestSmsCode: function(data, options) {
       var request = Bmob._request("requestSmsCode", null, null, 'POST',
-                                   Bmob._encode(data, null, true));
+        Bmob._encode(data, null, true));
       return request.then(function(resp) {
         return Bmob._decode(null, resp);
       })._thenRunCallbacks(options);
@@ -8158,7 +8158,7 @@
     verifySmsCode: function(mob, verifyCode, options) {
       data = {"mobilePhoneNumber": mob };
       var request = Bmob._request("verifySmsCode/"+verifyCode, null, null, 'POST',
-                                   Bmob._encode(data, null, true));
+        Bmob._encode(data, null, true));
       return request.then(function(resp) {
         return Bmob._decode(null, resp);
       })._thenRunCallbacks(options);
@@ -8172,7 +8172,7 @@
      */
     querySms: function(smsId, options) {
       var request = Bmob._request("querySms/"+smsId, null, null, 'GET',
-                                   null);
+        null);
       return request.then(function(resp) {
         return Bmob._decode(null, resp);
       })._thenRunCallbacks(options);
@@ -8200,8 +8200,8 @@
     /**
      * 网页端调起支付宝支付接口
      * @param {float} 价格
-     * @param {String} 商品名称    
-     * @param {String} 描述        
+     * @param {String} 商品名称
+     * @param {String} 描述
      * @param {Object} options  Backbone-style options 对象。
      * options.success, 如果设置了，将会处理云端代码调用成功的情况。  options.error 如果设置了，将会处理云端代码调用失败的情况。  两个函数都是可选的。两个函数都只有一个参数。
      * @return {Bmob.Promise} A promise 将会处理云端代码调用的情况。
@@ -8209,7 +8209,7 @@
     webPay: function(price, product_name, body, options) {
       var data={"order_price": price, "product_name": product_name, "body": body}
       var request = Bmob._request("webpay", null, null, 'POST',
-                                   Bmob._encode(data, null, true));
+        Bmob._encode(data, null, true));
 
       return request.then(function(resp) {
         return Bmob._decode(null, resp);
@@ -8218,26 +8218,26 @@
 
     /**
      * 查询订单
-     * @param {String} 订单id        
+     * @param {String} 订单id
      * @param {Object} options  Backbone-style options 对象。
      * options.success, 如果设置了，将会处理云端代码调用成功的情况。  options.error 如果设置了，将会处理云端代码调用失败的情况。  两个函数都是可选的。两个函数都只有一个参数。
      * @return {Bmob.Promise} A promise 将会处理云端代码调用的情况。
      */
     queryOrder: function(orderId, options) {
-      
+
       var request = Bmob._request("pay/"+orderId, null, null, 'GET',
-                                   null);
+        null);
       return request.then(function(resp) {
         return Bmob._decode(null, resp);
       })._thenRunCallbacks(options);
-    }
+    } 
 
   });
 }(this));
 
 
 (function(root) {
-  root.Bmob = root.Bmob || {};
+  root.Bmob = root.Bmob || {}; 
   var Bmob = root.Bmob;
   var _ = Bmob._;
 
@@ -8250,23 +8250,30 @@
   _.extend(Bmob.Cloud, /** @lends Bmob.Cloud */ {
     /**
      * 运行云端代码
-     * @param {String} 云端代码的函数名
+     * @param {String} 云端代码的函数名 
      * @param {Object} 传人云端代码的参数
      * @param {Object} options  Backbone-style options 对象。
      * options.success, 如果设置了，将会处理云端代码调用成功的情况。  options.error 如果设置了，将会处理云端代码调用失败的情况。  两个函数都是可选的。两个函数都只有一个参数。
      * @return {Bmob.Promise} A promise 将会处理云端代码调用的情况。
      */
     run: function(name, data, options) {
-      
+
       if(name !== 'notification' || name === 'notification' && data.action !== 'check'){
-        // NProgress.start();
+
+        NProgress.start();
         NProgress.set(0.4);
+        // console.log('/---请求:' + name + '\n');
+        // console.log(data);
+        // console.log('------/\n\n\n');
       }
       var request = Bmob._request("functions", name, null, 'POST',
-                                   Bmob._encode(data, null, true));
+        Bmob._encode(data, null, true));
 
       return request.then(function(resp) {
         NProgress.done();
+        // console.log('/---响应\n');
+        // console.log(Bmob._decode(null, resp).result);
+        // console.log('------/\n\n\n');
         return Bmob._decode(null, resp).result;
       })._thenRunCallbacks(options);
     }

@@ -47,22 +47,34 @@
         </div>
       </li>
       <!-- 到期时间 -->
-      <li class="deadline_container">
+      <!--{{task.deadline}}-->
+      <li class="deadline_container" >
         <div class="deadline toggle_child">
           {{task.deadlineFormat}}
-          <ul class="deadline_list">
+          <ul class="deadline_list" ng-if="userInfo.objectId==task.team.leader.objectId&&userInfo.objectId!=task.assignee.objectId||userInfo.objectId==companyInfo.boss.objectId||!task.deadline">
             <li class="deadline" ng-repeat="date in dateList" ng-click="task.deadlineFormat=date.deadlineFormat;updateTask({'deadline': date.deadline,'status': date.deadline ? 1 : 0})">
               {{date.deadlineFormat}}
             </li>
           </ul>
         </div>
       </li>
+      <!--工作量-->
+      <li class="costHours_container" >
+        <div class="costHours toggle_child">
+          <span class="name">{{costHoursObject[task.costHours]}}</span>
+          <ul class="costHoursList" ng-if="userInfo.objectId==task.team.leader.objectId&&userInfo.objectId!=task.assignee.objectId||userInfo.objectId==companyInfo.boss.objectId||!task.costHours">
+            <li ng-repeat="(key, value) in costHoursObject" ng-click="task.costHours = key; updateTask({'costHours': key})">
+              {{value}}
+            </li>
+          </ul>
+        </div>
+      </li>
       <!-- 优先级 -->
-      <li class="priority_container">
+      <li class="priority_container" >
         <div class="priority toggle_child">
           <img ng-src="img/icon_priority{{task.priority}}.png">
           {{priorityList[task.priority]}}
-          <ul class="priority_list">
+          <ul class="priority_list" ng-if="userInfo.objectId==task.team.leader.objectId&&userInfo.objectId!=task.assignee.objectId||userInfo.objectId==companyInfo.boss.objectId">
             <li class="priority" ng-repeat="priority in priorityList" ng-click="task.priority = $index;updateTask({'priority': $index})">
               <img ng-src="img/icon_priority{{$index}}.png">
               {{priority}}
@@ -124,7 +136,7 @@
         </ul>
       </li>
       <!-- 底部操作区 -->
-    <div class="foot_chunk">
+    <div class="foot_chunk" ng-if="userInfo.objectId==task.team.leader.objectId&&userInfo.objectId!=task.assignee.objectId||userInfo.objectId==companyInfo.boss.objectId">
       <span ng-if="task.status == 1" ng-click="updateTask({'status': 3})">搁置任务</span>
       <span ng-if="task.status == 3" ng-click="updateTask({'status': 1})">重启任务</span>
       <span ng-if="userInfo.objectId==task.assignee.objectId||userInfo.objectId==task.assigner.objectId||userInfo.objectId==task.team.leader.objectId" ng-click="updateTask({'status': 4})">删除任务</span>

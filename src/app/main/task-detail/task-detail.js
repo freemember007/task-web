@@ -10,10 +10,33 @@ angular.module('task.controllers.taskDetail', [])
   function($scope, $rootScope, Task, $timeout, LocalStorage, $filter) {
 
     $scope.dateList = [];
-    $scope.priorityList = ['不紧急', '一般紧急', '紧急', '非常紧急'];
+    $scope.priorityList = ['一般', '重要', '紧急', '重要且紧急'];
     $scope.userInfo = LocalStorage.getObject('userInfo');
     $scope.companyInfo = LocalStorage.getObject('companyInfo');
     $scope.isSubTaskInputFocus = false; //todo:丑陋
+    // $scope.costHoursObjectList = [
+    //   {'costHours': 2, 'costHoursFormat': '2小时'},
+    //   {'costHours': 4, 'costHoursFormat': '0.5天'},
+    //   {'costHours': 8, 'costHoursFormat': '1天'},
+    //   {'costHours': 12, 'costHoursFormat': '1.5天'},
+    //   {'costHours': 16, 'costHoursFormat': '2天'},
+    //   {'costHours': 20, 'costHoursFormat': '2.5天'},
+    //   {'costHours': 24, 'costHoursFormat': '3天'},
+    //   {'costHours': 32, 'costHoursFormat': '4天'},
+    //   {'costHours': 40, 'costHoursFormat': '5天'}
+    // ];
+    $scope.costHoursObject = {
+      '0': '暂不确定',
+      '2': '2小时',
+      '4': '0.5天',
+      '8': '1天',
+      '12': '1.5天',
+      '16': '2天',
+      '20': '2.5天',
+      '24': '3天',
+      '32': '4天',
+      '40': '5天'
+    };
 
     $(document).ready(function() {
       $("input").focus(function() {
@@ -30,7 +53,7 @@ angular.module('task.controllers.taskDetail', [])
       $('#task_detail_container .toggle_child').click(function() {
         $(this).children('ul').slideToggle(200);
       })
-    })
+    });
 
 
     $scope.$on('PleaseShowTaskDetail', function(event, msg) {
@@ -40,7 +63,7 @@ angular.module('task.controllers.taskDetail', [])
           var date = new Date($scope.task.deadline.iso.replace(/-/g, '/'));
           $scope.task.deadlineFormat = $scope.formatDeadline(date); //初始值
         } else {
-          $scope.task.deadlineFormat = '无期限';
+          $scope.task.deadlineFormat = '暂无期限';
         }
         $timeout($('#task_detail_container').show(200)) //$timeout 延迟加载，否则没数据
         $timeout($('#task_detail').scrollTop(0)) //0必须加
@@ -57,7 +80,7 @@ angular.module('task.controllers.taskDetail', [])
           $scope.dateList[i].deadline = $filter('date')(date, 'yyyy-MM-dd 00:00:00');
           $scope.dateList[i].deadlineFormat = $scope.formatDeadline(date);
         }
-        $scope.dateList.unshift({'deadline':'', deadlineFormat:'无期限'}) //todo:保存是无法清空时间,请求服务端支持
+        $scope.dateList.unshift({'deadline':'', deadlineFormat:'暂无期限'}) //todo:保存是无法清空时间,请求服务端支持
       // })
     })
 

@@ -109,7 +109,7 @@
     }
     // 项目
     .project_container {
-      z-index: 4;
+      z-index: 5;
       background-image: url(../img/icon_project.png);
       .project {
         height: 30px;
@@ -126,7 +126,7 @@
     }
     // 责任人
     .assignee_container {
-      z-index: 3;
+      z-index: 4;
       background-image: url(../img/icon_assign.png);
       .assignee {
         height: 30px;
@@ -143,11 +143,16 @@
     }
     // 截止时间
     .deadline_container {
-      z-index: 2;
+      z-index: 3;
       background-image: url(../img/icon_date.png);
       .deadline {
         // color: #999;
       }
+    }
+    // 工作量
+    .costHours_container {
+      z-index: 2;
+      background-image: url(../img/icon_costHours.png);
     }
     // 优先级
     .priority_container {

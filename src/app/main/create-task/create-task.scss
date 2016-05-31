@@ -52,6 +52,9 @@
           .priorityValue {
             font-size: 14px;
           }
+          li {
+            line-height: 1.5;
+          }
         }
 
         // 选择项目名
@@ -95,7 +98,7 @@
         .costHours {
           position: relative;
           cursor: pointer;
-          background: url(../img/icon_assign.png) no-repeat;
+          background: url(../img/icon_costHours.png) no-repeat;
           > ul {
             top: 30px;
             left: 45px;

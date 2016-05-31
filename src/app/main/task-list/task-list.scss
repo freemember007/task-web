@@ -351,6 +351,15 @@
                 height: 19px;
                 background: url(../img/icon_followed.png) no-repeat;
               }
+              .value {
+                position: absolute;
+                top: 10px;
+                right: 130px;
+                width: 23px;
+                height: 20px;
+                background: url(../img/icon_value0.png) no-repeat;
+              }
+
               .tolike {
                 position: absolute;
                 top: 10px;
@@ -410,3 +419,85 @@
   }
 
 }
+
+
+// 评价弹层
+ .valueModal {
+   position: fixed;
+   top: 0;
+   left: 0;
+   display: none;
+   width: 100%;
+   height: 100%;
+   z-index: 1001;
+   .mask {
+     height: 100%;
+     padding-top: 100px;
+     background: rgba(0, 0, 0, .3);
+     .container {
+       position: relative;
+       width: 300px;
+       min-height: 300px;
+       margin: 0 auto;
+       padding: 20px;
+       border-radius: 10px;
+       background: white;
+       box-shadow: rgba(0, 0, 0, .5);
+       h3 {
+         margin-bottom: 20px;
+         color: #666;
+       }
+       ul {
+         li {
+           margin-top: 10px;
+           margin-bottom: 10px;
+           text-align: center;
+           img {
+             padding: 5px;
+             margin-right: 20px;
+             width: 36px;
+             height: 36px;
+             text-align: center;
+             cursor: pointer;
+           }
+           .choose {
+             border-bottom: 5px solid #e9eadc;
+
+           }
+           textarea {
+             margin-top: 10px;
+             font-size: 16px;
+           }
+         }
+       }
+       // 提交
+       .submit {
+         position: absolute;
+         right: 20px;
+         bottom: 20px;
+         cursor: pointer;
+         .button {
+           display: inline-block;
+           padding: 10px 20px;
+           font-size: 16px;
+           color: white;
+           border-radius: 5px;
+           background: $blue_color;
+         }
+       }
+       .close {
+         position: absolute;
+         top: 10px;
+         right: 10px;
+         display: inline-block;
+         width: 20px;
+         height: 20px;
+         cursor: pointer;
+         border-radius: 50%;
+         background: #aaa url(../img/icon_close.png) no-repeat;
+         background-position: center center;
+         background-size: 100% 100%;
+       }
+     }
+   }
+ }

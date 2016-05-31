@@ -1,6 +1,5 @@
 <div class="right">
 
-
   <!--右上部-->
   <div class="right_top">
 
@@ -79,6 +78,8 @@
             ng-class="{'choose': d.objectId === currentTaskDetailId}">
           <!-- 主任务 -->
           <div class="task">
+
+            <!--任务名与状态-->
             <div class="avator">
               <div class="thumb" ng-if="myself&&doing"
                    ng-click="updateTask({'objectId': d.objectId, 'status': 2});$event.stopPropagation()"><img
@@ -95,26 +96,39 @@
               <span class="project"
                     ng-style="{'background': d.project.color.replace('#99','#')}">{{d.project.name}}</span>
               <span class="costHours">{{d.costHours}}h</span>
-              <!-- <div class="progress_container toggle_child" ng-click="showProgressList($event)" ng-if="doing">
-                <div class="progress" ng-style="{'border-color': progressList[d.progress||0].style}"></div><span class="percent">{{progressList[d.progress||0].percent}}</span>
-                <ul class="progress_list" style="float:right">
-                  <li class="progress_container" ng-repeat="progress in progressList track by $index" ng-click="d.progress=$index;updateTask({'objectId':d.objectId,'progress': $index});hideProgressList($event);$event.stopPropagation()">
-                    <div class="progress" ng-style="{'border-color': progress.style}"></div><span class="percent">{{progress.percent}}</span>
-                  </li>
-                </ul>
-              </div> -->
 
+              <!--任务进度-->
+              <!--<div class="progress_container toggle_child" ng-click="showProgressList($event)" ng-if="doing">-->
+                <!--<div class="progress" ng-style="{'border-color': progressList[d.progress||0].style}"></div><span class="percent">{{progressList[d.progress||0].percent}}</span>-->
+                <!--<ul class="progress_list" style="float:right">-->
+                  <!--<li class="progress_container" ng-repeat="progress in progressList track by $index" ng-click="d.progress=$index;updateTask({'objectId':d.objectId,'progress': $index});hideProgressList($event);$event.stopPropagation()">-->
+                    <!--<div class="progress" ng-style="{'border-color': progress.style}"></div><span class="percent">{{progress.percent}}</span>-->
+                  <!--</li>-->
+                <!--</ul>-->
+              <!--</div>-->
             </div>
+
+            <!--其他操作-->
             <div class="other">
+
+              <!--关注-->
               <span ng-class="{'tofollow': !d.followed, 'followed': d.followed}"
                     ng-click="updateTask({'objectId': d.objectId, follower: {'action': d.followed?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()"
                     ng-if="!myself&&doing&&userInfo.objectId!==d.assigner.objectId&&userInfo.objectId!==d.team.leader.objectId"></span>
+
+              <!--领导评价-->
+                <span class="value" ng-if="done" ng-click="showValueModal($event)"></span>
+
+              <!--点赞-->
               <span ng-class="{'tolike': !d.liked, 'liked': d.liked}"
                     ng-click="updateTask({'objectId': d.objectId, liker: {'action': d.liked?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()"
                     ng-if="!myself&&done"></span>
+
+              <!--评论数-->
               <span class="comment">{{d.comments.length}}</span>
             </div>
           </div>
+
           <!-- 子任务 -->
           <ul class="checklist">
             <li ng-repeat="check in d.checklist">
@@ -128,6 +142,32 @@
           </ul>
         </li>
       </ul>
+    </div>
+  </div>
+</div>
+
+<!--评价弹层-->
+<div class="valueModal j_slide_layer">
+  <div class="mask">
+    <div class="container">
+
+      <h3>主管评价</h3>
+      <ul>
+        <li>
+          <img src="img/laugh_max.png">
+          <img class="choose" src="img/common_max.png">
+          <img src="img/cry_max.png">
+        </li>
+        <li>
+          <textarea placeholder="请认真填写评价理由" cols="32" rows="8"></textarea>
+        </li>
+      </ul>
+      <!-- 提交 -->
+      <p class="submit">
+        <span class="button">提交</span>
+      </p>
+      <span class="close">
+      </span>
     </div>
   </div>
 </div>
