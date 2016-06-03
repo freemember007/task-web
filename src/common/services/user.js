@@ -13,16 +13,11 @@ angular.module('task.services.user', [])
           if(data.code){
             alert(data.error)
           }else{
-            if(!data.userInfo || data.userInfo == {}) {
+            if(!data.userInfo || data.userInfo == {}||!data.companyInfo || data.companyInfo == {}) {
               alert('登录错误，请重新登录！');
               $state.go('login');
               return;
             }
-            if(!data.companyInfo || data.companyInfo == {}){
-              alert('登录错误，请重新登录！');
-              $state.go('login');
-              return;
-            };
             LocalStorage.setObject('userInfo', data.userInfo);
             LocalStorage.setObject('companyInfo', data.companyInfo);
             callback(data);
@@ -36,10 +31,8 @@ angular.module('task.services.user', [])
       })
     },
     logout: function(){
-      LocalStorage.remove('userInfo');
-      LocalStorage.remove('user');
       LocalStorage.clear(); //todo: 貌似不生效
       $state.go('login');
     }
   };
-}])
+}]);

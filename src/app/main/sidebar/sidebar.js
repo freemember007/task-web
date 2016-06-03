@@ -9,13 +9,13 @@ angular.module('task.controllers.sidebar', [])
   'User',
   function($timeout, $scope, $rootScope, LocalStorage, $state, User) {
 
-    $scope.userInfo = LocalStorage.getObject('userInfo');
-    var user = LocalStorage.getObject('user');
+    $scope.userInfo = LocalStorage.getObject('userInfo'); //个人信息
+    var user = LocalStorage.getObject('user'); //登录信息
     $scope.summaryList = LocalStorage.getObject('summaryList') || []; //本地缓存
     $scope.clickSidebar = clickSidebar;
     $scope.toggleTeam = toggleTeam;
 
-    if (!$scope.userInfo.company  || !user.username) {
+    if (!$scope.userInfo.name  || !user.username) {
       $state.go('login')
     } else {
       User.login(LocalStorage.getObject('user'), function(data) { // 每次重新登录下
@@ -23,7 +23,7 @@ angular.module('task.controllers.sidebar', [])
           $state.go('login');
           return;
         }
-        console.log('login ok!')
+        console.log('login twice ok!')
       });
     }
 
@@ -50,10 +50,12 @@ angular.module('task.controllers.sidebar', [])
       }, {
         success: function(data) {
           var summaryList = JSON.parse(data);
-          $scope.$apply(function() {
-            $scope.summaryList = summaryList;
-            LocalStorage.setObject('summaryList', $scope.summaryList);
-          })
+          if(summaryList.mySummary){ //如果取到正常数据
+            $scope.$apply(function() {
+              $scope.summaryList = summaryList;
+              LocalStorage.setObject('summaryList', $scope.summaryList);
+            })
+          }
         },
         error: function(err) {
           console.log(err);

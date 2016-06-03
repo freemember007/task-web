@@ -24,6 +24,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
     {'percent': '75', 'style': 'transparent #008000 #008000 #008000'},
   ];
   $scope.valueList = ['1', '0', '-1'];
+  $scope.valueTask = {};
   $scope.checkNotification = checkNotification;
   $scope.showProgressList = showProgressList;
   $scope.hideProgressList = hideProgressList;
@@ -35,6 +36,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
   $scope.updateTask = updateTask;
   $scope.showTaskDetail = showTaskDetail;
   $scope.showValueModal = showValueModal;
+  $scope.doValue = doValue;
   $scope.logout = logout;
   
   //初始化
@@ -59,9 +61,16 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
   });
 
 
-  function showValueModal(e) {
+  function showValueModal(e, task) {
     $('.valueModal').show(200);
+    $scope.valueTask = task;
+    $scope.valueCache = task.value;
     e.stopPropagation();
+  }
+  
+  function doValue(params){
+    $('.valueModal').hide(200);
+    updateTask(params);
   }
 
   //极端丑陋...
@@ -234,7 +243,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
       $('#task_detail_container').hide(200);
       $rootScope.currentTaskDetailId = '';
     } else {
-      $scope.$broadcast('PleaseShowTaskDetail', {'task': task});
+      $scope.$broadcast('PleaseShowTaskDetail', {task: task});
     }
   }
 

@@ -117,7 +117,7 @@
                     ng-if="!myself&&doing&&userInfo.objectId!==d.assigner.objectId&&userInfo.objectId!==d.team.leader.objectId"></span>
 
               <!--领导评价-->
-                <span class="value" ng-if="done" ng-click="showValueModal($event)"></span>
+                <span class="value" ng-if="done" ng-click="showValueModal($event, d)"></span>
 
               <!--点赞-->
               <span ng-class="{'tolike': !d.liked, 'liked': d.liked}"
@@ -154,17 +154,39 @@
       <h3>主管评价</h3>
       <ul>
         <li>
-          <img src="img/laugh_max.png">
-          <img class="choose" src="img/common_max.png">
-          <img src="img/cry_max.png">
+          <img ng-src="{{valueCache>0 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}"
+               ng-mouseenter="valueCache=1"
+               ng-mouseleave="valueCache=valueTask.value"
+               ng-click="valueTask.value=1;valueCache=1"
+          >
+          <img ng-src="{{valueCache>1 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}"
+               ng-mouseover="valueCache=2"
+               ng-mouseleave="valueCache=valueTask.value"
+               ng-click="valueTask.value=2;valueCache=2"
+          >
+          <img ng-src="{{valueCache>2 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}"
+               ng-mouseover="valueCache=3"
+               ng-mouseleave="valueCache=valueTask.value"
+               ng-click="valueTask.value=3;valueCache=3"
+          >
+          <img ng-src="{{valueCache>3 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}"
+               ng-mouseover="valueCache=4"
+               ng-mouseleave="valueCache=valueTask.value"
+               ng-click="valueTask.value=4;valueCache=4"
+          >
+          <img ng-src="{{valueCache>4 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}"
+               ng-mouseover="valueCache=5"
+               ng-mouseleave="valueCache=valueTask.value"
+               ng-click="valueTask.value=5;valueCache=5"
+          >
         </li>
         <li>
-          <textarea placeholder="请认真填写评价理由" cols="32" rows="8"></textarea>
+          <textarea placeholder="非3星请填写评价理由" cols="32" rows="8"></textarea>
         </li>
       </ul>
       <!-- 提交 -->
       <p class="submit">
-        <span class="button">提交</span>
+        <span class="button" ng-click="doValue({objectId: valueTask.objectId, value:valueTask.value})" >提交</span>
       </p>
       <span class="close">
       </span>

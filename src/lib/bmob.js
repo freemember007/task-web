@@ -8214,7 +8214,7 @@
       return request.then(function(resp) {
         return Bmob._decode(null, resp);
       })._thenRunCallbacks(options);
-    },
+    }, 
 
     /**
      * 查询订单
