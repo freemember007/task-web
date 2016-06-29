@@ -8217,7 +8217,7 @@
     }, 
 
     /**
-     * 查询订单
+     * 查询订单 
      * @param {String} 订单id
      * @param {Object} options  Backbone-style options 对象。
      * options.success, 如果设置了，将会处理云端代码调用成功的情况。  options.error 如果设置了，将会处理云端代码调用失败的情况。  两个函数都是可选的。两个函数都只有一个参数。

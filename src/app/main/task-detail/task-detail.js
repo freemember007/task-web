@@ -108,21 +108,21 @@ angular.module('task.controllers.taskDetail', [])
       var str = $scope.task.newComment;
       if(str && /@.*$/.test(str)){
         $scope.task.atListFilter = str.match(/@([^@]*)$/)[1];
-        console.log($scope.task.atListFilter)
+        console.log($scope.task.atListFilter);
         // $('#add_comment_at_List').show();
       }
-    }
+    };
 
     $scope.addAt = function(member){
       var str = $scope.task.newComment;
       str = str.replace(/[^@]*$/, member.name + ' ');
       $scope.task.newComment = str;
       $scope.task.newCommentAtId = member.objectId;
-      console.log($scope.task.newCommentAtId)
+      console.log($scope.task.newCommentAtId);
       $scope.task.atListFilter = '';
       $('#add_comment_input').focus();
       // $('#add_comment_at_List').hide();
-    }
+    };
 
     $scope.addCheck = function(e){
       if($scope.task.newCheck && e.keyCode === 13){
@@ -130,15 +130,15 @@ angular.module('task.controllers.taskDetail', [])
         $scope.updateTask({'checklist': $scope.task.checklist});
         $scope.task.newCheck = '';
       }
-    }
+    };
 
 
     $scope.alterTitle = function(e){
-      if($scope.task.title && e.keyCode === 13){
+      // if($scope.task.title && e.keyCode === 13){
         $scope.updateTask({'title': $scope.task.title});
-        $(".taskNameInput").blur();
-      }
-    }
+        // $(".taskNameInput").blur();
+      // }
+    };
 
     $scope.updateTask = function(params) {
       var postData = angular.extend(params);

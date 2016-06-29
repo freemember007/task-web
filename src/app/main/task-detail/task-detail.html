@@ -9,7 +9,7 @@
     <div class="title">
       <div class="uncomplete" ng-if="task.status==1" ng-click="task.status=2;updateTask({'status': 2})"></div>
       <div class="completed" ng-if="task.status==2" ng-click="task.status=1;updateTask({'status': 1})"></div>
-      <input type="text" class="taskNameInput" ng-class="{'complete': task.status==2}" placeholder="请输入任务名称" ng-model="task.title" ng-keydown="alterTitle($event)"/>
+      <input type="text" class="taskNameInput" ng-class="{'complete': task.status==2}" placeholder="请输入任务名称" ng-model="task.title" ng-blur="alterTitle($event)"/>
     </div>
 
     <!-- 内容区 -->

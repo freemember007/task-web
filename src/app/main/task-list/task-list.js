@@ -9,6 +9,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
   $scope.doing = false;
   $scope.done = false;
   $scope.userInfo = LocalStorage.getObject('userInfo');
+  $scope.companyInfo = LocalStorage.getObject('companyInfo');
   $rootScope.currentParams = { //当前任务列表参数，todo: 回头这种参数得清理或重构，太晕
     'subject': 'assignee',
     'objectId': $scope.userInfo.objectId,
@@ -42,7 +43,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
   //初始化
   $scope.getTaskList();
   setTimeout($scope.checkNotification, 300);
-  setInterval($scope.checkNotification, 60000);
+  setInterval($scope.checkNotification, 600000);
 
   // 监听PleaseShowTaskList事件
   $scope.$on('PleaseShowTaskList', function (event, msg) {
@@ -62,15 +63,17 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
 
 
   function showValueModal(e, task) {
-    $('.valueModal').show(200);
     $scope.valueTask = task;
     $scope.valueCache = task.value;
+    $('.valueModal').show(200);
     e.stopPropagation();
   }
   
   function doValue(params){
     $('.valueModal').hide(200);
     updateTask(params);
+    $scope.valueTask = {};
+    $scope.valueCache = '';
   }
 
   //极端丑陋...
@@ -162,6 +165,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
       });
     });
     count(params);
+    countSaturation(params);
   }
 
   function filterTaskList(p, $event, taskId) {
@@ -203,27 +207,115 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
     })
   }
 
-  // 任务计数
+  // 考核统计
   function count(params) {
     $scope.countObj = {
       costHoursThisMonth: 0,
-      delayNum: 0
+      delayNum: 0,
+      fiveStar: 0
     };
+
     var BmobTask = Bmob.Object.extend('task');
     var query = new Bmob.Query(BmobTask);
-    var now = new Date();
-    now.setDate(1);
-    var then;
-    then = $filter('date')(now, 'yyyy-MM-dd 00:00:00');
-    query.select('title', 'costHours', 'isDelay');
-    query.equalTo(params.subject, params.objectId);
-    query.greaterThanOrEqualTo('createdAt', {'__type': 'Date', 'iso': then});
+    //本月1日
+    var thisMonthBegin = new Date();
+    thisMonthBegin.setDate(1);
+    thisMonthBegin.setHours(0,0,0,0); // todo: 受时区影响,可能并不是凌晨00:00,而是中午12:00?
+    //下月1日
+    var nextMonthBegin = new Date();
+    nextMonthBegin.setMonth(nextMonthBegin.getMonth() + 1);
+    nextMonthBegin.setDate(1);
+    nextMonthBegin.setHours(0,0,0,0);
+
+    query.select('costHours', 'deadline', 'completedAt', 'value', 'priority');
+    query.equalTo(params.subject, params.objectId); //当前任务人
+    query.equalTo('status', 2); //已完成
+    query.greaterThanOrEqualTo('completedAt', thisMonthBegin.getTime()); // 从本月初
+    query.lessThan('completedAt', nextMonthBegin.getTime()); // 到下月初
     query.find().then(function (results) {
       for (var i = 0; i < results.length; i++) {
-        $scope.countObj.costHoursThisMonth += results[i].get('costHours') || 0;
-        if (results[i].get('isDelay')) {
-          $scope.countObj.delayNum++
+        var task = results[i];
+
+        // 总工时
+        $scope.countObj.costHoursThisMonth += task.get('costHours') || 0;
+
+        // 逾期数
+        var completedAt = $filter('date')(task.get('completedAt'), 'yyyy/MM/dd 00:00:00'); //注意:此格式起不到置0的作用
+        completedAt = new Date(completedAt);
+        completedAt.setHours(0,0,0,0);
+        var deadline = task.get('deadline').replace(/-/g, '/');
+        deadline = new Date(deadline);
+        deadline.setHours(0,0,0,0);
+        if (completedAt > deadline) {
+          // console.log(completedAt+'\n'); 
+          // console.log(deadline+'\n\n');
+          if(task.get('priority') != 2){
+            $scope.countObj.delayNum++;
+          }else{
+            $scope.countObj.delayNum = $scope.countObj.delayNum + 2;
+          }
         }
+
+        // 五星数 //todo:减去差评
+        if(task.get('value') == 4){
+          if(task.get('priority') == 1 || task.get('priority') == 3){ //重要任务
+            $scope.countObj.fiveStar += 1;
+          } else {
+            $scope.countObj.fiveStar += 0.5;
+          }
+        }
+        if(task.get('value') == 5){
+          if(task.get('priority') == 1 || task.get('priority') == 3){
+            $scope.countObj.fiveStar += 2;
+          } else {
+            $scope.countObj.fiveStar += 1;
+          }
+        }
+      }
+    });
+  }
+
+  // 计算饱和度
+  function countSaturation(params) {
+    $scope.totalCostHoursThisWeek = 0;
+    var BmobTask = Bmob.Object.extend('task');
+    var query = new Bmob.Query(BmobTask);
+    //本周一
+    var thisWeekStart = new Date();
+    thisWeekStart.setDate(thisWeekStart.getDay() == 0 ? thisWeekStart.getDate() - 6 : thisWeekStart.getDate() - (thisWeekStart.getDay() - 1));
+    thisWeekStart.setHours(0,0,0,0);
+    //本周日
+    var thisWeekEnd = new Date();
+    thisWeekEnd.setDate(thisWeekEnd.getDay() == 0 ? thisWeekEnd.getDate() : thisWeekEnd.getDate() + (7 - thisWeekEnd.getDay()));
+    thisWeekEnd.setHours(0,0,0,0);
+    query.select('costHours', 'deadline', 'createdAt');
+    query.equalTo(params.subject, params.objectId); //当前任务人
+    query.equalTo('status', 1); //进行中的任务
+    query.greaterThanOrEqualTo('deadline', thisWeekStart); // 截止日期大于或等于本周一
+    query.find().then(function (results) {
+      for (var i = 0; i < results.length; i++) {
+        var task = results[i];
+        //任务开始时间
+        var createdAt = $filter('date')(task.createdAt, 'yyyy/MM/dd 00:00:00');
+        createdAt = new Date(createdAt);
+        createdAt.setHours(0,0,0,0);
+        //任务结束时间
+        var deadline = task.get('deadline').replace(/-/g, '/');
+        deadline = new Date(deadline);
+        deadline.setHours(0,0,0,0);
+        // 本周一减任务开始日的天数
+        var startDaysDiff = (thisWeekStart.getTime() - createdAt.getTime())/(24*60*60*1000);
+        // 任务结束日减本周日的天数
+        var endDaysDiff = (deadline.getTime() - thisWeekEnd.getTime())/(24*60*60*1000);
+        // 任务在本周的天数
+        var costDaysThisWeek = 7 + (startDaysDiff < 0 ? startDaysDiff : 0) + (endDaysDiff < 0 ? endDaysDiff : 0);
+        // 任务总天数
+        var costDays = (deadline.getTime() - createdAt.getTime())/(24*60*60*1000);
+        // 任务总耗时
+        var costHours = task.get('costHours');
+        // 任务在本周的耗时
+        var costHoursThisWeek = costHours/costDays*costDaysThisWeek;
+        $scope.totalCostHoursThisWeek += costHoursThisWeek;
       }
     });
   }

@@ -58,9 +58,11 @@
       </li>
       <!--工作量统计-->
       <div class="count">
-        <span>本月统计</span>
         <span>工作量: <i>{{countObj.costHoursThisMonth}}h</i></span>
         <span>逾期: <b ng-class="{red: countObj.delayNum}">{{countObj.delayNum}}</b></span>
+        <span>五星: <i>{{countObj.fiveStar}}</i></span>
+        <span>饱和度: <i>{{totalCostHoursThisWeek/40*100| number:1}}%</i></span>
+
       </div>
     </ul>
   </div>
@@ -117,7 +119,10 @@
                     ng-if="!myself&&doing&&userInfo.objectId!==d.assigner.objectId&&userInfo.objectId!==d.team.leader.objectId"></span>
 
               <!--领导评价-->
-                <span class="value" ng-if="done" ng-click="showValueModal($event, d)"></span>
+                <span class="value" ng-if="done" ng-show="userInfo.objectId==d.team.leader.objectId||userInfo.objectId==d.assignee.objectId||userInfo.objectId==companyInfo.boss.objectId"
+                      ng-click="showValueModal($event, d)"
+                      ng-class="{'good-value': d.value >3, 'bad-value': d.value<3}"
+                ></span>
 
               <!--点赞-->
               <span ng-class="{'tolike': !d.liked, 'liked': d.liked}"
@@ -152,7 +157,8 @@
     <div class="container">
 
       <h3>主管评价</h3>
-      <ul>
+      <!--如果是上级-->
+      <ul ng-if="userInfo.objectId==valueTask.team.leader.objectId&&userInfo.objectId!=valueTask.assignee.objectId||userInfo.objectId==companyInfo.boss.objectId">
         <li>
           <img ng-src="{{valueCache>0 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}"
                ng-mouseenter="valueCache=1"
@@ -181,13 +187,25 @@
           >
         </li>
         <li>
-          <textarea placeholder="非3星请填写评价理由" cols="32" rows="8"></textarea>
+          <textarea placeholder="非3星请填写评价理由" cols="32" rows="8" ng-model="valueTask.valueReason"></textarea>
         </li>
       </ul>
-      <!-- 提交 -->
-      <p class="submit">
-        <span class="button" ng-click="doValue({objectId: valueTask.objectId, value:valueTask.value})" >提交</span>
+      <p class="submit" ng-if="userInfo.objectId==valueTask.team.leader.objectId&&userInfo.objectId!=valueTask.assignee.objectId||userInfo.objectId==companyInfo.boss.objectId">
+        <span class="button" ng-click="doValue({objectId: valueTask.objectId, value: valueTask.value, valueReason: valueTask.valueReason})" >提交</span>
       </p>
+      <!--如果是自己-->
+      <ul ng-if="userInfo.objectId === valueTask.assignee.objectId && userInfo.objectId !== companyInfo.boss.objectId">
+        <li>
+          <img ng-src="{{valueCache>0 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}">
+          <img ng-src="{{valueCache>1 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}">
+          <img ng-src="{{valueCache>2 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}">
+          <img ng-src="{{valueCache>3 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}">
+          <img ng-src="{{valueCache>4 ? 'img/icon_star_choosen.png':'img/icon_star.png'}}">
+        </li>
+        <li>
+          <textarea disabled placeholder="非3星请填写评价理由" cols="32" rows="8" ng-model="valueTask.valueReason"></textarea>
+        </li>
+      </ul>
       <span class="close">
       </span>
     </div>

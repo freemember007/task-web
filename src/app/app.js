@@ -14,6 +14,7 @@ angular.module('teamTask', [
   'task.filters'
 ])
 
+  
 // 编译
 .config([
   '$stateProvider',

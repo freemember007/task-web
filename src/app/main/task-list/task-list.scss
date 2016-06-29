@@ -153,7 +153,7 @@
         color: #cccccc;
         font-size: 12px;
         span {
-          margin-right: 10px;
+          margin-right: 5px;
           i {
             color: #30a01f;
             font-style: normal;
@@ -358,6 +358,12 @@
                 width: 23px;
                 height: 20px;
                 background: url(../img/icon_value0.png) no-repeat;
+              }
+              .good-value {
+                background: url(../img/icon_value1.png) no-repeat;
+              }
+              .bad-value {
+                background: url(../img/icon_value2.png) no-repeat;
               }
 
               .tolike {
