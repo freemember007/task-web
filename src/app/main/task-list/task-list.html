@@ -58,10 +58,10 @@
       </li>
       <!--工作量统计-->
       <div class="count">
-        <span>工作量: <i>{{countObj.costHoursThisMonth}}h</i></span>
-        <span>逾期: <b ng-class="{red: countObj.delayNum}">{{countObj.delayNum}}</b></span>
-        <span>五星: <i>{{countObj.fiveStar}}</i></span>
-        <span>饱和度: <i>{{totalCostHoursThisWeek/40*100| number:1}}%</i></span>
+        <span>工作量:<i>{{countObj.costHoursThisMonth}}h</i></span>
+        <span>逾期:<b ng-class="{red: countObj.delayNum}">{{countObj.delayNum}}</b></span>
+        <span>五星:<i>{{countObj.fiveStar}}</i></span>
+        <span>本周饱和:<i>{{totalCostHoursThisWeek/40*100| number:0}}%</i></span>
 
       </div>
     </ul>

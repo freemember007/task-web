@@ -247,7 +247,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
         deadline = new Date(deadline);
         deadline.setHours(0,0,0,0);
         if (completedAt > deadline) {
-          // console.log(completedAt+'\n'); 
+          // console.log(completedAt+'\n');
           // console.log(deadline+'\n\n');
           if(task.get('priority') != 2){
             $scope.countObj.delayNum++;
@@ -288,7 +288,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
     var thisWeekEnd = new Date();
     thisWeekEnd.setDate(thisWeekEnd.getDay() == 0 ? thisWeekEnd.getDate() : thisWeekEnd.getDate() + (7 - thisWeekEnd.getDay()));
     thisWeekEnd.setHours(0,0,0,0);
-    query.select('costHours', 'deadline', 'createdAt');
+    query.select('title', 'costHours', 'deadline', 'createdAt');
     query.equalTo(params.subject, params.objectId); //当前任务人
     query.equalTo('status', 1); //进行中的任务
     query.greaterThanOrEqualTo('deadline', thisWeekStart); // 截止日期大于或等于本周一
@@ -296,7 +296,7 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
       for (var i = 0; i < results.length; i++) {
         var task = results[i];
         //任务开始时间
-        var createdAt = $filter('date')(task.createdAt, 'yyyy/MM/dd 00:00:00');
+        var createdAt = task.createdAt.replace(/-/g, '/');
         createdAt = new Date(createdAt);
         createdAt.setHours(0,0,0,0);
         //任务结束时间
@@ -310,11 +310,15 @@ function TaskListController($scope, $rootScope, $timeout, LocalStorage, Task, Us
         // 任务在本周的天数
         var costDaysThisWeek = 7 + (startDaysDiff < 0 ? startDaysDiff : 0) + (endDaysDiff < 0 ? endDaysDiff : 0);
         // 任务总天数
-        var costDays = (deadline.getTime() - createdAt.getTime())/(24*60*60*1000);
+        var costDays = (deadline.getTime() - createdAt.getTime())/(24*60*60*1000); //注意:算上当天,故要加一天
         // 任务总耗时
         var costHours = task.get('costHours');
         // 任务在本周的耗时
         var costHoursThisWeek = costHours/costDays*costDaysThisWeek;
+        console.log(task.get('title')+'\n');
+        console.log(costDays+'days\n');
+        console.log(costDaysThisWeek+'days\n');
+        console.log(costHoursThisWeek+'hours\n');
         $scope.totalCostHoursThisWeek += costHoursThisWeek;
       }
     });
