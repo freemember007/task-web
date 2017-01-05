@@ -23,6 +23,7 @@ angular.module('teamTask', [
   function($stateProvider, $urlRouterProvider, $httpProvider) {
     
     $httpProvider.interceptors.push('Interceptor');
+    
 
     $stateProvider
       .state('main', {

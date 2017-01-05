@@ -1,5 +1,4 @@
 angular.module('task.controllers.sidebar', [])
-
 .controller('SidebarController', [
   '$timeout',
   '$scope',
@@ -33,12 +32,12 @@ angular.module('task.controllers.sidebar', [])
 
     // 监听TaskUpdate事件
     $scope.$on('TaskCreated', function(event, msg) {
-      fetchSidebar();
+      // fetchSidebar();
     });
 
     $scope.$on('PleaseClickSidebar', function(event, msg) {
       $scope.clickSidebar(msg.subject, msg.objectId, msg.status);
-      fetchSidebar();
+      // fetchSidebar();
     });
 
 
@@ -58,13 +57,13 @@ angular.module('task.controllers.sidebar', [])
           }
         },
         error: function(err) {
-          console.log(err);
+          // console.log(err);
         }
       })
     }
 
     function clickSidebar(subject, objectId, status) {
-      console.log($rootScope.currentParams);
+      // console.log($rootScope.currentParams);
       $rootScope.currentParams = {subject: subject, objectId: objectId, status: status || 1};
       $scope.$emit('NeedShowTaskList', $rootScope.currentParams);
     }

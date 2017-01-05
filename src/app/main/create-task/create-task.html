@@ -67,8 +67,10 @@
         <!-- 上传文件 -->
         <li class="file">
           <input type="file" id="fileInput" onchange="angular.element(this).scope().upload(this)"/>
-          <span class="button" ng-show="!task.fileUrl" onclick="document.getElementById('fileInput').click()" >上传图片</span>
-          <img id="fileImage" ng-show="task.fileUrl" ng-src="{{task.fileUrl}}" onclick="document.getElementById('fileInput').click()">
+          <span class="button" ng-show="!task.fileUrl" onclick="document.getElementById('fileInput').click()" >上传附件</span>
+          <span>{{task.file.filename}}</span>
+          <span ng-if="task.fileUrl" style="color: #3366cc; cursor: pointer;" onclick="document.getElementById('fileInput').click()">重新选择<br></span>
+          <img ng-if="task.hasImg" id="fileImage" ng-show="task.fileUrl" ng-src="{{task.fileUrl}}" onclick="document.getElementById('fileInput').click()">
         </li>
 
         <!-- 选择优先级 -->

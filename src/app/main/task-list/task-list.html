@@ -24,7 +24,7 @@
         <ul>
           <li ng-class="{'is_read': notification.isRead}" ng-repeat="notification in notifications"
               ng-click="clickNotification({'subject': 'assignee','objectId':notification.assigneeId,'taskId':notification.taskId, 'notificationId': notification.objectId, 'status': notification.taskStatus})">
-            <img ng-src="{{notification.updaterAvatar}}">
+            <img ng-src="{{notification.updaterAvatar|addHost}}">
 
             <div class="message">
               {{notification.message}}
@@ -56,12 +56,18 @@
         搁置
         <span class="number">{{length[3]}}</span>
       </li>
+      <li ng-class="{'active': currentParams.status == 4}" ng-click="filterTaskList(4,$event)">
+        指派
+        <span class="number">{{length[4]}}</span>
+      </li>
       <!--工作量统计-->
       <div class="count">
         <span>工作量:<i>{{countObj.costHoursThisMonth}}h</i></span>
         <span>逾期:<b ng-class="{red: countObj.delayNum}">{{countObj.delayNum}}</b></span>
-        <span>五星:<i>{{countObj.fiveStar}}</i></span>
-        <span>本周饱和:<i>{{totalCostHoursThisWeek/40*100| number:0}}%</i></span>
+        <span>五星:<i ng-class="{red: countObj.fiveStar < 0}">{{countObj.fiveStar}}</i></span>
+        <br>
+        <span>当前饱和度:<i>{{countObj.currentSaturation| number:0}}%</i></span>
+        <span>未来饱和度:<i>{{totalCostHoursThisWeek/40*100| number:0}}%</i></span>
 
       </div>
     </ul>
@@ -98,6 +104,7 @@
               <span class="project"
                     ng-style="{'background': d.project.color.replace('#99','#')}">{{d.project.name}}</span>
               <span class="costHours">{{d.costHours}}h</span>
+              <span class="costHours">from{{d.assigner.name}}</span>
 
               <!--任务进度-->
               <!--<div class="progress_container toggle_child" ng-click="showProgressList($event)" ng-if="doing">-->
@@ -114,9 +121,12 @@
             <div class="other">
 
               <!--关注-->
-              <span ng-class="{'tofollow': !d.followed, 'followed': d.followed}"
-                    ng-click="updateTask({'objectId': d.objectId, follower: {'action': d.followed?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()"
-                    ng-if="!myself&&doing&&userInfo.objectId!==d.assigner.objectId&&userInfo.objectId!==d.team.leader.objectId"></span>
+              <span 
+                ng-class="{'tofollow': !d.followed, 'followed': d.followed}"
+                ng-click="updateTask({'objectId': d.objectId, follower: {'action': d.followed?'Remove':'AddUnique' ,'userId': userInfo.objectId}});$event.stopPropagation()"
+                ng-if="!myself&&doing"
+              >
+              </span>
 
               <!--领导评价-->
                 <span class="value" ng-if="done" ng-show="userInfo.objectId==d.team.leader.objectId||userInfo.objectId==d.assignee.objectId||userInfo.objectId==companyInfo.boss.objectId"

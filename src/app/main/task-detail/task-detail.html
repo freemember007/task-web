@@ -9,7 +9,7 @@
     <div class="title">
       <div class="uncomplete" ng-if="task.status==1" ng-click="task.status=2;updateTask({'status': 2})"></div>
       <div class="completed" ng-if="task.status==2" ng-click="task.status=1;updateTask({'status': 1})"></div>
-      <input type="text" class="taskNameInput" ng-class="{'complete': task.status==2}" placeholder="请输入任务名称" ng-model="task.title" ng-blur="alterTitle($event)"/>
+      <input type="text" class="taskNameInput" ng-class="{'complete': task.status==2}" placeholder="请输入任务名称" ng-model="task.title" ng-keydown="alterTitle($event)" ng-blur="alterTitle($event)"/>
     </div>
 
     <!-- 内容区 -->
@@ -86,7 +86,8 @@
       <!-- 附件 -->
       <li class="file_container" ng-if="task.file.url">
         <a ng-href="{{task.file.url|addHost}}" target="_blank">
-          <img ng-src="{{task.file.url|addHost}}">
+          <span>{{task.file.filename}}<br></span>
+          <img ng-if="task.hasImg" ng-src="{{task.file.url|addHost}}">
         </a>
         
       </li>
@@ -139,7 +140,7 @@
     <div class="foot_chunk" ng-if="userInfo.objectId==task.team.leader.objectId&&userInfo.objectId!=task.assignee.objectId||userInfo.objectId==companyInfo.boss.objectId">
       <span ng-if="task.status == 1" ng-click="updateTask({'status': 3})">搁置任务</span>
       <span ng-if="task.status == 3" ng-click="updateTask({'status': 1})">重启任务</span>
-      <span ng-if="userInfo.objectId==task.assignee.objectId||userInfo.objectId==task.assigner.objectId||userInfo.objectId==task.team.leader.objectId" ng-click="updateTask({'status': 4})">删除任务</span>
+      <span ng-click="updateTask({'status': 4})">删除任务</span>
     </div>
     </ul>
 

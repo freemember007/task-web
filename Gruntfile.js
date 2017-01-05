@@ -56,12 +56,12 @@ module.exports = function(grunt) {
     copy: {
       build: {
         files: [
-          {expand: true, cwd: 'src', src: ['{fonts,img}/*', 'index.html'], dest: 'build'}
+          {expand: true, cwd: 'src', src: ['{fonts,img}/*', 'index.html', 'favicon.ico'], dest: 'build'}
         ]
       },
       release: {
         files: [
-          {expand: true, cwd: 'build', src: ['{fonts,img}/*', 'index.html'], dest: 'release'}
+          {expand: true, cwd: 'build', src: ['{fonts,img}/*', 'index.html', 'favicon.ico'], dest: 'release'}
         ]
       }
     },
@@ -141,7 +141,7 @@ module.exports = function(grunt) {
         tasks: ['html2js']
       },
       copy: {
-        files: ['src/index.html', 'src/{fonts,img}/*.*'],
+        files: ['src/index.html', 'src/favicon.ico', 'src/{fonts,img}/*.*'],
         tasks: ['copy']
       },
       livereload: {
